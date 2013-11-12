@@ -1,0 +1,13 @@
+.vagrant
+Cheffile.lock
+Gemfile.lock
+.librarian
+*~
+*#
+.#*
+\#*#
+.*.sw[a-z]
+*.un~
+/cookbooks
+tmp
+cookbooks
