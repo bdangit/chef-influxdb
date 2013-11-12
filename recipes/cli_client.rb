@@ -1,6 +1,8 @@
+# recipes/cli_client.rb
+#
 # Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
-#
+# 
 # Copyright 2013 Simple Finance Technology Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,15 +16,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# Installs the InfluxDB CLI client
 
-name             'influxdb'
-maintainer       'Simple Finance Technology Corp'
-maintainer_email 'ops@simple.com'
-license          'Apache 2.0'
-description      'InfluxDB, a timeseries database'
-version          '1.0.0'
+include_recipe 'npm::default'
 
-# For CLI client
-# https://github.com/balbeko/chef-npm
-suggests 'npm'
+npm_package 'influxdb-cli' do
+  action :install
+end
 
