@@ -13,19 +13,15 @@ Or alternatively, call `InfluxDB::Helpers.render_config(some_hash)`. By
 default, `some_hash` is `node[:influxdb][:config]`.
 
 ## Client Libraries
-These are TODO. At present, this cookbook will not actually install client
-libraries, although it will soon.
+Right now, this cookbook only supports the Ruby and CLI client libraries so as
+not to add too many dependencies. That might change in the near future. By
+default, the Ruby client is enabled, while the CLI client is disabled. To
+enable a flavor of client, set:
 
-As of now, the official client libraries are Ruby, Python, Javascript, and 
-Node. By default, the Ruby client is installed. To install others simply do:
-
-`node.default[:influxdb][:clients] = ['python']`
-
-You can also install the CLI for InfluxDB via:
-
-`node.default[:influxdb][:clients] = ['python', 'cli']`
+`node.default[:influxdb][:client][:my_flavor][:enable] = true`
 
 ## Author and License
 Simple Finance <ops@simple.com>
+
 Apache License, Version 2.0
 
