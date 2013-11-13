@@ -16,27 +16,17 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 # Installs InfluxDB
 
-class Chef::Recipe
-  include InfluxDB::Helpers
-end
-
-path = ::File.join(Chef::Config[:file_cache_path], 'influxdb.deb')
-remote_file path do
-  source node[:influxdb][:source]
-  checksum node[:influxdb][:checksum]
-  action :create
-end
-
-package path do
-  provider Chef::Provider::Package::Dpkg
+chef_gem 'influxdb' do
   action :install
 end
 
-service 'influxdb' do
-  action :enable
+influxdb 'main' do
+  source node[:influxdb][:source]
+  checksum node[:influxdb][:checksum]
+  config node[:influxdb][:config]
+  action :create
 end
-
-InfluxDB::Helpers.render_config(node[:influxdb][:config], run_context)
 

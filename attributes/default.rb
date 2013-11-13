@@ -25,7 +25,7 @@ default[:influxdb][:checksum] = 'a6801a18a45793ad1afa121f023f21368b06216d433cfa2
 # Grab clients -- right now only supports Ruby and CLI
 default[:influxdb][:client][:cli][:enable] = false
 default[:influxdb][:client][:cli][:source] = 'https://github.com/FGRibreau/influxdb-cli'
-default[:influxdb][:client][:ruby][:enable] = true
+default[:influxdb][:client][:ruby][:enable] = false
 
 # Parameters to configure InfluxDB
 # Set `node.default[:influxdb][:config][<PARAMETER>] = x` to override

@@ -21,8 +21,13 @@
 
 require 'json'
 
-class InfluxDB
+module InfluxDB
   module Helpers
+
+    def self.client(user='root', pass='root')
+      require 'influxdb'
+      return InfluxDB::Client.new(:username => user, :password => pass)
+    end
 
     def self.render_config(hash, run_context)
       f = Chef::Resource::File.new('/opt/influxdb/shared/config.json', run_context)
