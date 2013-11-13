@@ -22,7 +22,6 @@ license          'Apache 2.0'
 description      'InfluxDB, a timeseries database'
 version          '1.0.0'
 
-# For CLI client
-# https://github.com/balbeko/chef-npm
+# For CLI client [https://github.com/balbeko/chef-npm]
 suggests 'npm'
 
