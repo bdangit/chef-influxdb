@@ -1,0 +1,31 @@
+{
+  "name": "influxdb",
+  "description": "InfluxDB, a timeseries database",
+  "long_description": "",
+  "maintainer": "Simple Finance Technology Corp",
+  "maintainer_email": "ops@simple.com",
+  "license": "Apache 2.0",
+  "platforms": {
+  },
+  "dependencies": {
+    "chef_handler": ">= 0.0.0"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+    "npm": ">= 0.0.0"
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "1.2.0"
+}
