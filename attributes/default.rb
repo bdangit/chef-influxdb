@@ -19,8 +19,19 @@
 #
 # Attributes for InfluxDB
 
-default[:influxdb][:source] = 'http://s3.amazonaws.com/influxdb/influxdb_latest_amd64.deb'
-default[:influxdb][:checksum] = 'a6801a18a45793ad1afa121f023f21368b06216d433cfa2381f7288385f93af6'
+# Versions are mapped to checksums
+# By default, always installs 'latest'
+default[:influxdb][:version] = 'latest'
+default[:influxdb][:versions] = {
+  'amd64' => {
+    '0.3.0' => 'a6801a18a45793ad1afa121f023f21368b06216d433cfa2381f7288385f93af6',
+    'latest' => 'a6801a18a45793ad1afa121f023f21368b06216d433cfa2381f7288385f93af6'
+  },
+  'i386' => {
+    '0.3.0' => '1182b656a0c6e1ab8a28a2dcda0adab707df43258ba76e4ec5e05d61695b40ff',
+    'latest' => '1182b656a0c6e1ab8a28a2dcda0adab707df43258ba76e4ec5e05d61695b40ff'
+  }
+}
 
 # Grab clients -- right now only supports Ruby and CLI
 default[:influxdb][:client][:cli][:enable] = false

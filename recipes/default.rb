@@ -23,9 +23,13 @@ chef_gem 'influxdb' do
   action :install
 end
 
+ver  = node[:influxdb][:version]
+arch = /x86_64/.match(node[:kernel][:machine]) ? 'amd64' : 'i386'
+node.default[:influxdb][:source] = "http://s3.amazonaws.com/influxdb/influxdb_#{ver}_#{arch}.deb"
+
 influxdb 'main' do
   source node[:influxdb][:source]
-  checksum node[:influxdb][:checksum]
+  checksum node[:influxdb][:versions][arch][ver]
   config node[:influxdb][:config]
   action :create
 end
