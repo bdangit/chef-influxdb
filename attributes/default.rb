@@ -19,6 +19,7 @@
 #
 # Attributes for InfluxDB
 
+default[:influxdb][:version] = 'latest'
 default[:influxdb][:source] = 'http://s3.amazonaws.com/influxdb/influxdb_latest_amd64.deb'
 default[:influxdb][:checksum] = 'a6801a18a45793ad1afa121f023f21368b06216d433cfa2381f7288385f93af6'
 
