@@ -9,6 +9,9 @@ For rendering the config, set the parameter under `node[:influxdb][:config]`:
 
 `default[:influxdb][:config]['MyParameter'] = 'val'`
 
+The [InfluxDB gem](https://github.com/influxdb/influxdb-ruby) powers most
+of this cookbook's LWRPs and libraries.
+
 This cookbook ships with three LWRPs for managing the install, users, and
 databases:
 
@@ -42,6 +45,16 @@ Configures a user to interact with InfluxDB databases.
 influxdb_user 'user' do
   password 'changeme'
   databases ['my_db']
+  action :create
+end
+```
+
+### influxdb\_admin
+Configures a cluster admin to interact with InfluxDB.
+
+```ruby
+influxdb_admin 'admin' do
+  password 'changeme'
   action :create
 end
 ```
