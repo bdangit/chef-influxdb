@@ -24,16 +24,18 @@ require 'json'
 module InfluxDB
   module Helpers
 
+    # TODO : Configurable administrator creds
     def self.client(user='root', pass='root')
       require 'influxdb'
       return InfluxDB::Client.new(:username => user, :password => pass)
     end
 
     def self.render_config(hash, run_context)
+      require 'influxdb'
       f = Chef::Resource::File.new('/opt/influxdb/shared/config.json', run_context)
       f.owner('root')
       f.mode(00644)
-      f.content(JSON.pretty_generate(hash) + "\n")
+      f.content(InfluxDB::Config.new(hash).render + "\n")
       f.run_action(:create)
       f.notifies(:restart, 'service[influxdb]', :delayed)
 
