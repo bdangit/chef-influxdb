@@ -1,4 +1,4 @@
-# resources/user.rb
+# resources/admin.rb
 #
 # Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
@@ -17,12 +17,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# LWRP for InfluxDB user
+# LWRP for InfluxDB cluster admin
 
 actions(:create, :update, :delete)
 default_action(:create)
 
 attribute(:username, :kind_of => String, :name_attribute => true)
 attribute(:password, :kind_of => String, :required => true)
-attribute(:databases, :kind_of => Array, :required => true)
 

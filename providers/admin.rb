@@ -1,4 +1,4 @@
-# resources/user.rb
+# providers/admin.rb
 #
 # Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
@@ -17,12 +17,26 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# LWRP for InfluxDB user
+# Manages InfluxDB cluster administrator
 
-actions(:create, :update, :delete)
-default_action(:create)
+include InfluxDB::Helpers
 
-attribute(:username, :kind_of => String, :name_attribute => true)
-attribute(:password, :kind_of => String, :required => true)
-attribute(:databases, :kind_of => Array, :required => true)
+def initialize(new_resource, run_context)
+  super
+  @client    = InfluxDB::Helpers.client('root', 'root')
+  @username  = new_resource.username
+  @password  = new_resource.password
+end
+
+action :create do
+  @client.create_cluster_admin(@username, @password)
+end
+
+action :update do
+  @client.update_cluster_admin(@username, @password)
+end
+
+action :delete do
+  @client.delete_cluster_admin(@username)
+end
 
