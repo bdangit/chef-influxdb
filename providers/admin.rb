@@ -1,6 +1,8 @@
+# providers/admin.rb
+#
 # Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
-#
+# 
 # Copyright 2013 Simple Finance Technology Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,19 +16,27 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
+# Manages InfluxDB cluster administrator
 
-name             'influxdb'
-maintainer       'Simple Finance Technology Corp'
-maintainer_email 'ops@simple.com'
-license          'Apache 2.0'
-description      'InfluxDB, a timeseries database'
-version          '1.3.0'
+include InfluxDB::Helpers
 
-# For CLI client
-# https://github.com/balbeko/chef-npm
-suggests 'npm'
+def initialize(new_resource, run_context)
+  super
+  @cli       = InfluxDB::Helpers.client('root', 'root')
+  @username  = new_resource.username
+  @password  = new_resource.password
+end
 
-# For ChefInfluxDB Chef handler 
-# https://github.com/jakedavis/chef-handler-influxdb
-depends 'chef_handler'
+action :create do
+  @cli.create_cluster_admin(@username, @password)
+end
+
+action :update do
+  @cli.update_cluster_admin(@username, @password)
+end
+
+action :delete do
+  @cli.delete_cluster_admin(@username)
+end
 
