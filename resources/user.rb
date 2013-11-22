@@ -19,7 +19,7 @@
 #
 # LWRP for InfluxDB user
 
-actions(:create, :delete)
+actions(:create, :update, :delete)
 default_action(:create)
 
 attribute(:username, :kind_of => String, :name_attribute => true)
