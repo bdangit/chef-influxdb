@@ -35,8 +35,13 @@ action :create do
   end
 end
 
+action :update do
+  @databases.each do |db|
+    @cli.update_database_user(db, @username, {:password => @password})
+  end
+end
+
 action :delete do
-  Chef::Log.warning('Action delete unimplemented for resource influxdb_user')
-  return
+  @cli.delete_database_user(@username)
 end
 
