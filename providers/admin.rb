@@ -1,4 +1,4 @@
-# providers/user.rb
+# providers/admin.rb
 #
 # Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
@@ -17,7 +17,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Creates a InfluxDB user
+# Manages InfluxDB cluster administrator
 
 include InfluxDB::Helpers
 
@@ -26,22 +26,17 @@ def initialize(new_resource, run_context)
   @client    = InfluxDB::Helpers.client('root', 'root')
   @username  = new_resource.username
   @password  = new_resource.password
-  @databases = new_resource.databases
 end
 
 action :create do
-  @databases.each do |db|
-    @client.create_database_user(db, @username, @password)
-  end
+  @client.create_cluster_admin(@username, @password)
 end
 
 action :update do
-  @databases.each do |db|
-    @cli.update_database_user(db, @username, {:password => @password})
-  end
+  @client.update_cluster_admin(@username, @password)
 end
 
 action :delete do
-  @cli.delete_database_user(@username)
+  @client.delete_cluster_admin(@username)
 end
 
