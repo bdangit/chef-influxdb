@@ -37,11 +37,13 @@ end
 
 action :update do
   @databases.each do |db|
-    @cli.update_database_user(db, @username, {:password => @password})
+    @client.update_database_user(db, @username, {:password => @password})
   end
 end
 
 action :delete do
-  @cli.delete_database_user(@username)
+  @databases.each do |db|
+    @client.delete_database_user(db, @username)
+  end
 end
 
