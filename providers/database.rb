@@ -23,15 +23,15 @@ include InfluxDB::Helpers
 
 def initialize(new_resource, run_context)
   super
-  @name = new_resource.name
-  @cli  = InfluxDB::Helpers.client('root', 'root')
+  @name    = new_resource.name
+  @client  = InfluxDB::Helpers.client('root', 'root')
 end
 
 action :create do
-  @cli.create_database(@name)
+  @client.create_database(@name)
 end
 
 action :delete do
-  @cli.delete_database(@name)
+  @client.delete_database(@name)
 end
 

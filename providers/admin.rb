@@ -23,20 +23,20 @@ include InfluxDB::Helpers
 
 def initialize(new_resource, run_context)
   super
-  @cli       = InfluxDB::Helpers.client('root', 'root')
+  @client    = InfluxDB::Helpers.client('root', 'root')
   @username  = new_resource.username
   @password  = new_resource.password
 end
 
 action :create do
-  @cli.create_cluster_admin(@username, @password)
+  @client.create_cluster_admin(@username, @password)
 end
 
 action :update do
-  @cli.update_cluster_admin(@username, @password)
+  @client.update_cluster_admin(@username, @password)
 end
 
 action :delete do
-  @cli.delete_cluster_admin(@username)
+  @client.delete_cluster_admin(@username)
 end
 
