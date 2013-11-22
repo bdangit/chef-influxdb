@@ -35,7 +35,6 @@ default[:influxdb][:versions] = {
 
 # Grab clients -- right now only supports Ruby and CLI
 default[:influxdb][:client][:cli][:enable] = false
-default[:influxdb][:client][:cli][:source] = 'https://github.com/FGRibreau/influxdb-cli'
 default[:influxdb][:client][:ruby][:enable] = false
 default[:influxdb][:handler][:version] = '0.1.4'
 
