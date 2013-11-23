@@ -30,12 +30,18 @@ def initialize(new_resource, run_context)
 end
 
 action :create do
+  if !@password
+    Chef::Log.fatal!("You must provide a password for the :create action on this resource")
+  end
   @databases.each do |db|
     @client.create_database_user(db, @username, @password)
   end
 end
 
 action :update do
+  if !@password
+    Chef::Log.fatal!("You must provide a password for the :update action on this resource")
+  end
   @databases.each do |db|
     @client.update_database_user(db, @username, {:password => @password})
   end
