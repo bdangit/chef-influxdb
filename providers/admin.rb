@@ -29,10 +29,16 @@ def initialize(new_resource, run_context)
 end
 
 action :create do
+  if !@password
+    Chef::Log.fatal!("You must provide a password for the :create action on this resource!")
+  end
   @client.create_cluster_admin(@username, @password)
 end
 
 action :update do
+  if !@password
+    Chef::Log.fatal!("You must provide a password for the :update action on this resource!")
+  end
   @client.update_cluster_admin(@username, @password)
 end
 

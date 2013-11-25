@@ -20,7 +20,7 @@ maintainer       'Simple Finance Technology Corp'
 maintainer_email 'ops@simple.com'
 license          'Apache 2.0'
 description      'InfluxDB, a timeseries database'
-version          '1.4.1'
+version          '1.4.2'
 
 # For CLI client
 # https://github.com/balbeko/chef-npm
