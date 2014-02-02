@@ -32,6 +32,7 @@ module InfluxDB
 
     def self.render_config(hash, run_context)
       require 'influxdb'
+      require 'influxdb/config'
       f = Chef::Resource::File.new('/opt/influxdb/shared/config.json', run_context)
       f.owner('root')
       f.mode(00644)

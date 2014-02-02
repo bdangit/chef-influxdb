@@ -1,6 +1,7 @@
 .vagrant
 Cheffile.lock
 Gemfile.lock
+Berksfile.lock
 .librarian
 *~
 *#
