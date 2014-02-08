@@ -9,15 +9,13 @@ Vagrant.configure('2') do |config|
     influx.vm.network :forwarded_port, guest: 8083,  host: 8083
     influx.vm.network :forwarded_port, guest: 8086,  host: 8086
     influx.omnibus.chef_version = ENV['CHEF_VERSION'] || :latest
-
-    influx.vm.provision :shell do |shell|
-      shell.inline = 'test -f $1 || (sudo apt-get update -y && touch $1)'
-      shell.args = '/var/run/apt-get-update'
-    end
+    influx.berkshelf.enabled = true
+    influx.berkshelf.berksfile_path = "./Berksfile"
 
     influx.vm.provision :chef_solo do |chef|
-      chef.cookbooks_path = './cookbooks'
+      chef.cookbooks_path = ENV['COOKBOOKS_PATH'] || './cookbooks'
       chef.run_list = [
+        'recipe[apt]',
         'recipe[influxdb::default]',
       ]
     end
