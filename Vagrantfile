@@ -12,13 +12,8 @@ Vagrant.configure('2') do |config|
     influx.berkshelf.enabled = true
     influx.berkshelf.berksfile_path = "./Berksfile"
 
-    #influx.vm.provision :shell do |shell|
-    #  shell.inline = 'test -f $1 || (sudo apt-get update -y && touch $1)'
-    #  shell.args = '/var/run/apt-get-update'
-    #end
-
     influx.vm.provision :chef_solo do |chef|
-      chef.cookbooks_path = '/tmp/cookbooks'
+      chef.cookbooks_path = ENV['COOKBOOKS_PATH'] || './cookbooks'
       chef.run_list = [
         'recipe[apt]',
         'recipe[influxdb::default]',
