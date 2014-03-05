@@ -34,7 +34,7 @@ action :create do
     Chef::Log.fatal!("You must provide a password for the :create action on this resource")
   end
   @databases.each do |db|
-    unless @client.get_database_user_list(db).collect {|x| x['username']}.member?(@username)
+    unless @client.get_database_user_list(db).collect {|x| x['username'] || x['name'] }.member?(@username)
       @client.create_database_user(db, @username, @password)
     end
   end
