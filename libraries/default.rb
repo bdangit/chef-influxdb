@@ -30,7 +30,7 @@ module InfluxDB
     # TODO : Configurable administrator creds
     def self.client(user = 'root', pass = 'root')
       require 'influxdb'
-      return InfluxDB::Client.new(:username => user, :password => pass)
+      return InfluxDB::Client.new(username: user, password: pass)
     end
 
     def self.render_config(hash, run_context)
