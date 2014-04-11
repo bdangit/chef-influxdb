@@ -2,8 +2,8 @@
 #
 # Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
-# 
-# Copyright 2013 Simple Finance Technology Corporation
+#
+# Copyright 2014 Simple Finance Technology Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
