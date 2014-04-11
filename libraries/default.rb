@@ -34,18 +34,27 @@ module InfluxDB
     end
 
     def self.render_config(hash, run_context)
-      require 'influxdb'
-      require 'influxdb/config'
-      f = Chef::Resource::File.new('/opt/influxdb/shared/config.json', run_context)
-      f.owner('root')
-      f.mode(00644)
-      f.content(InfluxDB::Config.new(hash).render + "\n")
-      f.run_action(:create)
-      f.notifies(:restart, 'service[influxdb]', :delayed)
-
-      return f
+      self.install_toml(run_context)
+      self.require_toml
+      self.config_file(hash, run_context)
     end
 
+    def self.install_toml(run_context)
+      toml_gem = Chef::Resource::ChefGem.new('toml', run_context)
+      toml_gem.run_action :install
+    end
+
+    def self.require_toml
+      require 'toml'
+    end
+
+    def self.config_file(hash, run_context)
+      f = Chef::Resource::File.new(INFLUXDB_CONFIG, run_context)
+      f.owner 'root'
+      f.mode  00644
+      f.content TOML::Generator.new(hash).body
+      f.notifies :restart, 'service[influxdb]', :delayed
+      f.run_action :create
+    end
   end
 end
-
