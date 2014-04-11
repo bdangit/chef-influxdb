@@ -19,7 +19,8 @@
 #
 # Helper methods for managing InfluxDB
 
-require 'json'
+require 'chef/resource/package'
+require 'chef/resource/chef_gem'
 
 module InfluxDB
   module Helpers
