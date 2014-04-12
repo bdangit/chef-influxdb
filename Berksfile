@@ -1,3 +1,3 @@
 metadata
 
-cookbook "apt"
+cookbook 'apt'
