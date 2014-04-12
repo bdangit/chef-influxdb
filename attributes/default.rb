@@ -42,14 +42,63 @@ default[:influxdb][:client][:ruby][:version] = nil
 default[:influxdb][:handler][:version] = '0.1.4'
 
 # Parameters to configure InfluxDB
-# Set `node.default[:influxdb][:config][<PARAMETER>] = x` to override
 default[:influxdb][:config] = {
-  'AdminHttpPort'  => 8083,
-  'AdminAssetsDir' => '/opt/influxdb/current/admin',
-  'ApiHttpPort'    => 8086,
-  'RaftServerPort' => 8090,
-  'SeedServers'    => [],
-  'DataDir'        => '/opt/influxdb/shared/data/db',
-  'RaftDir'        => '/opt/influxdb/shared/data/raft'
+  'bind-address' => '0.0.0.0',
+  :logging => {
+    :level => 'info',
+    :file => 'influxdb.log'
+  },
+  :admin => {
+    :port => 8083,
+    :assets => '/opt/influxdb/current/admin'
+  },
+  :api => {
+    'read-timeout' => '5s',
+    :port => 8086
+  },
+  'input_plugins' => {
+    :graphite => {
+      :enabled => false
+    }
+  },
+  raft: {
+    :port => 8090,
+    :dir => '/opt/influxdb/shared/data/raft'
+  },
+  storage: {
+    'write-buffer-size' => 10_000,
+    :dir => '/opt/influxdb/shared/data/db'
+  },
+  cluster: {
+    'protobuf_port' => 8099,
+    'protobuf_timeout' => '2s',
+    'protobuf_heartbeat' => '200ms',
+    'write-buffer-size' => 10_000,
+    'max-response-buffer-size' => 100_000,
+    'concurrent-shard-query-limit' => 10
+  },
+  leveldb: {
+    'max-open-files' => 40,
+    'lru-cache-size' => '200m',
+    'max-open-shards' => 0,
+    'point-batch-size' => 100
+  },
+  sharding: {
+    'replication-factor' => 1,
+    'short-term' => {
+      :duration => '7d',
+      :split => 1
+    },
+    'long-term' => {
+      :duration => '30d',
+      :split => 1
+    }
+  },
+  wal: {
+    :dir => '/opt/influxdb/shared/data/wal',
+    'flush-after' => 1_000,
+    'bookmark-after' => 1_000,
+    'index-after' => 1_000,
+    'requests-per-lifecycle' => 10_000
+  }
 }
-
