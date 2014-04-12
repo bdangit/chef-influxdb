@@ -53,7 +53,6 @@ module InfluxDB
       f.owner 'root'
       f.mode  00644
       f.content TOML::Generator.new(hash).body
-      f.notifies :restart, 'service[influxdb]', :delayed
       f.run_action :create
     end
   end
