@@ -2,12 +2,13 @@
 driver:
   name: vagrant
 
-provisioner:
-  name: chef_solo
-
 platforms:
+<% %w(11.8.2).each do |chef_version| %>
   - name: ubuntu-12.04
-  - name: ubuntu-14.04
+    driver_config:
+      box: opscode_ubuntu-12.04
+      require_chef_omnibus: <%= chef_version %>
+<% end %>
 
 suites:
   - name: default
