@@ -2,7 +2,7 @@
 #
 # Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
-# 
+#
 # Copyright 2013 Simple Finance Technology Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,8 +30,9 @@ def initialize(new_resource, run_context)
 end
 
 action :create do
-  if !@password
-    Chef::Log.fatal!("You must provide a password for the :create action on this resource")
+  unless @password
+    Chef::Log.fatal!('You must provide a password for the :create' \
+                     ' action on this resource')
   end
   @databases.each do |db|
     unless @client.get_database_user_list(db).collect {|x| x['username'] || x['name'] }.member?(@username)
@@ -41,11 +42,12 @@ action :create do
 end
 
 action :update do
-  if !@password
-    Chef::Log.fatal!("You must provide a password for the :update action on this resource")
+  unless @password
+    Chef::Log.fatal!('You must provide a password for the :update' \
+                     ' action on this resource')
   end
   @databases.each do |db|
-    @client.update_database_user(db, @username, {:password => @password})
+    @client.update_database_user(db, @username, password: @password)
   end
 end
 
@@ -54,4 +56,3 @@ action :delete do
     @client.delete_database_user(db, @username)
   end
 end
-
