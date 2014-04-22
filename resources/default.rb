@@ -2,7 +2,7 @@
 #
 # Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
-# 
+#
 # Copyright 2013 Simple Finance Technology Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,4 +26,3 @@ attribute(:name, :kind_of => String, :name_attribute => true)
 attribute(:source, :kind_of => String, :required => true)
 attribute(:checksum, :kind_of => String, :required => false)
 attribute(:config, :kind_of => Hash, :required => false)
-
