@@ -2,7 +2,7 @@
 #
 # Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
-# 
+#
 # Copyright 2013 Simple Finance Technology Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,4 +24,3 @@ include_recipe 'npm::default'
 npm_package 'influxdb-cli' do
   action :install
 end
-
