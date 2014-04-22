@@ -18,7 +18,6 @@
 # limitations under the License.
 #
 # Installs the ChefInfluxDB report handler
-
 include_recipe 'chef_handler::default'
 
 chef_gem 'chef-handler-influxdb' do
