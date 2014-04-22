@@ -2,7 +2,7 @@
 #
 # Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
-# 
+#
 # Copyright 2013 Simple Finance Technology Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +28,7 @@ end.run_action(:install)
 
 # Since arguments are required for this Chef handler, you can do the following
 # in another cookbook to ensure this works :
-# resources('chef_handler[ChefInfluxDB]').arguments[ 
+# resources('chef_handler[ChefInfluxDB]').arguments[
 #   :database => 'test',
 #   :series => 'mine'
 # ]
@@ -37,4 +37,3 @@ chef_handler 'ChefInfluxDB' do
                      'chef-handler-influxdb.rb')
   action :nothing
 end.run_action(:enable)
-
