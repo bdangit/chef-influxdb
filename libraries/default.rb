@@ -29,8 +29,9 @@ module InfluxDB
 
     # TODO : Configurable administrator creds
     def self.client(user = 'root', pass = 'root')
-      require 'influxdb'
-      return InfluxDB::Client.new(username: user, password: pass)
+      self.install_influxdb(run_context)
+      self.require_influxdb
+      InfluxDB::Client.new(username: user, password: pass)
     end
 
     def self.render_config(hash, run_context)
@@ -44,8 +45,17 @@ module InfluxDB
       toml_gem.run_action :install
     end
 
+    def self.install_influxdb(run_context)
+      influxdb_gem = Chef::Resource::ChefGem.new('influxdb', run_context)
+      influxdb_gem.run_action :install
+    end
+
     def self.require_toml
       require 'toml'
+    end
+
+    def self.require_influxdb
+      require 'influxdb'
     end
 
     def self.config_file(hash, run_context)
