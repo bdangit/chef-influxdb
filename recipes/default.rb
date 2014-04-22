@@ -33,4 +33,3 @@ influxdb 'main' do
   config node[:influxdb][:config]
   action :create
 end
-
