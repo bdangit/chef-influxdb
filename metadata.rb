@@ -26,7 +26,6 @@ version          '2.0.0'
 # https://github.com/balbeko/chef-npm
 suggests 'npm'
 
-# For ChefInfluxDB Chef handler 
+# For ChefInfluxDB Chef handler
 # https://github.com/jakedavis/chef-handler-influxdb
 depends 'chef_handler'
-
