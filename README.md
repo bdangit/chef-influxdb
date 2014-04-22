@@ -9,8 +9,10 @@ For rendering the config, set the parameter under `node[:influxdb][:config]`:
 
 `default[:influxdb][:config]['MyParameter'] = 'val'`
 
-The [InfluxDB gem](https://github.com/influxdb/influxdb-ruby) powers most
-of this cookbook's LWRPs and libraries.
+The following gems are used by the `InfluxDB::Helpers` module:
+
+ - [InfluxDB gem](https://github.com/influxdb/influxdb-ruby)
+ - [TOML](https://github.com/mojombo/toml)
 
 This cookbook ships with three LWRPs for managing the install, users, and
 databases:
