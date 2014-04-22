@@ -2,7 +2,7 @@
 #
 # Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
-# 
+#
 # Copyright 2013 Simple Finance Technology Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,8 +29,9 @@ def initialize(new_resource, run_context)
 end
 
 action :create do
-  if !@password
-    Chef::Log.fatal!("You must provide a password for the :create action on this resource!")
+  unless @password
+    Chef::Log.fatal!('You must provide a password for the :create' \
+                     ' action on this resource!')
   end
   unless @client.get_cluster_admin_list.collect {|x| x['username']}.member?(@username)
     @client.create_cluster_admin(@username, @password)
@@ -38,8 +39,9 @@ action :create do
 end
 
 action :update do
-  if !@password
-    Chef::Log.fatal!("You must provide a password for the :update action on this resource!")
+  unless @password
+    Chef::Log.fatal!('You must provide a password for the :update' \
+                     ' action on this resource!')
   end
   @client.update_cluster_admin(@username, @password)
 end
@@ -47,4 +49,3 @@ end
 action :delete do
   @client.delete_cluster_admin(@username)
 end
-

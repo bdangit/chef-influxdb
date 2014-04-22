@@ -2,7 +2,7 @@
 #
 # Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
-# 
+#
 # Copyright 2013 Simple Finance Technology Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +22,5 @@
 actions(:create, :update, :delete)
 default_action(:create)
 
-attribute(:username, :kind_of => String, :name_attribute => true)
-attribute(:password, :kind_of => String)
-
+attribute(:username, kind_of: String, name_attribute: true)
+attribute(:password, kind_of: String)

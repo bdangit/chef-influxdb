@@ -2,7 +2,7 @@
 #
 # Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
-# 
+#
 # Copyright 2013 Simple Finance Technology Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,10 +19,6 @@
 #
 # Installs InfluxDB
 
-chef_gem 'influxdb' do
-  action :install
-end
-
 ver  = node[:influxdb][:version]
 arch = /x86_64/.match(node[:kernel][:machine]) ? 'amd64' : 'i386'
 node.default[:influxdb][:source] = "http://s3.amazonaws.com/influxdb/influxdb_#{ver}_#{arch}.deb"
@@ -33,4 +29,3 @@ influxdb 'main' do
   config node[:influxdb][:config]
   action :create
 end
-

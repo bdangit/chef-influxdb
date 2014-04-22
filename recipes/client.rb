@@ -1,8 +1,8 @@
 # recipes/client.rb
-# 
+#
 # Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
-# 
+#
 # Copyright 2013 Simple Finance Technology Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,9 +19,8 @@
 #
 # Installs InfluxDB client libraries
 
-[ :cli, :ruby ].each do |flavor|
+[:cli, :ruby].each do |flavor|
   if node[:influxdb][:client][flavor][:enable]
     include_recipe "influxdb::#{flavor}_client"
   end
 end
-

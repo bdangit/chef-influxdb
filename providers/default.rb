@@ -2,7 +2,7 @@
 #
 # Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
-# 
+#
 # Copyright 2013 Simple Finance Technology Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,10 +39,6 @@ action :start do
   influxdb_service(:start)
 end
 
-action :delete do
-  Chef::Log.warning('Unimplemented action delete for resource influxdb')
-end
-
 private
 
 def install_influxdb
@@ -55,18 +51,13 @@ def install_influxdb
   pkg = Chef::Resource::Package.new(path, @run_context)
   pkg.provider(Chef::Provider::Package::Dpkg)
   pkg.run_action(:install)
-  
-  return remote, pkg
 end
 
 def influxdb_service(action)
   s = Chef::Resource::Service.new('influxdb', @run_context)
   s.run_action(action)
-  
-  return s
 end
 
 def create_config
   InfluxDB::Helpers.render_config(@config, @run_context)
 end
-
