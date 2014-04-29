@@ -21,14 +21,13 @@
 
 require 'chef/resource/package'
 require 'chef/resource/chef_gem'
-
 module InfluxDB
   module Helpers
 
     INFLUXDB_CONFIG = '/opt/influxdb/shared/config.toml'
 
     # TODO : Configurable administrator creds
-    def self.client(user = 'root', pass = 'root')
+    def self.client(user = 'root', pass = 'root', run_context)
       self.install_influxdb(run_context)
       self.require_influxdb
       InfluxDB::Client.new(username: user, password: pass)
