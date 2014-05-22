@@ -22,6 +22,10 @@ license          'Apache 2.0'
 description      'InfluxDB, a timeseries database'
 version          '2.0.2'
 
+%w(centos redhat debian ubuntu).each do |os|
+  supports os
+end
+
 # For CLI client
 # https://github.com/balbeko/chef-npm
 suggests 'npm'

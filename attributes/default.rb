@@ -23,17 +23,38 @@
 # By default, always installs 'latest'
 default[:influxdb][:version] = 'latest'
 default[:influxdb][:versions] = {
+  x86_64: {
+    '0.6.0' => 'b62b34b0e0163dd51108889bf16e0b7a3142b390d68fab50ce356fc40faf22fb',
+    '0.6.5' => '8d04cc99d8f90d4a8743f526d9dd156ef4014866a9a3050e04605d1ffc32b2c9',
+    :latest => '8d04cc99d8f90d4a8743f526d9dd156ef4014866a9a3050e04605d1ffc32b2c9'
+  },
+  i686: {
+    '0.6.0' => '941727dfa39c216e1b9a04e520929e72919a5b57010e966150b9cbe215a514f4',
+    '0.6.5' => '01a58f5b9042e4e021ab248838fa428277e0a9e0a1eaff8138a19d66d8433ce5',
+    :latest => '01a58f5b9042e4e021ab248838fa428277e0a9e0a1eaff8138a19d66d8433ce5'
+  },
   amd64: {
-    '0.3.0' => 'a6801a18a45793ad1afa121f023f21368b06216d433cfa2381f7288385f93af6',
-    '0.4.3' => 'd2d1c69d8e888cbf0ec6f3a6a72a47dbc1d177c83151f95a7e51769616ec5431',
-    :latest => 'd2d1c69d8e888cbf0ec6f3a6a72a47dbc1d177c83151f95a7e51769616ec5431'
+    '0.6.0' => '85a8f1f7a341999d8b21a14fcba05ea88b4e152c197213bbb3cfe6652f985dea',
+    '0.6.5' => 'ea12d310ac951013ca4e959ee5b4cc961b7f5a2b80baebd89e98ad36c16cb29e',
+    :latest => 'ea12d310ac951013ca4e959ee5b4cc961b7f5a2b80baebd89e98ad36c16cb29e'
   },
   i386: {
-    '0.3.0' => '1182b656a0c6e1ab8a28a2dcda0adab707df43258ba76e4ec5e05d61695b40ff',
-    '0.4.3' => 'ae468726d096f7acf62fd96794356b1c2fa4d81789d67c48ed44f87add7bc0ea',
-    :latest => 'ae468726d096f7acf62fd96794356b1c2fa4d81789d67c48ed44f87add7bc0ea'
+    '0.6.0' => '533044ae48ee6f2cc4eddbc212b530a0e807c8227bd0af9fa46c584d31a003dc',
+    '0.6.5' => 'ef17098da3a0bf278bf5aa8664c4c328385711567fa9085fc7abd889d0219d0c',
+    :latest => 'ef17098da3a0bf278bf5aa8664c4c328385711567fa9085fc7abd889d0219d0c'
   }
 }
+
+# Set the correct source url and checksum for used platform_family and configured version
+if platform_family?('rhel', 'fedora')
+  arch = /x86_64/.match(node[:kernel][:machine]) ? 'x86_64' : 'i686'
+  default[:influxdb][:source] = "http://s3.amazonaws.com/influxdb/influxdb-#{node[:influxdb][:version]}-1.#{arch}.rpm"
+  default[:influxdb][:checksum] = node[:influxdb][:versions][arch][node[:influxdb][:version]]
+elsif platform_family?('debian')
+  arch = /x86_64/.match(node[:kernel][:machine]) ? 'amd64' : 'i386'
+  default[:influxdb][:source] = "http://s3.amazonaws.com/influxdb/influxdb_#{node[:influxdb][:version]}_#{arch}.deb"
+  default[:influxdb][:checksum] = node[:influxdb][:versions][arch][node[:influxdb][:version]]
+end
 
 # Grab clients -- right now only supports Ruby and CLI
 default[:influxdb][:client][:cli][:enable] = false
