@@ -35,9 +35,9 @@ action :create do
                      ' action on this resource')
   end
   @databases.each do |db|
-    unless @client.get_database_user_list(db).collect {|x| x['username'] || x['name'] }.member?(@username)
-      @client.create_database_user(db, @username, @password)
-    end
+    next if @client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
+
+    @client.create_database_user(db, @username, @password)
   end
 end
 

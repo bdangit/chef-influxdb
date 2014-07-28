@@ -28,9 +28,9 @@ def initialize(new_resource, run_context)
 end
 
 action :create do
-  unless @client.get_database_list.collect {|x| x['name']}.member?(@name)
-    @client.create_database(@name)
-  end
+  next if @client.get_database_list.map { |x| x['name'] }.member?(@name)
+
+  @client.create_database(@name)
 end
 
 action :delete do

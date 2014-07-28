@@ -21,43 +21,44 @@
 
 require 'chef/resource/package'
 require 'chef/resource/chef_gem'
-module InfluxDB
-  module Helpers
 
+module InfluxDB
+  # Some helpers to interact with InfluxDB
+  module Helpers
     INFLUXDB_CONFIG = '/opt/influxdb/shared/config.toml'
 
     # TODO : Configurable administrator creds
-    def self.client(user = 'root', pass = 'root', run_context)
-      self.install_influxdb(run_context)
-      self.require_influxdb
+    def client(user = 'root', pass = 'root', run_context)
+      install_influxdb(run_context)
+      require_influxdb
       InfluxDB::Client.new(username: user, password: pass)
     end
 
-    def self.render_config(hash, run_context)
-      self.install_toml(run_context)
-      self.require_toml
-      self.config_file(hash, run_context)
+    def render_config(hash, run_context)
+      install_toml(run_context)
+      require_toml
+      config_file(hash, run_context)
     end
 
-    def self.install_toml(run_context)
+    def install_toml(run_context)
       toml_gem = Chef::Resource::ChefGem.new('toml', run_context)
       toml_gem.run_action :install
     end
 
-    def self.install_influxdb(run_context)
+    def install_influxdb(run_context)
       influxdb_gem = Chef::Resource::ChefGem.new('influxdb', run_context)
       influxdb_gem.run_action :install
     end
 
-    def self.require_toml
+    def require_toml
       require 'toml'
     end
 
-    def self.require_influxdb
+    def require_influxdb
       require 'influxdb'
     end
 
-    def self.config_file(hash, run_context)
+    def config_file(hash, run_context)
       f = Chef::Resource::File.new(INFLUXDB_CONFIG, run_context)
       f.owner 'root'
       f.mode  00644

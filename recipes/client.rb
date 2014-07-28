@@ -20,7 +20,7 @@
 # Installs InfluxDB client libraries
 
 [:cli, :ruby].each do |flavor|
-  if node[:influxdb][:client][flavor][:enable]
-    include_recipe "influxdb::#{flavor}_client"
-  end
+  next unless node[:influxdb][:client][flavor][:enable]
+
+  include_recipe "influxdb::#{flavor}_client"
 end
