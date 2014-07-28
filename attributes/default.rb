@@ -46,7 +46,7 @@ default[:influxdb][:config] = {
   'bind-address' => '0.0.0.0',
   :logging => {
     :level => 'info',
-    :file => 'influxdb.log'
+    :file => '/opt/influxdb/shared/log.txt'
   },
   :admin => {
     :port => 8083,
