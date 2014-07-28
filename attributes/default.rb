@@ -102,8 +102,3 @@ default['influxdb']['config'] = {
     'requests-per-lifecycle' => 10_000
   }
 }
-
-# Change log path for debian
-if platform_family?('debian')
-  default['influxdb']['config']['logging']['file'] = '/opt/influxdb/shared/log.txt'
-end
