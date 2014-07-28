@@ -27,5 +27,5 @@ influxdb 'main' do
   source node['influxdb']['source']
   checksum node['influxdb']['versions'][arch][ver]
   config node['influxdb']['config']
-  action :create
+  action [:create, :start]
 end

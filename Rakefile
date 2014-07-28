@@ -23,8 +23,16 @@ namespace :test do
   end
 
   begin
-    require 'kitchen/rake_tasks'
-    Kitchen::RakeTasks.new
+    require 'kitchen'
+    namespace :integration do
+      desc 'Run Test Kitchen with Vagrant'
+      task :vagrant do
+        Kitchen.logger = Kitchen.default_file_logger
+        Kitchen::Config.new.instances.each do |instance|
+          instance.test(:always)
+        end
+      end
+    end
   rescue LoadError
     puts '>>>>> Kitchen gem not loaded, omitting tasks' unless ENV['CI']
   end
@@ -41,6 +49,6 @@ namespace :test do
     Rake::Task['test:rubocop'].invoke
     Rake::Task['test:minitest'].invoke
     Rake::Task['test:foodcritic'].invoke
-    Rake::Task['test:kitchen:all'].invoke
+    Rake::Task['test:integration:vagrant'].invoke
   end
 end
