@@ -6,7 +6,7 @@ task default: 'test:quick'
 
 namespace :test do
 
-  Rubocop::RakeTask.new
+  RuboCop::RakeTask.new
 
   Rake::TestTask.new do |t|
     t.name = :minitest
