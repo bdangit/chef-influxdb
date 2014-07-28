@@ -68,6 +68,17 @@ default both flavors are disabled. Enable e.g. Ruby via:
 
 `node.default[:influxdb][:client][:ruby][:enable] = true`
 
+## Tests
+
+To run tests, install all dependencies with [bundler](http://bundler.io/):
+
+    bundle install
+
+Then to run tests:
+
+    rake # Quick tests only (rubocop + minitest)
+    rake test:complete # All tests (rubocop + minitest + kitchen)
+
 ## Author and License
 Simple Finance <ops@simple.com>
 
