@@ -11,4 +11,5 @@ group :test do
   gem 'minitest', '~> 5.3.2'
   gem 'rubocop'
   gem 'rake'
+  gem 'foodcritic'
 end

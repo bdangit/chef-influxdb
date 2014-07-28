@@ -20,7 +20,7 @@
 # Installs the InfluxDB Ruby client
 
 package 'influxdb' do
-  version node[:influxdb][:client][:ruby][:version]
+  version node['influxdb']['client']['ruby']['version']
   provider Chef::Provider::Package::Gem
   action :install
 end

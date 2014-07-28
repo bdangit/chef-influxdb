@@ -42,7 +42,7 @@ default['influxdb']['client']['ruby']['version'] = nil
 default['influxdb']['handler']['version'] = '0.1.4'
 
 # Parameters to configure InfluxDB
-default['influxdb'][:config] = {
+default['influxdb']['config'] = {
   'bind-address' => '0.0.0.0',
   'logging' => {
     'level' => 'info',
