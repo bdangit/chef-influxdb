@@ -3,3 +3,6 @@ LineLength:
 
 SingleSpaceBeforeFirstArg:
   Enabled: false
+
+HashSyntax:
+  Enabled: false

@@ -19,13 +19,13 @@
 #
 # Installs InfluxDB
 
-ver  = node['influxdb']['version']
-arch = /x86_64/.match(node['kernel']['machine']) ? 'amd64' : 'i386'
-node.default['influxdb']['source'] = "http://s3.amazonaws.com/influxdb/influxdb_#{ver}_#{arch}.deb"
+ver  = node[:influxdb][:version]
+arch = /x86_64/.match(node[:kernel][:machine]) ? 'amd64' : 'i386'
+node.default[:influxdb][:source] = "http://s3.amazonaws.com/influxdb/influxdb_#{ver}_#{arch}.deb"
 
 influxdb 'main' do
-  source node['influxdb']['source']
-  checksum node['influxdb']['versions'][arch][ver]
-  config node['influxdb']['config']
+  source node[:influxdb][:source]
+  checksum node[:influxdb][:versions][arch][ver]
+  config node[:influxdb][:config]
   action [:create, :start]
 end
