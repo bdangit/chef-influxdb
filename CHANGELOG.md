@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.1.0
+* Multiple style and testing updates (contribued by @odolbeau)
+
 ## 2.0.4
 * Default logfile path is now the Debian package default (contributed by
   @masarakki)
