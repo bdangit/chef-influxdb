@@ -53,6 +53,8 @@ end
 
 action :delete do
   @databases.each do |db|
-    @client.delete_database_user(db, @username)
+    if @client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
+      @client.delete_database_user(db, @username)
+    end
   end
 end

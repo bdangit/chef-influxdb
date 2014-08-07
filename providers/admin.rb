@@ -47,5 +47,7 @@ action :update do
 end
 
 action :delete do
-  @client.delete_cluster_admin(@username)
+  if @client.get_cluster_admin_list.map { |x| x['name'] }.member?(@username)
+    @client.delete_cluster_admin(@username)
+  end
 end
