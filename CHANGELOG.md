@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.1.1
+* User and admin deletion now idempotent (contributed by @flowboard)
+
 ## 2.1.0
 * Multiple style and testing updates (contribued by @odolbeau)
 
