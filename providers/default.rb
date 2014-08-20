@@ -32,6 +32,7 @@ end
 action :create do
   install_influxdb
   influxdb_service(:enable)
+  influxdb_service(:start)
   create_config
 end
 
