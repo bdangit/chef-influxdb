@@ -27,6 +27,7 @@ def initialize(new_resource, run_context)
   @username  = new_resource.username
   @password  = new_resource.password
   @databases = new_resource.databases
+  @dbadmin   = new_resource.dbadmin
 end
 
 action :create do
@@ -35,9 +36,20 @@ action :create do
                      ' action on this resource')
   end
   @databases.each do |db|
-    next if @client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
-
-    @client.create_database_user(db, @username, @password)
+    if !@client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
+      @client.create_database_user(db, @username, @password)
+    end
+    if @client.get_database_user_info(db, @username)['isAdmin']
+      @client.alter_database_privilege(db, @username, false)
+    end
+  end
+  @dbadmin.each do |db|
+    if !@client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
+      @client.create_database_user(db, @username, @password)
+    end
+    if !@client.get_database_user_info(db, @username)['isAdmin']
+      @client.alter_database_privilege(db, @username, true)
+    end
   end
 end
 
@@ -49,10 +61,18 @@ action :update do
   @databases.each do |db|
     @client.update_database_user(db, @username, password: @password)
   end
+  @dbadmin.each do |db|
+    @client.update_database_user(db, @username, password: @password)
+  end
 end
 
 action :delete do
   @databases.each do |db|
+    if @client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
+      @client.delete_database_user(db, @username)
+    end
+  end
+  @dbadmin.each do |db|
     if @client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
       @client.delete_database_user(db, @username)
     end
