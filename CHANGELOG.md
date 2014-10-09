@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.2.0
+* Added `dbadmin` parameter to `influxdb_user`, allowing granular control of
+  which users are admins for which databases (contributed by @BarthV)
+
 ## 2.1.1
 * User and admin deletion now idempotent (contributed by @flowboard)
 
