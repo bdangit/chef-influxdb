@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.2.1
+* Updated `latest` checksum to be accurate (contributed by @nomadium)
+
 ## 2.2.0
 * Added `dbadmin` parameter to `influxdb_user`, allowing granular control of
   which users are admins for which databases (contributed by @BarthV)
