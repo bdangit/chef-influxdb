@@ -24,9 +24,6 @@
 default[:influxdb][:version] = 'latest'
 default[:influxdb][:versions] = {
   amd64: {
-    '0.3.0' => 'a6801a18a45793ad1afa121f023f21368b06216d433cfa2381f7288385f93af6',
-    '0.4.3' => 'd2d1c69d8e888cbf0ec6f3a6a72a47dbc1d177c83151f95a7e51769616ec5431',
-    '0.8.3' => 'c55b672cec4e745e8cbbd458dbac13824ca73ce42fac762ffe441809ebe9dab0',
     '0.8.5' => '58ae034557e6a2886530577ab368ed2153b4e0a41bcfa57d8b15a9d5006f14d0',
     :latest => '58ae034557e6a2886530577ab368ed2153b4e0a41bcfa57d8b15a9d5006f14d0'
   },
