@@ -44,63 +44,74 @@ default[:influxdb][:client][:ruby][:version] = nil
 default[:influxdb][:handler][:version] = '0.1.4'
 
 # Parameters to configure InfluxDB
+# Based on https://github.com/influxdb/influxdb/blob/v0.8.5/config.sample.toml
 default[:influxdb][:config] = {
   'bind-address' => '0.0.0.0',
-  :logging => {
-    :level => 'info',
-    :file => '/opt/influxdb/shared/log.txt'
+  'reporting-disabled' => false,
+  logging: {
+    level: 'info',
+    file: '/opt/influxdb/shared/log.txt'
   },
-  :admin => {
-    :port => 8083,
-    :assets => '/opt/influxdb/current/admin'
+  admin: {
+    port: 8083,
   },
-  :api => {
-    'read-timeout' => '5s',
-    :port => 8086
+  api: {
+    port: 8086,
+    'read-timeout' => '5s'
   },
-  'input_plugins' => {
-    :graphite => {
-      :enabled => false
+  input_plugins: {
+    graphite: {
+      enabled: false
+    },
+    udp: {
+      enabled: false
     }
   },
   raft: {
-    :port => 8090,
-    :dir => '/opt/influxdb/shared/data/raft'
+    port: 8090,
+    dir: '/opt/influxdb/shared/data/raft'
   },
   storage: {
+    dir: '/opt/influxdb/shared/data/db',
     'write-buffer-size' => 10_000,
-    :dir => '/opt/influxdb/shared/data/db'
+    'default-engine' => 'rocksdb',
+    'max-open-shards' => 0,
+    'point-batch-size' => 100,
+    'write-batch-size' => 5_000_000,
+    'retention-sweep-period' => '10m',
+    engines: {
+      leveldb: {
+        'max-open-files' => 1000,
+        'lru-cache-size' => '200m'
+      },
+      rocksdb: {
+        'max-open-files' => 1000,
+        'lru-cache-size' => '200m'
+      },
+      hyperleveldb: {
+        'max-open-files' => 1000,
+        'lru-cache-size' => '200m'
+      },
+      lmdb: {
+        'map-size' => '100g'
+      }
+    }
   },
   cluster: {
     'protobuf_port' => 8099,
     'protobuf_timeout' => '2s',
     'protobuf_heartbeat' => '200ms',
-    'write-buffer-size' => 10_000,
-    'max-response-buffer-size' => 100_000,
+    'protobuf_min_backoff' => '1s',
+    'protobuf_max_backoff' => '10s',
+    'write-buffer-size' => 1_000,
+    'max-response-buffer-size' => 100,
     'concurrent-shard-query-limit' => 10
   },
-  leveldb: {
-    'max-open-files' => 40,
-    'lru-cache-size' => '200m',
-    'max-open-shards' => 0,
-    'point-batch-size' => 100
-  },
-  sharding: {
-    'replication-factor' => 1,
-    'short-term' => {
-      :duration => '7d',
-      :split => 1
-    },
-    'long-term' => {
-      :duration => '30d',
-      :split => 1
-    }
-  },
   wal: {
-    :dir => '/opt/influxdb/shared/data/wal',
+    dir: '/opt/influxdb/shared/data/wal',
     'flush-after' => 1_000,
     'bookmark-after' => 1_000,
     'index-after' => 1_000,
-    'requests-per-lifecycle' => 10_000
+    'requests-per-logfile' => 10_000
   }
 }
