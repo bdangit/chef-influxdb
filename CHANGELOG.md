@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.3.0
+* Update checksums for 0.8.6 (contributed by @tjwallace)
+
 ## 2.2.2
 * Touch logfile if it does not exist (contributed by @odolbeau)
 
