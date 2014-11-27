@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.4.0
+* Update default config for 0.8.5 and up (contributed by @tjwallace)
+
 ## 2.3.0
 * Update checksums for 0.8.6 (contributed by @tjwallace)
 
