@@ -24,16 +24,12 @@
 default[:influxdb][:version] = 'latest'
 default[:influxdb][:versions] = {
   amd64: {
-    '0.3.0' => 'a6801a18a45793ad1afa121f023f21368b06216d433cfa2381f7288385f93af6',
-    '0.4.3' => 'd2d1c69d8e888cbf0ec6f3a6a72a47dbc1d177c83151f95a7e51769616ec5431',
-    '0.8.3' => 'c55b672cec4e745e8cbbd458dbac13824ca73ce42fac762ffe441809ebe9dab0',
-    :latest => 'c55b672cec4e745e8cbbd458dbac13824ca73ce42fac762ffe441809ebe9dab0'
+    '0.8.5' => '58ae034557e6a2886530577ab368ed2153b4e0a41bcfa57d8b15a9d5006f14d0',
+    :latest => '58ae034557e6a2886530577ab368ed2153b4e0a41bcfa57d8b15a9d5006f14d0'
   },
-  i386: {
-    '0.3.0' => '1182b656a0c6e1ab8a28a2dcda0adab707df43258ba76e4ec5e05d61695b40ff',
-    '0.4.3' => 'ae468726d096f7acf62fd96794356b1c2fa4d81789d67c48ed44f87add7bc0ea',
-    '0.8.3' => '3110ba7e23e7660ca5dbfd133b492bf2aaad5a7743ffa4a22c44a115b37ef720',
-    :latest => '3110ba7e23e7660ca5dbfd133b492bf2aaad5a7743ffa4a22c44a115b37ef720'
+  i686: {
+    '0.8.5' => 'b551d6d152c9af6e66a1eba3c07578a20678d0d3f3efa8852f19e2befd96a7fd',
+    :latest => 'b551d6d152c9af6e66a1eba3c07578a20678d0d3f3efa8852f19e2befd96a7fd'
   }
 }
 
