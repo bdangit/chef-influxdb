@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.2.2
+* Touch logfile if it does not exist (contributed by @odolbeau)
+
 ## 2.2.1
 * Updated `latest` checksum to be accurate (contributed by @nomadium)
 
