@@ -40,10 +40,10 @@ action :create do
     end
   end
   @dbadmin.each do |db|
-    if !@client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
+    unless @client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
       @client.create_database_user(db, @username, @password)
     end
-    if !@client.get_database_user_info(db, @username)['isAdmin']
+    unless @client.get_database_user_info(db, @username)['isAdmin']
       @client.alter_database_privilege(db, @username, true)
     end
   end
@@ -62,19 +62,15 @@ end
 
 action :delete do
   @databases.each do |db|
-    if exists?(@username)
-      @client.delete_database_user(db, @username)
-    end
+    @client.delete_database_user(db, @username) if exists?(@username)
   end
   @dbadmin.each do |db|
-    if exists?(@username)
-      @client.delete_database_user(db, @username)
-    end
+    @client.delete_database_user(db, @username) if exists?(@username)
   end
 end
 
 private
 
 def exists?(username)
-  @client.get_database_user_list(db).collect {|x| x['username'] || x['name'] }.member?(username)
+  @client.get_database_user_list(db).collect { |x| x['username'] || x['name'] }.member?(username)
 end

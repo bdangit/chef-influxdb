@@ -44,6 +44,7 @@ end
 
 private
 
+# rubocop:disable Metrics/AbcSize,  Metrics/MethodLength
 def install_influxdb
   path = ::File.join(Chef::Config[:file_cache_path], ::File.basename(@source))
   remote = Chef::Resource::RemoteFile.new(path, @run_context)
@@ -56,14 +57,15 @@ def install_influxdb
   pkg.version(@version)
   pkg.run_action(:install)
 
-  if pkg.updated_by_last_action?
-    action_start
-    influxdb_admin = Chef::Resource::InfluxdbAdmin.new('root', @run_context)
-    influxdb_admin.admin_pwd('root')
-    influxdb_admin.password(@root_pwd)
-    influxdb_admin.run_action(:update)
-  end
+  # seems like this could be lifted out, for now fix rubocp GuardClause
+  return if pkg.updated_by_last_action?
+  action_start
+  influxdb_admin = Chef::Resource::InfluxdbAdmin.new('root', @run_context)
+  influxdb_admin.admin_pwd('root')
+  influxdb_admin.password(@root_pwd)
+  influxdb_admin.run_action(:update)
 end
+# rubocop:enable Metrics/AbcSize,  Metrics/MethodLength
 
 def influxdb_service(action)
   s = Chef::Resource::Service.new('influxdb', @run_context)

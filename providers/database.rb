@@ -28,19 +28,15 @@ def initialize(new_resource, run_context)
 end
 
 action :create do
-  unless exists?(@name)
-    @client.create_database(@name)
-  end
+  @client.create_database(@name) unless exists?(@name)
 end
 
 action :delete do
-  if exists?(@name)
-    @client.delete_database(@name)
-  end
+  @client.delete_database(@name) if exists?(@name)
 end
 
 private
 
 def exists?(name)
-  @client.get_database_list.collect {|x| x['name']}.member?(name)
+  @client.get_database_list.collect { |x| x['name'] }.member?(name)
 end

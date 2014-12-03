@@ -34,25 +34,19 @@ action :create do
                      ' action on this resource!')
   end
 
-  unless exists?(@username)
-    @client.create_cluster_admin(@username, @password)
-  end
+  @client.create_cluster_admin(@username, @password) unless exists?(@username)
 end
 
 action :update do
-  if exists?(@username)
-    @client.update_cluster_admin(@username, @password)
-  end
+  @client.update_cluster_admin(@username, @password) if exists?(@username)
 end
 
 action :delete do
-  if exists?(@username)
-    @client.delete_cluster_admin(@username)
-  end
+  @client.delete_cluster_admin(@username) if exists?(@username)
 end
 
 private
 
 def exists?(username)
-  @client.get_cluster_admin_list.collect {|x| x['username']}.member?(username)
+  @client.get_cluster_admin_list.collect { |x| x['username'] }.member?(username)
 end
