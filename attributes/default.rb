@@ -23,13 +23,27 @@
 # By default, always installs 'latest'
 default[:influxdb][:version] = 'latest'
 default[:influxdb][:versions] = {
-  amd64: {
-    '0.8.5' => '58ae034557e6a2886530577ab368ed2153b4e0a41bcfa57d8b15a9d5006f14d0',
-    :latest => '58ae034557e6a2886530577ab368ed2153b4e0a41bcfa57d8b15a9d5006f14d0'
+  rpm: {
+    x86_64: {
+      '0.8.7' => '321b14c3cf7c94f56506f432847c85c2f6080cb5f25b35c83fb2aa14cb843007',
+      :latest => '321b14c3cf7c94f56506f432847c85c2f6080cb5f25b35c83fb2aa14cb843007',
+    },
+    i686: {
+      '0.8.7' => 'a0ff244d18418b2fee3294905096d34e981f2af147cd533c300a27153a94dd68',
+      :latest => 'a0ff244d18418b2fee3294905096d34e981f2af147cd533c300a27153a94dd68'
+    }
   },
-  i686: {
-    '0.8.5' => 'b551d6d152c9af6e66a1eba3c07578a20678d0d3f3efa8852f19e2befd96a7fd',
-    :latest => 'b551d6d152c9af6e66a1eba3c07578a20678d0d3f3efa8852f19e2befd96a7fd'
+  deb: {
+    amd64: {
+      '0.8.5' => '58ae034557e6a2886530577ab368ed2153b4e0a41bcfa57d8b15a9d5006f14d0',
+      '0.8.7' => '8faf1468b2f81d468dea34055671ab88831172c8905919021914a2a3e41707fa',
+      :latest => '8faf1468b2f81d468dea34055671ab88831172c8905919021914a2a3e41707fa'
+    },
+    i686: {
+      '0.8.5' => 'b551d6d152c9af6e66a1eba3c07578a20678d0d3f3efa8852f19e2befd96a7fd',
+      '0.8.7' => '7f89d168f4a821c9caf21a8edb1dd64a70bf74eeb4f9cce483cc754245d08074',
+      :latest => '7f89d168f4a821c9caf21a8edb1dd64a70bf74eeb4f9cce483cc754245d08074'
+    }
   }
 }
 
@@ -37,11 +51,11 @@ default[:influxdb][:versions] = {
 if platform_family?('rhel', 'fedora')
   arch = /x86_64/.match(node[:kernel][:machine]) ? 'x86_64' : 'i686'
   default[:influxdb][:source] = "http://s3.amazonaws.com/influxdb/influxdb-#{node[:influxdb][:version]}-1.#{arch}.rpm"
-  default[:influxdb][:checksum] = node[:influxdb][:versions][arch][node[:influxdb][:version]]
+  default[:influxdb][:checksum] = node[:influxdb][:versions][:rpm][arch][node[:influxdb][:version]]
 elsif platform_family?('debian')
   arch = /x86_64/.match(node[:kernel][:machine]) ? 'amd64' : 'i386'
   default[:influxdb][:source] = "http://s3.amazonaws.com/influxdb/influxdb_#{node[:influxdb][:version]}_#{arch}.deb"
-  default[:influxdb][:checksum] = node[:influxdb][:versions][arch][node[:influxdb][:version]]
+  default[:influxdb][:checksum] = node[:influxdb][:versions][:deb][arch][node[:influxdb][:version]]
 end
 
 # Grab clients -- right now only supports Ruby and CLI
@@ -60,7 +74,7 @@ default[:influxdb][:config] = {
     file: '/opt/influxdb/shared/log.txt'
   },
   admin: {
-    port: 8083,
+    port: 8083
   },
   api: {
     port: 8086,
