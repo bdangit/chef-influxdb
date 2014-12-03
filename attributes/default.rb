@@ -21,23 +21,41 @@
 
 # Versions are mapped to checksums
 # By default, always installs 'latest'
-default[:influxdb][:version] = 'latest'
-default[:influxdb][:versions] = {
-  amd64: {
-    '0.8.5' => '58ae034557e6a2886530577ab368ed2153b4e0a41bcfa57d8b15a9d5006f14d0',
-    :latest => '58ae034557e6a2886530577ab368ed2153b4e0a41bcfa57d8b15a9d5006f14d0'
-  },
-  i686: {
-    '0.8.5' => 'b551d6d152c9af6e66a1eba3c07578a20678d0d3f3efa8852f19e2befd96a7fd',
-    :latest => 'b551d6d152c9af6e66a1eba3c07578a20678d0d3f3efa8852f19e2befd96a7fd'
+case node.platform_family
+when 'rhel'
+  default[:influxdb][:version] = 'latest-1'
+else  
+  default[:influxdb][:version] = 'latest'
+end
+
+case node.platform_family
+when 'rhel'
+  default[:influxdb][:versions] = {
+    x86_64: {
+      'latest-1' => '321b14c3cf7c94f56506f432847c85c2f6080cb5f25b35c83fb2aa14cb843007'
+    },
+    i686: {
+      'latest-1' => 'a0ff244d18418b2fee3294905096d34e981f2af147cd533c300a27153a94dd68'
+    }
   }
-}
+else
+  default[:influxdb][:versions] = {
+    amd64: {
+      '0.8.5' => '58ae034557e6a2886530577ab368ed2153b4e0a41bcfa57d8b15a9d5006f14d0',
+      :latest => '58ae034557e6a2886530577ab368ed2153b4e0a41bcfa57d8b15a9d5006f14d0'
+    },
+    i686: {
+      '0.8.5' => 'b551d6d152c9af6e66a1eba3c07578a20678d0d3f3efa8852f19e2befd96a7fd',
+      :latest => 'b551d6d152c9af6e66a1eba3c07578a20678d0d3f3efa8852f19e2befd96a7fd'
+    }
+  }
+end
 
 # Grab clients -- right now only supports Ruby and CLI
-default[:influxdb][:client][:cli][:enable] = false
-default[:influxdb][:client][:ruby][:enable] = false
+default[:influxdb][:client][:cli][:enable]   = false
+default[:influxdb][:client][:ruby][:enable]  = false
 default[:influxdb][:client][:ruby][:version] = nil
-default[:influxdb][:handler][:version] = '0.1.4'
+default[:influxdb][:handler][:version]       = '0.1.4'
 
 # Parameters to configure InfluxDB
 # Based on https://github.com/influxdb/influxdb/blob/v0.8.5/config.sample.toml
