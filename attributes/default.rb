@@ -33,6 +33,17 @@ default[:influxdb][:versions] = {
   }
 }
 
+# Set the correct source url and checksum for used platform_family and configured version
+if platform_family?('rhel', 'fedora')
+  arch = /x86_64/.match(node[:kernel][:machine]) ? 'x86_64' : 'i686'
+  default[:influxdb][:source] = "http://s3.amazonaws.com/influxdb/influxdb-#{node[:influxdb][:version]}-1.#{arch}.rpm"
+  default[:influxdb][:checksum] = node[:influxdb][:versions][arch][node[:influxdb][:version]]
+elsif platform_family?('debian')
+  arch = /x86_64/.match(node[:kernel][:machine]) ? 'amd64' : 'i386'
+  default[:influxdb][:source] = "http://s3.amazonaws.com/influxdb/influxdb_#{node[:influxdb][:version]}_#{arch}.deb"
+  default[:influxdb][:checksum] = node[:influxdb][:versions][arch][node[:influxdb][:version]]
+end
+
 # Grab clients -- right now only supports Ruby and CLI
 default[:influxdb][:client][:cli][:enable] = false
 default[:influxdb][:client][:ruby][:enable] = false

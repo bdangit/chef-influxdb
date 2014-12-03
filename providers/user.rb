@@ -23,7 +23,7 @@ include InfluxDB::Helpers
 
 def initialize(new_resource, run_context)
   super
-  @client    = InfluxDB::Helpers.client('root', 'root', run_context)
+  @client    = InfluxDB::Helpers.client(new_resource.admin_usr, new_resource.admin_pwd, run_context)
   @username  = new_resource.username
   @password  = new_resource.password
   @databases = new_resource.databases
@@ -31,12 +31,8 @@ def initialize(new_resource, run_context)
 end
 
 action :create do
-  unless @password
-    Chef::Log.fatal!('You must provide a password for the :create' \
-                     ' action on this resource')
-  end
   @databases.each do |db|
-    if !@client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
+    unless exists?(@username)
       @client.create_database_user(db, @username, @password)
     end
     if @client.get_database_user_info(db, @username)['isAdmin']
@@ -54,12 +50,10 @@ action :create do
 end
 
 action :update do
-  unless @password
-    Chef::Log.fatal!('You must provide a password for the :update' \
-                     ' action on this resource')
-  end
   @databases.each do |db|
-    @client.update_database_user(db, @username, password: @password)
+    if exists?(@username)
+      @client.update_database_user(db, @username, password: @password)
+    end
   end
   @dbadmin.each do |db|
     @client.update_database_user(db, @username, password: @password)
@@ -68,13 +62,19 @@ end
 
 action :delete do
   @databases.each do |db|
-    if @client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
+    if exists?(@username)
       @client.delete_database_user(db, @username)
     end
   end
   @dbadmin.each do |db|
-    if @client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
+    if exists?(@username)
       @client.delete_database_user(db, @username)
     end
   end
+end
+
+private
+
+def exists?(username)
+  @client.get_database_user_list(db).collect {|x| x['username'] || x['name'] }.member?(username)
 end
