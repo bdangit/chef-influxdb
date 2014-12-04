@@ -49,7 +49,10 @@ def install_influxdb
   remote.checksum(@checksum) if @checksum
   remote.run_action(:create)
 
+  pkg_provider = (node.platform_family == 'rhel') ? Chef::Provider::Package::Yum : Chef::Provider::Package::Dpkg
+
   pkg = Chef::Resource::Package.new('influxdb', @run_context)
+  pkg.provider(pkg_provider)
   pkg.source(path)
   pkg.run_action(:install)
 end
