@@ -23,7 +23,7 @@ include InfluxDB::Helpers
 
 def initialize(new_resource, run_context)
   super
-  @client    = InfluxDB::Helpers.client('root', 'root', run_context)
+  @client    = InfluxDB::Helpers.client(new_resource.admin_usr, new_resource.admin_pwd, run_context)
   @username  = new_resource.username
   @password  = new_resource.password
 end
@@ -33,21 +33,20 @@ action :create do
     Chef::Log.fatal!('You must provide a password for the :create' \
                      ' action on this resource!')
   end
-  unless @client.get_cluster_admin_list.map { |x| x['name'] }.member?(@username)
-    @client.create_cluster_admin(@username, @password)
-  end
+
+  @client.create_cluster_admin(@username, @password) unless exists?(@username)
 end
 
 action :update do
-  unless @password
-    Chef::Log.fatal!('You must provide a password for the :update' \
-                     ' action on this resource!')
-  end
-  @client.update_cluster_admin(@username, @password)
+  @client.update_cluster_admin(@username, @password) if exists?(@username)
 end
 
 action :delete do
-  if @client.get_cluster_admin_list.map { |x| x['name'] }.member?(@username)
-    @client.delete_cluster_admin(@username)
-  end
+  @client.delete_cluster_admin(@username) if exists?(@username)
+end
+
+private
+
+def exists?(username)
+  @client.get_cluster_admin_list.collect { |x| x['username'] }.member?(username)
 end

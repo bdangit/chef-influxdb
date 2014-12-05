@@ -23,16 +23,20 @@ include InfluxDB::Helpers
 
 def initialize(new_resource, run_context)
   super
+  @client  = InfluxDB::Helpers.client(new_resource.admin_usr, new_resource.admin_pwd, run_context)
   @name    = new_resource.name
-  @client  = InfluxDB::Helpers.client('root', 'root', run_context)
 end
 
 action :create do
-  next if @client.get_database_list.map { |x| x['name'] }.member?(@name)
-
-  @client.create_database(@name)
+  @client.create_database(@name) unless exists?(@name)
 end
 
 action :delete do
-  @client.delete_database(@name)
+  @client.delete_database(@name) if exists?(@name)
+end
+
+private
+
+def exists?(name)
+  @client.get_database_list.collect { |x| x['name'] }.member?(name)
 end

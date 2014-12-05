@@ -16,3 +16,4 @@ tmp
 cookbooks
 .kitchen/
 .kitchen.local.yml
+vendor

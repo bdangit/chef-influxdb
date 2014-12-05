@@ -22,7 +22,9 @@
 actions(:create, :update, :delete)
 default_action(:create)
 
+attribute(:admin_usr, kind_of: String, default: 'root')
+attribute(:admin_pwd, kind_of: String, default: 'root')
 attribute(:username, kind_of: String, name_attribute: true)
-attribute(:password, kind_of: String)
-attribute(:databases, kind_of: Array, required: false, default: [])
+attribute(:password, kind_of: String, required: true)
+attribute(:databases, kind_of: Array, required: true)
 attribute(:dbadmin, kind_of: Array, required: false, default: [])
