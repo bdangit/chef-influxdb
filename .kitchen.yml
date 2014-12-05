@@ -9,6 +9,7 @@ platforms:
       box: opscode_ubuntu-14.04
       require_chef_omnibus: <%= chef_version %>
 <% end %>
+  - name: centos-6.5
 
 suites:
   - name: default

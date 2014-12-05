@@ -23,9 +23,9 @@ include InfluxDB::Helpers
 
 def initialize(new_resource, run_context)
   super
-  @source = new_resource.source
-  @checksum = new_resource.checksum
-  @config = new_resource.config
+  @source      = new_resource.source
+  @checksum    = new_resource.checksum
+  @config      = new_resource.config
   @run_context = run_context
 end
 
@@ -43,14 +43,17 @@ end
 private
 
 def install_influxdb
-  path = ::File.join(Chef::Config[:file_cache_path], 'influxdb.deb')
+  path   = ::File.join(Chef::Config[:file_cache_path], ::File.basename(@source) )
   remote = Chef::Resource::RemoteFile.new(path, @run_context)
-  remote.source(@source) if @source
+  remote.source(@source)     if @source
   remote.checksum(@checksum) if @checksum
   remote.run_action(:create)
 
-  pkg = Chef::Resource::Package.new(path, @run_context)
-  pkg.provider(Chef::Provider::Package::Dpkg)
+  pkg_provider = (node.platform_family == 'rhel') ? Chef::Provider::Package::Yum : Chef::Provider::Package::Dpkg
+
+  pkg = Chef::Resource::Package.new('influxdb', @run_context)
+  pkg.provider(pkg_provider)
+  pkg.source(path)
   pkg.run_action(:install)
 end
 
@@ -67,5 +70,5 @@ def touch_logfile
   logfile = Chef::Resource::File.new(@config['logging']['file'], @run_context)
   logfile.owner('influxdb')
   logfile.group('influxdb')
-  logfile.run_action(:touch)
+  logfile.run_action(:create)
 end
