@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.5.0
+* Move influxdb resource actions to an attribute (contributed by
+  @directionless)
+
 ## 2.4.0
 * Update default config for 0.8.5 and up (contributed by @tjwallace)
 
