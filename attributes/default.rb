@@ -33,6 +33,9 @@ default[:influxdb][:versions] = {
   }
 }
 
+# Default influxdb recipe action. Consider [:create, :start]
+default[:influxdb][:action] = [:create]
+
 # Grab clients -- right now only supports Ruby and CLI
 default[:influxdb][:client][:cli][:enable] = false
 default[:influxdb][:client][:ruby][:enable] = false
