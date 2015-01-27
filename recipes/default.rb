@@ -25,7 +25,6 @@ node.default[:influxdb][:source] = "http://s3.amazonaws.com/influxdb/influxdb_#{
 
 influxdb 'main' do
   source node[:influxdb][:source]
-  checksum node[:influxdb][:versions][arch][ver]
   config node[:influxdb][:config]
   action node[:influxdb][:action]
 end
