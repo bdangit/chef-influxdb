@@ -68,9 +68,9 @@ end
 
 action :delete do
   @databases.each do |db|
-    if @client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
-      @client.delete_database_user(db, @username)
-    end
+    next unless @client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
+
+    @client.delete_database_user(db, @username)
   end
   @dbadmin.each do |db|
     if @client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
