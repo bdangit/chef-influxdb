@@ -23,20 +23,28 @@ ver  = node[:influxdb][:version]
 arch = /x86_64/.match(node[:kernel][:machine]) ? 'amd64' : 'i686'
 node.default[:influxdb][:source] = "http://s3.amazonaws.com/influxdb/influxdb_#{ver}_#{arch}.deb"
 
-config_hash = (ver =~ /^0\.9\./) ? node[:influxdb][:zero_nine][:config] : node[:influxdb][:config]
+if (ver =~ /^0\.9\./)
+  influxdb_config =  node[:influxdb][:zero_nine][:config]
+else
+  node.set[:influxdb][:config_file_path] = "#{node[:influxdb][:install_root_dir]}/shared/config.toml"
+  influxdb_config = node[:influxdb][:config]
+end
 
-Chef::Log.warn "+++++++++++ver: #{ver.inspect} config_hash: #{config_hash.inspect}"
+
+Chef::Log.warn "+++++++++++ver: #{ver.inspect} influxdb_config: #{influxdb_config.inspect}"
 
 
-directory config_hash[:data][:dir] do
-  mode "0755"
-  owner "influxdb"
-  group "influxdb"
-  recursive true
+if influxdb_config[:data]
+  directory influxdb_config[:data][:dir] do
+    mode "0755"
+    owner "influxdb"
+    group "influxdb"
+    recursive true
+  end
 end
 
 influxdb 'main' do
   source node[:influxdb][:source]
-  config config_hash
+  config influxdb_config
   action node[:influxdb][:action]
 end

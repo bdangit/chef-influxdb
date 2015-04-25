@@ -12,4 +12,5 @@ group :test do
   gem 'rubocop'
   gem 'rake'
   gem 'foodcritic'
+  gem 'serverspec'
 end

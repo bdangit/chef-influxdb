@@ -1,7 +1,10 @@
 require 'serverspec'
 
-include Serverspec::Helper::Exec
-include Serverspec::Helper::DetectOS
+# Required by serverspec
+set :backend, :exec
+
+# include Serverspec::Helper::Exec
+# include Serverspec::Helper::DetectOS
 
 describe user('influxdb') do
   it { should exist }

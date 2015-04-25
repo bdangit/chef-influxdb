@@ -17,5 +17,11 @@ suites:
       - recipe[influxdb::default]
     attributes:
       influxdb:
-        top_dir: "/opt/influxdb"
+        version: "0.8.8"
+  - name: zero_nine
+    run_list:
+      - recipe[apt::default]
+      - recipe[influxdb::default]
+    attributes:
+      influxdb:
         version: "0.9.0-rc27"

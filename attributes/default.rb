@@ -31,19 +31,24 @@ default[:influxdb][:client][:cli][:enable] = false
 default[:influxdb][:client][:ruby][:enable] = false
 default[:influxdb][:client][:ruby][:version] = nil
 default[:influxdb][:handler][:version] = '0.1.4'
+
+# For influxdb versions >= 0.9.x
 default[:influxdb][:install_root_dir] = "/opt/influxdb"
-default[:influxdb][:data_root_dir] = "/var/opt/influxdb"
 default[:influxdb][:log_dir] = "/var/log/influxdb"
+default[:influxdb][:data_root_dir] = "/var/opt/influxdb"
 default[:influxdb][:config_root_dir] = "/etc/opt/influxdb"
+default[:influxdb][:config_file_path] = "#{node[:influxdb][:config_root_dir]}/influxdb.conf"
 
 # Parameters to configure InfluxDB
+
+# For influxdb versions < 0.9.x
 # Based on https://github.com/influxdb/influxdb/blob/v0.8.5/config.sample.toml
 default[:influxdb][:config] = {
   'bind-address' => '0.0.0.0',
   'reporting-disabled' => false,
   logging: {
     level: 'info',
-    file: "#{node[:influxdb][:log_dir]}/log.txt"
+    file: '/opt/influxdb/shared/log.txt'
   },
   admin: {
     port: 8083,
@@ -62,10 +67,10 @@ default[:influxdb][:config] = {
   },
   raft: {
     port: 8090,
-    dir: "#{node[:influxdb][:data_root_dir]}/raft"
+    dir: '/opt/influxdb/shared/data/raft'
   },
   storage: {
-    dir: "#{node[:influxdb][:data_root_dir]}/db",
+    dir: '/opt/influxdb/shared/data/db',
     'write-buffer-size' => 10_000,
     'default-engine' => 'rocksdb',
     'max-open-shards' => 0,
@@ -101,7 +106,7 @@ default[:influxdb][:config] = {
     'concurrent-shard-query-limit' => 10
   },
   wal: {
-    dir: "#{node[:influxdb][:data_root_dir]}/wal",
+    dir: '/opt/influxdb/shared/data/wal',
     'flush-after' => 1_000,
     'bookmark-after' => 1_000,
     'index-after' => 1_000,
@@ -109,6 +114,7 @@ default[:influxdb][:config] = {
   }
 }
 
+# For influxdb versions >= 0.9.x
 default[:influxdb][:zero_nine][:config] = {
   # If hostname (on the OS) doesn't return a name that can be resolved by the other
   # systems in the cluster, you'll have to set the hostname to an IP or something
