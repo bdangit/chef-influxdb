@@ -31,9 +31,6 @@ else
 end
 
 
-Chef::Log.warn "+++++++++++ver: #{ver.inspect} influxdb_config: #{influxdb_config.inspect}"
-
-
 if influxdb_config[:data]
   directory influxdb_config[:data][:dir] do
     mode "0755"
