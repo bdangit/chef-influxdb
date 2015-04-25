@@ -23,8 +23,20 @@ ver  = node[:influxdb][:version]
 arch = /x86_64/.match(node[:kernel][:machine]) ? 'amd64' : 'i686'
 node.default[:influxdb][:source] = "http://s3.amazonaws.com/influxdb/influxdb_#{ver}_#{arch}.deb"
 
+config_hash = (ver =~ /^0\.9\./) ? node[:influxdb][:zero_nine][:config] : node[:influxdb][:config]
+
+Chef::Log.warn "+++++++++++ver: #{ver.inspect} config_hash: #{config_hash.inspect}"
+
+
+directory config_hash[:data][:dir] do
+  mode "0755"
+  owner "influxdb"
+  group "influxdb"
+  recursive true
+end
+
 influxdb 'main' do
   source node[:influxdb][:source]
-  config node[:influxdb][:config]
+  config config_hash
   action node[:influxdb][:action]
 end
