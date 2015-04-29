@@ -48,7 +48,6 @@ def install_influxdb
   remote.source(@source) if @source
   remote.checksum(@checksum) if @checksum
   remote.run_action(:create)
-
   pkg = Chef::Resource::Package.new(path, @run_context)
   pkg.provider(Chef::Provider::Package::Dpkg)
   pkg.run_action(:install)
