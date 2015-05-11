@@ -1,12 +1,19 @@
 # InfluxDB
 Chef cookbook to install and configure InfluxDB.
 
+Now supports Influxdb versions before and after 0.9.x
+
 ## Usage and Resources
 The InfluxDB cookbook comes with a Vagrantfile. Test using `vagrant up`. Simply
 running the `default` recipe should be sufficient. Real tests coming soon!
 
-For rendering the config, set the parameter under `node[:influxdb][:config]`:
+For rendering the config
 
+* For Influxdb versions before 0.9.x:  
+     set the parameter under `node[:influxdb][:config]`
+* For versions 0.9.x and greater:
+     set the parameter under `node[:influxdb][:zero_nine[:config]`
+	 
 `default[:influxdb][:config]['MyParameter'] = 'val'`
 
 The following gems are used by the `InfluxDB::Helpers` module:
@@ -24,7 +31,7 @@ This resource installs and configures InfluxDB based on `node[:influxdb][:config
 influxdb 'main' do
   source node[:influxdb][:source]
   checksum node[:influxdb][:checksum]
-  config node[:influxdb][:config]
+  config node[:influxdb][:config] # Or if >=  0.9.x it will use node[:influxdb][:zero_nine[:config]
   action :create
 end
 ```

@@ -48,7 +48,6 @@ def install_influxdb
   remote.source(@source) if @source
   remote.checksum(@checksum) if @checksum
   remote.run_action(:create)
-
   pkg = Chef::Resource::Package.new(path, @run_context)
   pkg.provider(Chef::Provider::Package::Dpkg)
   pkg.run_action(:install)
@@ -60,7 +59,7 @@ def influxdb_service(action)
 end
 
 def create_config
-  InfluxDB::Helpers.render_config(@config, @run_context)
+  InfluxDB::Helpers.render_config(@config, @run_context, node[:influxdb][:config_file_path])
 end
 
 def touch_logfile
