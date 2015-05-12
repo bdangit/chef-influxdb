@@ -12,8 +12,8 @@ For rendering the config
 * For Influxdb versions before 0.9.x:  
      set the parameter under `node[:influxdb][:config]`
 * For versions 0.9.x and greater:
-     set the parameter under `node[:influxdb][:zero_nine[:config]`
-	 
+     set the parameter under `node[:influxdb][:zero_nine][:config]`
+
 `default[:influxdb][:config]['MyParameter'] = 'val'`
 
 The following gems are used by the `InfluxDB::Helpers` module:
@@ -31,7 +31,7 @@ This resource installs and configures InfluxDB based on `node[:influxdb][:config
 influxdb 'main' do
   source node[:influxdb][:source]
   checksum node[:influxdb][:checksum]
-  config node[:influxdb][:config] # Or if >=  0.9.x it will use node[:influxdb][:zero_nine[:config]
+  config node[:influxdb][:config] # Or if >=  0.9.x it will use node[:influxdb][:zero_nine][:config]
   action :create
 end
 ```
@@ -90,4 +90,3 @@ Then to run tests:
 Simple Finance <ops@simple.com>
 
 Apache License, Version 2.0
-
