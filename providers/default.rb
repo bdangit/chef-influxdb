@@ -69,7 +69,7 @@ def influxdb_service(action)
 end
 
 def create_config
-  InfluxDB::Helpers.render_config(@config, @run_context)
+  InfluxDB::Helpers.render_config(@config, @run_context, node[:influxdb][:config_file_path])
 end
 
 def touch_logfile

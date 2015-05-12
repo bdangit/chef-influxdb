@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.6.0
+* Support for 0.9.x release of InfluxDB (contributed by @rberger)
+
 ## 2.5.0
 * Move influxdb resource actions to an attribute (contributed by
   @directionless)
