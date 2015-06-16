@@ -167,17 +167,15 @@ default[:influxdb][:zero_nine][:config] = {
     port: 8086,
     'read-timeout' => '5s'
   },
-  graphite: [
-    {
+  graphite: {
     enabled: false,
     protocol: "", # Set to "tcp" or "udp"
     'bind-address' => "0.0.0.0", # If not set, is actually set to bind-address.
     port: 2003,
     'name-position' => "last",
     'name-separator' => "-",
-    database: ""  # store graphite data in this database    
-    }
-  ],
+    database: ""  # store graphite data in this database  
+  },
   collectd: {
     enabled: false,
     'bind-address' => "0.0.0.0",
