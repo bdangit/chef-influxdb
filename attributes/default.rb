@@ -283,7 +283,7 @@ default[:influxdb][:zero_nine][:config] = {
     'check-interval' => '10m0s'
   },
 
-  'shard-precreation': {
+  'shard-precreation' => {
     enabled: true,
     'check-interval' => '10m0s',
     'advance-period' => '30m0s'
@@ -310,7 +310,7 @@ default[:influxdb][:zero_nine][:config] = {
   },
 
   # Controls how continuous queries are run within InfluxDB.
-  'continuous_queries': {
+  'continuous_queries' => {
     enabled: true,
     'recompute-previous-n' => 2,
     'recompute-no-older-than' => '10m',
@@ -322,11 +322,11 @@ default[:influxdb][:zero_nine][:config] = {
   # store queued data when one node of a cluster is down for a short period
   # of time.
   #
-  'hinted-handoff': {
+  'hinted-handoff' => {
     enabled: true,
     dir: "#{node[:influxdb][:hinted_handoff_dir]}/hh",
     'max-size' => 1_073_741_824,
-    'max-age' => '168h'
+    'max-age' => '168h',
     'retry-rate-limit' => 0,
     'retry-interval' => '1s'
   }
