@@ -231,6 +231,26 @@ default[:influxdb][:zero_nine][:config] = {
     'retention-check-period' => "10m"
   },
 
+  meta: {
+    'dir' => "/opt/influxdb/meta",
+    'hostname' => "localhost",
+    'bind-address' => ":8088",
+    'retention-autocreate' => true,
+    'election-timeout' => "1s",
+    'heartbeat-timeout' => "1s",
+    'leader-lease-timeout' => "500ms",
+    'commit-timeout' => "50ms"
+  },
+
+  'hinted-handoff' => {
+    'enabled' => true,
+    'dir' => "/opt/influxdb/hh",
+    'max-size' => 1073741824,
+    'max-age' => "168h0m0s",
+    'retry-rate-limit' => 0,
+    'retry-interval' => "1s"
+  },
+
   # Configuration for snapshot endpoint.
   snapshot: {
     enabled: true # Enabled by default if not set.
