@@ -15,6 +15,7 @@ suites:
     attributes:
       influxdb:
         version: "0.8.8"
+        action: ['create', 'start']
   - name: zero_nine
     run_list:
       - recipe[apt::default]
@@ -22,3 +23,4 @@ suites:
     attributes:
       influxdb:
         version: "0.9.0"
+        action: ['create', 'start']
