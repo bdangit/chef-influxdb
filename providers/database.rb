@@ -30,7 +30,7 @@ end
 action :create do
   next if @client.get_database_list.map { |x| x['name'] }.member?(@name)
 
-  @client.create_database(@name)
+  @client.create_database(@name, @configuration)
 end
 
 action :delete do
