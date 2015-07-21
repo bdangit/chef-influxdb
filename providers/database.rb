@@ -24,6 +24,7 @@ include InfluxDB::Helpers
 def initialize(new_resource, run_context)
   super
   @name    = new_resource.name
+  @configuration = new_resource.configuration
   @client  = InfluxDB::Helpers.client('root', 'root', run_context)
 end
 
