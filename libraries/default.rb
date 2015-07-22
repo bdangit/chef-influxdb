@@ -47,6 +47,9 @@ module InfluxDB
 
     def self.install_influxdb(run_context)
       influxdb_gem = Chef::Resource::ChefGem.new('influxdb', run_context)
+      if run_context.node['influxdb']['gem'] && run_context.node['influxdb']['gem']['version']
+        influxdb_gem.version(run_context.node['influxdb']['gem']['version'])
+      end
       influxdb_gem.run_action :install
     end
 
