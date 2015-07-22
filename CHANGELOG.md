@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.6.1
+* Enable custom version of influxdb gem (contributed by @kri5)
+
 ## 2.6.0
 * Support for 0.9.x release of InfluxDB (contributed by @rberger)
 
