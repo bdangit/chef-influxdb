@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 2.6.2
+* Allow configuration options for databases (contributed by @wosc)
+
 ## 2.6.1
 * Enable custom version of influxdb gem (contributed by @kri5)
 
