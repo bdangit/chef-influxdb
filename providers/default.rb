@@ -40,6 +40,10 @@ action :start do
   influxdb_service(:start)
 end
 
+action :stop do
+  influxdb_service(:stop)
+end
+
 private
 
 def install_package(path)
