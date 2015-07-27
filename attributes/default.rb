@@ -36,6 +36,7 @@ default[:influxdb][:handler][:version] = '0.1.4'
 default[:influxdb][:install_root_dir] = "/opt/influxdb"
 default[:influxdb][:log_dir] = "/var/log/influxdb"
 default[:influxdb][:data_root_dir] = "/var/opt/influxdb"
+default[:influxdb][:hinted_handoff_dir] = "/var/opt/influxdb"
 default[:influxdb][:config_root_dir] = "/etc/opt/influxdb"
 default[:influxdb][:config_file_path] = "#{node[:influxdb][:config_root_dir]}/influxdb.conf"
 
@@ -118,6 +119,7 @@ default[:influxdb][:config] = {
 }
 
 # For influxdb versions >= 0.9.x
+# Based on https://github.com/influxdb/influxdb/blob/v0.9.0/etc/config.sample.toml and "/opt/influxdb/influxd config"
 default[:influxdb][:zero_nine][:config] = {
   # If hostname (on the OS) doesn't return a name that can be resolved by the other
   # systems in the cluster, you'll have to set the hostname to an IP or something
@@ -137,6 +139,19 @@ default[:influxdb][:zero_nine][:config] = {
   # Change this option to true to disable reporting.
   'reporting-disabled' => false,
 
+  # Controls the parameters for the Raft consensus group that stores metadata
+  # about the InfluxDB cluster.
+  meta: {
+    dir: '/var/opt/influxdb/meta',
+    hostname: 'localhost',
+    'bind-address' => ':8088',
+    'retention-autocreate' => true,
+    'election-timeout' => '1s',
+    'heartbeat-timeout' => '1s',
+    'leader-lease-timeout' => '500ms',
+    'commit-timeout' => '50ms'
+  },
+
   # Controls settings for initial start-up. Once a node is successfully started,
   # these settings are ignored.  If a node is started with the -join flag,
   # these settings are ignored.
@@ -153,10 +168,21 @@ default[:influxdb][:zero_nine][:config] = {
     enabled: false
   },
 
-  # Configure the admin server
+  # Controls the availability of the built-in, web-based admin interface.
   admin: {
     enabled: true,
-    port: 8083,
+    port: 8083
+  },
+
+  # Controls how the HTTP endpoints are configured. These are the primary
+  # mechanism for getting data into and out of InfluxDB.
+  http: {
+  enabled: true,
+  'bind-address' => ':8086',
+  'auth-enabled' => false,
+  'log-enabled' => true,
+  'write-tracing' => false,
+  'pprof-enabled' => false
   },
 
   # Configure the HTTP API endpoint. All time-series data and queries uses this endpoint.
@@ -167,34 +193,49 @@ default[:influxdb][:zero_nine][:config] = {
     port: 8086,
     'read-timeout' => '5s'
   },
-  graphite: [
+
+    # Controls one or many listeners for Graphite data.
+    graphite: [
     {
     enabled: false,
-    protocol: "", # Set to "tcp" or "udp"
-    'bind-address' => "0.0.0.0", # If not set, is actually set to bind-address.
-    port: 2003,
-    'name-position' => "last",
-    'name-separator' => "-",
-    database: ""  # store graphite data in this database    
+    'bind-address' => ':2003',
+    protocol: 'tcp',
+    'consistency-level' => 'one',
+    'name-separator' => '.',
+    'name-position' => 'last',
     }
   ],
+
+  # Controls the listener for collectd data.
   collectd: {
     enabled: false,
     'bind-address' => "0.0.0.0",
     port: 25827,
     database: "collectd_database",
+    'batch-size' => 5000,
+    'batch-timeout' => '10s',
+    'retention-policy' => '',
     typesdb: "types.db"
   },
+
+  # Controls the listener for OpenTSDB data.
   opentsdb: {
     enabled: false,
     'bind-address' => "0.0.0.0",
     port: 4242,
-    database: "opentsdb_database"
+    database: "opentsdb_database",
+    'retention-policy' => '',
+    'consistency-level' => 'one'
   },
+
+  # Controls the listener for InfluxDB line protocol data via UDP.
   udp: {
     enabled: false,
     'bind-address' => "0.0.0.0",
-    port: 4444
+    port: 4444,
+    database: '',
+    'batch-size' => 0,
+    'batch-timeout' => '0'
   },
 
   # Broker configuration. Brokers are nodes which participate in distributed
@@ -216,11 +257,9 @@ default[:influxdb][:zero_nine][:config] = {
     'reconnect-timeout' => "10ms"
   },
 
-  # Data node configuration. Data nodes are where the time-series data, in the form of
-  # shards, is stored.
+  # Controls where the actual shard data for InfluxDB lives.
   data: {
-    enabled: true,
-    dir: "#{node[:influxdb][:data_root_dir]}/db",
+    dir: "#{node[:influxdb][:data_root_dir]}/data",
 
     # Auto-create a retention policy when a database is created. Defaults to true.
     'retention-auto-create' => true,
@@ -228,7 +267,26 @@ default[:influxdb][:zero_nine][:config] = {
     # Control whether retention policies are enforced and how long the system waits between
     # enforcing those policies.
     'retention-check-enabled' => true,
-    'retention-check-period' => "10m"
+    'retention-check-period' => "10m",
+    'retention-create-period' => "45m0s"
+  },
+
+  # Controls non-Raft cluster behavior, which generally includes how data is
+  # shared across shards.
+  cluster: {
+    'shard-writer-timeout' => '5s'
+  },
+
+  # Controls the enforcement of retention policies for evicting old data.
+  retention: {
+    enabled: true,
+    'check-interval' => '10m0s'
+  },
+
+  'shard-precreation' => {
+    enabled: true,
+    'check-interval' => '10m0s',
+    'advance-period' => '30m0s'
   },
 
   # Configuration for snapshot endpoint.
@@ -249,5 +307,27 @@ default[:influxdb][:zero_nine][:config] = {
   monitoring: {
     enabled: false,
     'write-interval' => "1m"          # Period between writing the data.
+  },
+
+  # Controls how continuous queries are run within InfluxDB.
+  'continuous_queries' => {
+    enabled: true,
+    'recompute-previous-n' => 2,
+    'recompute-no-older-than' => '10m',
+    'compute-runs-per-interval' => 10,
+    'compute-no-more-than' => '2m'
+  },
+
+  # Controls the hinted handoff feature, which allows nodes to temporarily
+  # store queued data when one node of a cluster is down for a short period
+  # of time.
+  #
+  'hinted-handoff' => {
+    enabled: true,
+    dir: "#{node[:influxdb][:hinted_handoff_dir]}/hh",
+    'max-size' => 1_073_741_824,
+    'max-age' => '168h',
+    'retry-rate-limit' => 0,
+    'retry-interval' => '1s'
   }
 }
