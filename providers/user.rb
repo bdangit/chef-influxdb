@@ -23,11 +23,11 @@ include InfluxDB::Helpers
 
 def initialize(new_resource, run_context)
   super
-  @client    = InfluxDB::Helpers.client('root', 'root', run_context)
-  @username  = new_resource.username
-  @password  = new_resource.password
-  @databases = new_resource.databases
-  @dbadmin   = new_resource.dbadmin
+  @client      = InfluxDB::Helpers.client('root', 'root', run_context)
+  @username    = new_resource.username
+  @password    = new_resource.password
+  @databases   = new_resource.databases
+  @permissions = new_resource.permissions
 end
 
 action :create do
@@ -36,45 +36,27 @@ action :create do
                      ' action on this resource')
   end
   @databases.each do |db|
-    if !@client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
+    if !@client.list_users.map { |x| x['username'] || x['name'] }.member?(@username)
       @client.create_database_user(db, @username, @password)
     end
-    if @client.get_database_user_info(db, @username)['isAdmin']
-      @client.alter_database_privilege(db, @username, false)
-    end
-  end
-  @dbadmin.each do |db|
-    if !@client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
-      @client.create_database_user(db, @username, @password)
-    end
-    if !@client.get_database_user_info(db, @username)['isAdmin']
-      @client.alter_database_privilege(db, @username, true)
+    @permissions.each do |permission|
+      @client.grant_user_privileges(db, @username, permission)
     end
   end
 end
 
 action :update do
-  unless @password
-    Chef::Log.fatal!('You must provide a password for the :update' \
-                     ' action on this resource')
+  if @password
+    @client.update_user_password(@username, @password)
   end
   @databases.each do |db|
-    @client.update_database_user(db, @username, password: @password)
-  end
-  @dbadmin.each do |db|
-    @client.update_database_user(db, @username, password: @password)
-  end
+    @permissions.each do |permission|
+      @client.grant_user_privileges(@username, @db, permission)
+    end
 end
 
 action :delete do
-  @databases.each do |db|
-    if @client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
-      @client.delete_database_user(db, @username)
-    end
-  end
-  @dbadmin.each do |db|
-    if @client.get_database_user_list(db).map { |x| x['username'] || x['name'] }.member?(@username)
-      @client.delete_database_user(db, @username)
-    end
+  if @client.list_users.map { |x| x['username'] || x['name'] }.member?(@username)
+    @client.delete_user(@username)
   end
 end
