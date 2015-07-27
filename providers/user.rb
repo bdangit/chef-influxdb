@@ -53,6 +53,7 @@ action :update do
     @permissions.each do |permission|
       @client.grant_user_privileges(@username, @db, permission)
     end
+  end
 end
 
 action :delete do
