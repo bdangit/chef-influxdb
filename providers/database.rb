@@ -24,14 +24,13 @@ include InfluxDB::Helpers
 def initialize(new_resource, run_context)
   super
   @name    = new_resource.name
-  @configuration = new_resource.configuration
   @client  = InfluxDB::Helpers.client('root', 'root', run_context)
 end
 
 action :create do
   next if @client.list_databases.map { |x| x['name'] }.member?(@name)
 
-  @client.create_database(@name, @configuration)
+  @client.create_database(@name)
 end
 
 action :delete do
