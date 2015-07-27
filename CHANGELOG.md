@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.7.0
+* Add :stop action, remove :delete action from influxdb resource (contributed
+  by @alvaromorales)
+
 ## 2.6.2
 * Allow configuration options for databases (contributed by @wosc)
 
