@@ -37,15 +37,15 @@ end
 pp_influxdb = PP.pp(node[:influxdb], '')
 Chef::Log.info "++++ influxdb:\n#{pp_influxdb}"
 
+influxdb 'main' do
+  source node[:influxdb][:source]
+  config influxdb_config
+  action node[:influxdb][:action]
+end
+
 directory node[:influxdb][:data_root_dir] do
   mode "0755"
   owner "influxdb"
   group "influxdb"
   recursive true
-end
-
-influxdb 'main' do
-  source node[:influxdb][:source]
-  config influxdb_config
-  action node[:influxdb][:action]
 end
