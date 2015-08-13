@@ -9,10 +9,7 @@ running the `default` recipe should be sufficient. Real tests coming soon!
 
 For rendering the config
 
-* For Influxdb versions before 0.9.x:  
-     set the parameter under `node[:influxdb][:config]`
-* For versions 0.9.x and greater:
-     set the parameter under `node[:influxdb][:zero_nine][:config]`
+  set the parameters under `node[:influxdb][:config]` for the version your installing
 
 `default[:influxdb][:config]['MyParameter'] = 'val'`
 
@@ -31,7 +28,7 @@ This resource installs and configures InfluxDB based on `node[:influxdb][:config
 influxdb 'main' do
   source node[:influxdb][:source]
   checksum node[:influxdb][:checksum]
-  config node[:influxdb][:config] # Or if >=  0.9.x it will use node[:influxdb][:zero_nine][:config]
+  config node[:influxdb][:config]
   action :create
 end
 ```

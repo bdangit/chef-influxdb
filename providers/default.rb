@@ -77,8 +77,10 @@ def create_config
 end
 
 def touch_logfile
-  logfile = Chef::Resource::File.new(@config['logging']['file'], @run_context)
-  logfile.owner('influxdb')
-  logfile.group('influxdb')
-  logfile.run_action(:touch)
+  if Gem::Version.new("#{node['influxdb']['version']}") < Gem::Version.new('0.9.2')
+    logfile = Chef::Resource::File.new(@config['logging']['file'], @run_context)
+    logfile.owner('influxdb')
+    logfile.group('influxdb')
+    logfile.run_action(:touch)
+  end
 end
