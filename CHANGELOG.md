@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 3.0.0
+* Update to influxdb gem 0.2.x, which is not backwards compatible (contributed
+  by @cmjosh)
+
 ## 2.7.0
 * Add :stop action, remove :delete action from influxdb resource (contributed
   by @alvaromorales)
