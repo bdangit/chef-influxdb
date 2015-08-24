@@ -39,86 +39,8 @@ default[:influxdb][:data_root_dir] = "/var/opt/influxdb"
 default[:influxdb][:config_root_dir] = "/etc/opt/influxdb"
 default[:influxdb][:config_file_path] = "#{node[:influxdb][:config_root_dir]}/influxdb.conf"
 
-# Parameters to configure InfluxDB
-# For versions < 0.9.x set default[:influxdb][:config] immediately following this.
-# For versions >= 0.9.x set default[:influxdb][:zero_nine][:config] later in the file.
-
-
-# For influxdb versions < 0.9.x
-# Based on https://github.com/influxdb/influxdb/blob/v0.8.5/config.sample.toml
-default[:influxdb][:config] = {
-  'bind-address' => '0.0.0.0',
-  'reporting-disabled' => false,
-  logging: {
-    level: 'info',
-    file: '/opt/influxdb/shared/log.txt'
-  },
-  admin: {
-    port: 8083,
-  },
-  api: {
-    port: 8086,
-    'read-timeout' => '5s'
-  },
-  input_plugins: {
-    graphite: {
-      enabled: false
-    },
-    udp: {
-      enabled: false
-    }
-  },
-  raft: {
-    port: 8090,
-    dir: '/opt/influxdb/shared/data/raft'
-  },
-  storage: {
-    dir: '/opt/influxdb/shared/data/db',
-    'write-buffer-size' => 10_000,
-    'default-engine' => 'rocksdb',
-    'max-open-shards' => 0,
-    'point-batch-size' => 100,
-    'write-batch-size' => 5_000_000,
-    'retention-sweep-period' => '10m',
-    engines: {
-      leveldb: {
-        'max-open-files' => 1000,
-        'lru-cache-size' => '200m'
-      },
-      rocksdb: {
-        'max-open-files' => 1000,
-        'lru-cache-size' => '200m'
-      },
-      hyperleveldb: {
-        'max-open-files' => 1000,
-        'lru-cache-size' => '200m'
-      },
-      lmdb: {
-        'map-size' => '100g'
-      }
-    }
-  },
-  cluster: {
-    'protobuf_port' => 8099,
-    'protobuf_timeout' => '2s',
-    'protobuf_heartbeat' => '200ms',
-    'protobuf_min_backoff' => '1s',
-    'protobuf_max_backoff' => '10s',
-    'write-buffer-size' => 1_000,
-    'max-response-buffer-size' => 100,
-    'concurrent-shard-query-limit' => 10
-  },
-  wal: {
-    dir: '/opt/influxdb/shared/data/wal',
-    'flush-after' => 1_000,
-    'bookmark-after' => 1_000,
-    'index-after' => 1_000,
-    'requests-per-logfile' => 10_000
-  }
-}
-
 # For influxdb versions >= 0.9.x
-default[:influxdb][:zero_nine][:config] = {
+default[:influxdb][:config] = {
   # If hostname (on the OS) doesn't return a name that can be resolved by the other
   # systems in the cluster, you'll have to set the hostname to an IP or something
   # that can be resolved here.
@@ -145,7 +67,7 @@ default[:influxdb][:zero_nine][:config] = {
     'join-urls' => "",  # Comma-delimited URLs, in the form http://host:port, for joining another cluster.
   },
 
-  
+
   # Control authentication
   # If not set authetication is DISABLED. Be sure to explicitly set this flag to
   # true if you want authentication.
@@ -175,7 +97,7 @@ default[:influxdb][:zero_nine][:config] = {
     port: 2003,
     'name-position' => "last",
     'name-separator' => "-",
-    database: ""  # store graphite data in this database    
+    database: ""  # store graphite data in this database
     }
   ],
   collectd: {
@@ -242,7 +164,7 @@ default[:influxdb][:zero_nine][:config] = {
     'http-access' => true, # If true, logs each HTTP access to the system.
     file: "#{node[:influxdb][:log_dir]}/influxd.log"
   },
-  
+
   # InfluxDB can store statistical and diagnostic information about itself. This is useful for
   # monitoring purposes. This feature is disabled by default, but if enabled, these data can be
   # queried like any other data.
@@ -251,3 +173,6 @@ default[:influxdb][:zero_nine][:config] = {
     'write-interval' => "1m"          # Period between writing the data.
   }
 }
+
+# For some backwards-compatibility
+default[:influxdb][:zero_nine][:config] = node[:influxdb][:config]
