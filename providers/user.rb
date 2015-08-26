@@ -40,7 +40,7 @@ action :create do
       @client.create_database_user(db, @username, @password)
     end
     @permissions.each do |permission|
-      @client.grant_user_privileges(db, @username, permission)
+      @client.grant_user_privileges(@username, db, permission)
     end
   end
 end
@@ -51,7 +51,7 @@ action :update do
   end
   @databases.each do |db|
     @permissions.each do |permission|
-      @client.grant_user_privileges(@username, @db, permission)
+      @client.grant_user_privileges(@username, db, permission)
     end
   end
 end
