@@ -33,7 +33,7 @@ action :create do
     Chef::Log.fatal!('You must provide a password for the :create' \
                      ' action on this resource!')
   end
-  unless @client.get_cluster_admin_list.map { |x| x['name'] }.member?(@username)
+  unless @client.list_cluster_admins.member?(@username)
     @client.create_cluster_admin(@username, @password)
   end
 end
@@ -43,11 +43,11 @@ action :update do
     Chef::Log.fatal!('You must provide a password for the :update' \
                      ' action on this resource!')
   end
-  @client.update_cluster_admin(@username, @password)
+  @client.update_user_password(@username, @password)
 end
 
 action :delete do
-  if @client.get_cluster_admin_list.map { |x| x['name'] }.member?(@username)
-    @client.delete_cluster_admin(@username)
+  if @client.list_cluster_admins.member?(@username)
+    @client.delete_user(@username)
   end
 end
