@@ -113,11 +113,11 @@ default[:influxdb][:config] = {
     port: 4242,
     database: "opentsdb_database"
   },
-  udp: {
+  udp: [{
     enabled: false,
     'bind-address' => "0.0.0.0",
     port: 4444
-  },
+  }],
 
   # Broker configuration. Brokers are nodes which participate in distributed
   # consensus.
