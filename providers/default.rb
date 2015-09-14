@@ -33,7 +33,6 @@ action :create do
   install_influxdb
   influxdb_service(:enable)
   create_config
-  touch_logfile
 end
 
 action :start do
@@ -74,11 +73,4 @@ end
 
 def create_config
   InfluxDB::Helpers.render_config(@config, @run_context, node[:influxdb][:config_file_path])
-end
-
-def touch_logfile
-  logfile = Chef::Resource::File.new(@config['logging']['file'], @run_context)
-  logfile.owner('influxdb')
-  logfile.group('influxdb')
-  logfile.run_action(:touch)
 end
