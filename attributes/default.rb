@@ -21,7 +21,10 @@
 
 # Versions are mapped to checksums
 # By default, always installs 'latest'
-default[:influxdb][:version] = 'latest'
+default[:influxdb][:version] = case node['platform_family']
+when 'debian' then 'latest'
+when 'rhel' then '0.9.3-1'  # at the time of writing, rpms not uploaded as 'latest'
+end
 
 # Default influxdb recipe action. Consider [:create, :start]
 default[:influxdb][:action] = [:create]
