@@ -3,25 +3,13 @@ driver:
   name: vagrant
 
 platforms:
-<% %w(11.8.2).each do |chef_version| %>
   - name: ubuntu-14.04
-    driver_config:
-      box: opscode_ubuntu-14.04
-      require_chef_omnibus: <%= chef_version %>
-<% end %>
 
 suites:
-  - name: default
-    run_list:
-      - recipe[apt::default]
-      - recipe[influxdb::default]
-    attributes:
-      influxdb:
-        version: "0.8.8"
   - name: zero_nine
     run_list:
       - recipe[apt::default]
       - recipe[influxdb::default]
     attributes:
       influxdb:
-        version: "0.9.0-rc27"
+        version: "0.9.3"

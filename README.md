@@ -1,7 +1,7 @@
 # InfluxDB
 Chef cookbook to install and configure InfluxDB.
 
-Now supports Influxdb versions before and after 0.9.x
+Now ONLY supports Influxdb versions 0.9.x
 
 ## Usage and Resources
 The InfluxDB cookbook comes with a Vagrantfile. Test using `vagrant up`. Simply
@@ -19,7 +19,7 @@ For rendering the config
 The following gems are used by the `InfluxDB::Helpers` module:
 
  - [InfluxDB gem](https://github.com/influxdb/influxdb-ruby)
- - [TOML](https://github.com/mojombo/toml)
+ - [toml-rb](https://github.com/eMancu/toml-rb)
 
 This cookbook ships with three LWRPs for managing the install, users, and
 databases:
