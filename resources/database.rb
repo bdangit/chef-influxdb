@@ -23,3 +23,6 @@ actions(:create, :delete)
 default_action(:create)
 
 attribute(:name, kind_of: String, name_attribute: true)
+
+attribute(:auth_username, kind_of: String, default: 'root')
+attribute(:auth_password, kind_of: String, default: 'root')

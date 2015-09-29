@@ -23,7 +23,7 @@ include InfluxDB::Helpers
 
 def initialize(new_resource, run_context)
   super
-  @client      = InfluxDB::Helpers.client('root', 'root', run_context)
+  @client      = InfluxDB::Helpers.client(new_resource.auth_username, new_resource.auth_password, run_context)
   @username    = new_resource.username
   @password    = new_resource.password
   @databases   = new_resource.databases
@@ -51,7 +51,7 @@ action :update do
   end
   @databases.each do |db|
     @permissions.each do |permission|
-      @client.grant_user_privileges(@username, @db, permission)
+      @client.grant_user_privileges(@username, db, permission)
     end
   end
 end
