@@ -26,3 +26,6 @@ attribute(:username, kind_of: String, name_attribute: true)
 attribute(:password, kind_of: String)
 attribute(:databases, kind_of: Array, required: false, default: [])
 attribute(:permissions, kind_of: Array, required: false, default: [])
+
+attribute(:auth_username, kind_of: String, default: 'root')
+attribute(:auth_password, kind_of: String, default: 'root')
