@@ -23,7 +23,7 @@ include InfluxDB::Helpers
 
 def initialize(new_resource, run_context)
   super
-  @client    = InfluxDB::Helpers.client('root', 'root', run_context)
+  @client    = InfluxDB::Helpers.client(new_resource.auth_username, new_resource.auth_password, run_context)
   @username  = new_resource.username
   @password  = new_resource.password
 end
@@ -33,8 +33,18 @@ action :create do
     Chef::Log.fatal!('You must provide a password for the :create' \
                      ' action on this resource!')
   end
-  unless @client.list_cluster_admins.member?(@username)
-    @client.create_cluster_admin(@username, @password)
+
+  begin
+    unless @client.list_cluster_admins.member?(@username)
+      @client.create_cluster_admin(@username, @password)
+    end
+  rescue InfluxDB::AuthenticationError => e
+    # Exception due to missing admin user
+    # https://influxdb.com/docs/v0.9/administration/authentication.html
+    # https://github.com/chrisduong/chef-influxdb/commit/fe730374b4164e872cbf208c06d2462c8a056a6a
+    if e.to_s.include? 'create admin user'
+      @client.create_cluster_admin(@username, @password)
+    end
   end
 end
 

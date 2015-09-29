@@ -24,3 +24,6 @@ default_action(:create)
 
 attribute(:username, kind_of: String, name_attribute: true)
 attribute(:password, kind_of: String)
+
+attribute(:auth_username, kind_of: String, default: 'root')
+attribute(:auth_password, kind_of: String, default: 'root')
