@@ -29,7 +29,7 @@ module InfluxDB
     def self.client(user = 'root', pass = 'root', run_context)
       install_influxdb(run_context)
       require_influxdb
-      InfluxDB::Client.new(username: user, password: pass)
+      InfluxDB::Client.new(username: user, password: pass, retry: 10)
     end
 
     def self.render_config(hash, run_context, config_file)
