@@ -30,7 +30,7 @@ end
 
 action :create do
   unless @password
-    Chef::Log.fatal!('You must provide a password for the :create' \
+    fail('You must provide a password for the :create' \
                      ' action on this resource!')
   end
 
@@ -50,7 +50,7 @@ end
 
 action :update do
   unless @password
-    Chef::Log.fatal!('You must provide a password for the :update' \
+    fail('You must provide a password for the :update' \
                      ' action on this resource!')
   end
   @client.update_user_password(@username, @password)

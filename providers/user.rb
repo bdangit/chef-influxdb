@@ -32,7 +32,7 @@ end
 
 action :create do
   unless @password
-    Chef::Log.fatal!('You must provide a password for the :create' \
+    fail('You must provide a password for the :create' \
                      ' action on this resource')
   end
   @databases.each do |db|
