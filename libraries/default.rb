@@ -44,9 +44,25 @@ module InfluxDB
     end
 
     def self.install_influxdb(run_context)
+      # This block is a workaround to allow loading a custom gem while patches await merging into the official gem.
+      local_source_file = nil
+      if run_context.node['influxdb']['gem'] && run_context.node['influxdb']['gem']['http_source']
+        # Install the gem from a HTTP source repo
+        # This assumes node['influxdb']['gem']['http_source'] points to a gem to avoid needing build dependencies.
+        # http://stackoverflow.com/questions/19367458/installing-a-ruby-gem-from-a-github-repository-using-chef
+        local_source_file = '/var/tmp/chef_influx_gem.gem'
+        influxdb_gem_source = Chef::Resource::RemoteFile.new(local_source_file, run_context)
+        influxdb_gem_source.source(run_context.node['influxdb']['gem']['http_source'])
+        influxdb_gem_source.owner('root')
+        influxdb_gem_source.group('root')
+        influxdb_gem_source.mode('0644')
+        influxdb_gem_source.run_action(:create)
+      end
+
       influxdb_gem = Chef::Resource::ChefGem.new('influxdb', run_context)
-      if run_context.node['influxdb']['gem'] && run_context.node['influxdb']['gem']['version']
-        influxdb_gem.version(run_context.node['influxdb']['gem']['version'])
+      if run_context.node['influxdb']['gem']
+        influxdb_gem.version(run_context.node['influxdb']['gem']['version']) if run_context.node['influxdb']['gem']['version']
+        influxdb_gem.source(local_source_file) if local_source_file
       end
       influxdb_gem.run_action :install
     end
