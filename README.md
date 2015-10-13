@@ -66,7 +66,24 @@ influxdb_admin 'admin' do
   password 'changeme'
   action :create
 end
+
 ```
+
+### influxdb\_retention\_policy
+Configures a retention policy on a given database.
+The name attribute is not used, the database and policy name provide the unique names used by Influx.
+
+```ruby
+  influxdb_retention_policy "foodb default retention policy" do
+  policy_name 'default'
+  database    'foodb'
+  duration    '1w'
+  replication 1
+  action :create
+end
+
+```
+
 
 ## Client Libraries
 Right now, this cookbook only supports the Ruby and CLI client libraries so as
