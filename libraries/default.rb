@@ -39,7 +39,7 @@ module InfluxDB
     end
 
     def self.install_toml(run_context)
-      toml_gem = Chef::Resource::ChefGem.new('toml', run_context)
+      toml_gem = Chef::Resource::ChefGem.new('toml-rb', run_context)
       toml_gem.run_action :install
     end
 
@@ -79,7 +79,7 @@ module InfluxDB
       f = Chef::Resource::File.new(config_file, run_context)
       f.owner 'root'
       f.mode  00644
-      f.content TOML::Generator.new(hash).body
+      f.content TOML.dump(hash)
       f.run_action :create
     end
   end
