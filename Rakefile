@@ -16,8 +16,7 @@ namespace :test do
   FoodCritic::Rake::LintTask.new do |t|
     t.name = :foodcritic
     t.options = {
-      fail_tags: ['any'],
-      tags: ['~FC001', '~FC007', '~FC017']
+      fail_tags: ['any']
     }
   end
 
