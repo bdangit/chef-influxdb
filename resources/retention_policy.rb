@@ -32,14 +32,19 @@ action :create do
   if current_policy
     if current_policy['duration'] != duration || current_policy['replicaN'] != replication || current_policy['default'] != default
       client.alter_retention_policy(policy_name, database, duration, replication, default)
+      updated_by_last_action true
     end
   else
     client.create_retention_policy(policy_name, database, duration, replication, default)
+    updated_by_last_action true
   end
 end
 
 action :delete do
-  client.delete_retention_policy(policy_name, database) if current_policy
+  if current_policy
+    client.delete_retention_policy(policy_name, database)
+    updated_by_last_action true
+  end
 end
 
 def current_policy

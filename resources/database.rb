@@ -27,10 +27,12 @@ action :create do
   next if client.list_databases.map { |x| x['name'] }.member?(name)
 
   client.create_database(name)
+  updated_by_last_action true
 end
 
 action :delete do
   client.delete_database(name)
+  updated_by_last_action true
 end
 
 def client

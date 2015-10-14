@@ -33,9 +33,11 @@ action :create do
   databases.each do |db|
     unless client.list_users.map { |x| x['username'] || x['name'] }.member?(username)
       client.create_database_user(db, username, password)
+      updated_by_last_action true
     end
     permissions.each do |permission|
       client.grant_user_privileges(username, db, permission)
+      updated_by_last_action true
     end
   end
 end
@@ -47,11 +49,13 @@ action :update do
       client.grant_user_privileges(username, db, permission)
     end
   end
+  updated_by_last_action true
 end
 
 action :delete do
   if client.list_users.map { |x| x['username'] || x['name'] }.member?(username)
     client.delete_user(username)
+    updated_by_last_action true
   end
 end
 
