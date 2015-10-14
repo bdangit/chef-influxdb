@@ -19,8 +19,6 @@
 #
 # Installs InfluxDB
 
-node.default['influxdb']['config_file_path'] = "#{node['influxdb']['config_root_dir']}/influxdb.conf"
-
 chef_gem 'toml' do
   compile_time false if respond_to?(:compile_time)
 end

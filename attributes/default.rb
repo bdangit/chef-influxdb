@@ -29,10 +29,7 @@ default['influxdb']['client']['ruby']['version'] = nil
 default['influxdb']['handler']['version'] = '0.1.4'
 
 # For influxdb versions >= 0.9.x
-default['influxdb']['install_root_dir'] = '/opt/influxdb'
-default['influxdb']['log_dir'] = '/var/log/influxdb'
-default['influxdb']['data_root_dir'] = '/var/opt/influxdb'
-default['influxdb']['config_root_dir'] = '/etc/opt/influxdb'
+default['influxdb']['config_file_path'] = '/etc/opt/influxdb/influxdb.conf'
 
 # For influxdb versions >= 0.9.x
 default['influxdb']['config'] = {
