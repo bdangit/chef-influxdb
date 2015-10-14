@@ -17,15 +17,52 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# LWRP for InfluxDB user
+# Resource for InfluxDB user
 
-actions(:create, :update, :delete)
-default_action(:create)
+property :username, String, name_property: true
+property :password, String
+property :databases, Array, default: []
+property :permissions, Array, default: []
+property :auth_username, String, default: 'root'
+property :auth_password, String, default: 'root'
 
-attribute(:username, kind_of: String, name_attribute: true)
-attribute(:password, kind_of: String)
-attribute(:databases, kind_of: Array, required: false, default: [])
-attribute(:permissions, kind_of: Array, required: false, default: [])
+action :create do
+  unless password
+    Chef::Log.fatal('You must provide a password for the :create action on this resource')
+  end
+  databases.each do |db|
+    if !client.list_users.map { |x| x['username'] || x['name'] }.member?(username)
+      client.create_database_user(db, username, password)
+    end
+    permissions.each do |permission|
+      client.grant_user_privileges(username, db, permission)
+    end
+  end
+end
 
-attribute(:auth_username, kind_of: String, default: 'root')
-attribute(:auth_password, kind_of: String, default: 'root')
+action :update do
+  if password
+    client.update_user_password(username, password)
+  end
+  databases.each do |db|
+    permissions.each do |permission|
+      client.grant_user_privileges(username, db, permission)
+    end
+  end
+end
+
+action :delete do
+  if client.list_users.map { |x| x['username'] || x['name'] }.member?(username)
+    client.delete_user(username)
+  end
+end
+
+def client
+  require 'influxdb'
+  @client ||=
+    InfluxDB::Client.new(
+      username: username,
+      password: password,
+      retry: 10
+    )
+end

@@ -19,33 +19,50 @@
 #
 # Installs InfluxDB
 
-require 'pp'
+chef_gem 'toml' do
+  compile_time false if respond_to?(:compile_time)
+end
 
-ver  = node[:influxdb][:version]
-arch = /x86_64/.match(node[:kernel][:machine]) ? 'amd64' : 'i686'
-node.default[:influxdb][:source] = "http://s3.amazonaws.com/influxdb/influxdb_#{ver}_#{arch}.deb"
+# This block is a workaround to allow loading a custom gem while patches await merging into the official gem.
+if node['influxdb']['gem'] && node['influxdb']['gem']['http_source']
+  # Install the gem from a HTTP source repo
+  # This assumes node['influxdb']['gem']['http_source'] points to a gem to avoid needing build dependencies.
+  # http://stackoverflow.com/questions/19367458/installing-a-ruby-gem-from-a-github-repository-using-chef
+  influxdb_gem = remote_file "#{Chef::Config[:file_cache_path]}/influxdb.gem" do
+    source node['influxdb']['gem']['http_source']
+    action :create_if_missing
+  end
+end
 
-if (ver =~ /^0\.9\./)
-  influxdb_config =  node[:influxdb][:zero_nine][:config]
-  dirs = [node[:influxdb][:data_root_dir], influxdb_config[:data][:dir], influxdb_config[:broker][:dir]]
+chef_gem 'influxdb' do
+  compile_time false if respond_to?(:compile_time)
+  source influxdb_gem.path unless influxdb_gem.nil?
+end
+
+if platform_family? 'rhel'
+  yum_repository 'influxdb' do
+    description 'InfluxDB Repository - RHEL \$releasever'
+    baseurl 'https://repos.influxdata.com/centos/\$releasever/\$basearch/stable'
+    gpgkey 'https://repos.influxdata.com/influxdb.key'
+  end
 else
-  node.set[:influxdb][:config_file_path] = "#{node[:influxdb][:install_root_dir]}/shared/config.toml"
-  influxdb_config = node[:influxdb][:config]
-  dirs = [node[:influxdb][:data_root_dir]]
+  apt_repository 'influxdb' do
+    uri "https://repos.influxdata.com/#{node['platform']}"
+    distribution node['lsb']['codename']
+    components ['stable']
+    arch 'amd64'
+    key 'https://repos.influxdata.com/influxdb.key'
+  end
 end
 
-pp_influxdb = PP.pp(node[:influxdb], '')
-Chef::Log.info "++++ influxdb:\n#{pp_influxdb}"
-
-directory node[:influxdb][:data_root_dir] do
-  mode "0755"
-  owner "influxdb"
-  group "influxdb"
-  recursive true
+package 'influxdb' do
+  version node['influxdb']['version']
 end
 
-influxdb 'main' do
-  source node[:influxdb][:source]
-  config influxdb_config
-  action node[:influxdb][:action]
+influxdb_config node[:influxdb][:config_file_path] do
+  config node[:influxdb][:config]
+end
+
+service 'influxdb' do
+  action [:enable, :start]
 end
