@@ -35,7 +35,88 @@ default['influxdb']['data_root_dir'] = '/var/opt/influxdb'
 default['influxdb']['config_root_dir'] = '/etc/opt/influxdb'
 
 # For influxdb versions >= 0.9.x
-default['influxdb']['config'] = {}
+default['influxdb']['config'] = {
+  'reporting-disabled' => false,
+  'meta' => {
+    'dir' => '/var/opt/influxdb/meta',
+    'hostname' => 'localhost',
+    'bind-address' => ':8088',
+    'retention-autocreate' => true,
+    'election-timeout' => '1s',
+    'heartbeat-timeout' => '1s',
+    'leader-lease-timeout' => '500ms',
+    'commit-timeout' => '50ms'
+  },
+  'data' => {
+    'dir' => '/var/opt/influxdb/data',
+    'max-wal-size' => 104_857_600,
+    'wal-flush-interval' => '10m',
+    'wal-partition-flush-delay' => '2s',
+    'wal-dir' => '/var/opt/influxdb/wal',
+    'wal-enable-logging' => true
+  },
+  'cluster' => {
+    'shard-writer-timeout' => '5s',
+    'write-timeout' => '5s'
+  },
+  'retention' => {
+    'enabled' => true,
+    'check-interval' => '30m'
+  },
+  'monitor' => {
+    'store-enabled' => true,
+    'store-database' => '_internal',
+    'store-interval' => '10s'
+  },
+  'admin' => {
+    'enabled' => true,
+    'bind-address' => ':8083',
+    'https-enabled' => false,
+    'https-certificate' => '/etc/ssl/influxdb.pem'
+  },
+  'http' => {
+    'enabled' => true,
+    'bind-address' => ':8086',
+    'auth-enabled' => false,
+    'log-enabled' => true,
+    'write-tracing' => false,
+    'pprof-enabled' => false,
+    'https-enabled' => false,
+    'https-certificate' => '/etc/ssl/influxdb.pem'
+  },
+  'graphite' => [
+    {
+      'enabled' => false
+    }
+  ],
+  'collectd' => {
+    'enabled' => false
+  },
+  'opentsdb' => {
+    'enabled' => false
+  },
+  'udp' => [
+    {
+      'enabled' => false
+    }
+  ],
+  'continuous_queries' => {
+    'log-enabled' => true,
+    'enabled' => true,
+    'recompute-previous-n' => 2,
+    'recompute-no-older-than' => '10m',
+    'compute-runs-per-interval' => 10,
+    'compute-no-more-than' => '2m'
+  },
+  'hinted-handoff' => {
+    'enabled' => true,
+    'dir' => '/var/opt/influxdb/hh',
+    'max-size' => 1_073_741_824,
+    'max-age' => '168h',
+    'retry-rate-limit' => 0,
+    'retry-interval' => '1s'
+  }
+}
 
 # Gem settings for the LWRPs
 # Load a custom gem containing:
