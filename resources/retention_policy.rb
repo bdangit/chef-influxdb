@@ -29,31 +29,29 @@ property :auth_username, String, default: 'root'
 property :auth_password, String, default: 'root'
 
 action :create do
-  current_policy = get_current_policy
   if current_policy
     if current_policy['duration'] != duration || current_policy['replicaN'] != replication || current_policy['default'] != default
       client.alter_retention_policy(policy_name, database, duration, replication, default)
     end
   else
-      client.create_retention_policy(policy_name, database, duration, replication, default)
-  end                                                   
+    client.create_retention_policy(policy_name, database, duration, replication, default)
+  end
 end
 
 action :delete do
-  current_policy = get_current_policy
-  if current_policy
-    client.delete_retention_policy(policy_name, database)
-  end
+  client.delete_retention_policy(policy_name, database) if current_policy
 end
 
-def get_current_policy
-  current_policy_arr = client.list_retention_policies(database).select { |p| p['name'] == policy_name } 
-  if current_policy_arr.length > 0
-    Chef::Log.fatal("Unexpected number of matches for retention policy #{policy_name} on database #{database}: #{current_policy_arr}") if current_policy_arr.length > 1
-    return current_policy_arr[0]
-  else
-    return nil
-  end
+def current_policy
+  @current_policy ||= (
+    current_policy_arr = client.list_retention_policies(database).select do |p|
+      p['name'] == policy_name
+    end
+    if current_policy_arr.length > 1
+      Chef::Log.fatal("Unexpected number of matches for retention policy #{policy_name} on database #{database}: #{current_policy_arr}")
+    end
+    current_policy_arr[0] if current_policy_arr.length
+  )
 end
 
 def client

@@ -31,7 +31,7 @@ action :create do
     Chef::Log.fatal('You must provide a password for the :create action on this resource')
   end
   databases.each do |db|
-    if !client.list_users.map { |x| x['username'] || x['name'] }.member?(username)
+    unless client.list_users.map { |x| x['username'] || x['name'] }.member?(username)
       client.create_database_user(db, username, password)
     end
     permissions.each do |permission|
@@ -41,9 +41,7 @@ action :create do
 end
 
 action :update do
-  if password
-    client.update_user_password(username, password)
-  end
+  client.update_user_password(username, password) if password
   databases.each do |db|
     permissions.each do |permission|
       client.grant_user_privileges(username, db, permission)

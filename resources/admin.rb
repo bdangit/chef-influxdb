@@ -52,9 +52,7 @@ action :update do
 end
 
 action :delete do
-  if client.list_cluster_admins.member?(username)
-    client.delete_user(username)
-  end
+  client.delete_user(username) if client.list_cluster_admins.member?(username)
 end
 
 def client

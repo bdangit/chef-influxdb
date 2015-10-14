@@ -1,8 +1,6 @@
-LineLength:
-  Max: 200
-
-SingleSpaceBeforeFirstArg:
+Metrics/LineLength:
   Enabled: false
 
-HashSyntax:
-  Enabled: false
+Style/SingleSpaceBeforeFirstArg:
+  Exclude:
+    - '**/metadata.rb'
