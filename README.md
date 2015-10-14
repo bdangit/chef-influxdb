@@ -10,11 +10,11 @@ running the `default` recipe should be sufficient. Real tests coming soon!
 For rendering the config
 
 * For Influxdb versions before 0.9.x:  
-     set the parameter under `node[:influxdb][:config]`
+     set the parameter under `node['influxdb']['config']`
 * For versions 0.9.x and greater:
-     set the parameter under `node[:influxdb][:zero_nine][:config]`
+     set the parameter under `node['influxdb']['zero_nine']['config']`
 
-`default[:influxdb][:config]['MyParameter'] = 'val'`
+`default['influxdb']['config']['MyParameter'] = 'val'`
 
 The following gems are used by the `InfluxDB::Helpers` module:
 
@@ -25,13 +25,13 @@ This cookbook ships with three LWRPs for managing the install, users, and
 databases:
 
 ### influxdb
-This resource installs and configures InfluxDB based on `node[:influxdb][:config]`:
+This resource installs and configures InfluxDB based on `node['influxdb']['config']`:
 
 ```ruby
 influxdb 'main' do
-  source node[:influxdb][:source]
-  checksum node[:influxdb][:checksum]
-  config node[:influxdb][:config] # Or if >=  0.9.x it will use node[:influxdb][:zero_nine][:config]
+  source node['influxdb']['source']
+  checksum node['influxdb']['checksum']
+  config node['influxdb']['config'] # Or if >=  0.9.x it will use node['influxdb']['zero_nine']['config']
   action :create
 end
 ```
@@ -90,7 +90,7 @@ Right now, this cookbook only supports the Ruby and CLI client libraries so as
 not to add too many dependencies. That might change in the near future. By
 default both flavors are disabled. Enable e.g. Ruby via:
 
-`node.default[:influxdb][:client][:ruby][:enable] = true`
+`node.default['influxdb']['client']['ruby']['enable'] = true`
 
 ## Tests
 

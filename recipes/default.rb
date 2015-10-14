@@ -59,8 +59,8 @@ package 'influxdb' do
   version node['influxdb']['version']
 end
 
-influxdb_config node[:influxdb][:config_file_path] do
-  config node[:influxdb][:config]
+influxdb_config node['influxdb']['config_file_path'] do
+  config node['influxdb']['config']
 end
 
 service 'influxdb' do
