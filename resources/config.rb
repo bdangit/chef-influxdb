@@ -1,4 +1,4 @@
-# resources/default.rb
+# resources/config.rb
 #
 # Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
@@ -17,12 +17,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# LWRP for InfluxDB user
+# Resource for building influxdb config file
 
-actions(:create, :start, :stop)
-default_action(:create)
+property :path, String, name_property: true
+property :config, Hash, required: true
 
-attribute(:name, kind_of: String, name_attribute: true)
-attribute(:source, kind_of: String, required: true)
-attribute(:checksum, kind_of: String, required: false)
-attribute(:config, kind_of: Hash, required: false)
+action :create do
+  require 'toml'
+  
+  file path do
+    content TOML::Generator.new(config).body
+  end
+end
+
+action :delete do
+  file path do
+    action :delete
+  end
+end

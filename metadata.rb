@@ -29,3 +29,7 @@ suggests 'npm'
 # For ChefInfluxDB Chef handler
 # https://github.com/jakedavis/chef-handler-influxdb
 depends 'chef_handler'
+
+# For apt and yum repositories
+depends 'apt', '~> 2.8'
+depends 'yum', '~> 3.8'
