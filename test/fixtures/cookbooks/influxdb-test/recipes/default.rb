@@ -20,8 +20,7 @@ end
 influxdb_retention_policy 'test_policy' do
   policy_name 'default'
   database 'test_database'
-  duration '168h0m0s'
+  duration '1w'
   replication 1
-  default true
   action :create
 end
