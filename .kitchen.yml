@@ -8,7 +8,19 @@ provisioner:
 platforms:
   - name: ubuntu-14.04
     driver:
-      box: ubuntu/trusty64
+      box: bento/ubuntu-14.04
+  - name: ubuntu-15.04
+    driver:
+      box: bento/ubuntu-15.04
+  - name: debian-8.2
+    driver:
+      box: bento/debian-8.2
+  - name: centos-6.7
+    driver:
+      box: bento/centos-6.7
+  - name: centos-7.1
+    driver:
+      box: bento/centos-7.1
 
 suites:
   - name: default
