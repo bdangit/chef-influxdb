@@ -46,6 +46,8 @@ if platform_family? 'rhel'
     gpgkey 'https://repos.influxdata.com/influxdb.key'
   end
 else
+  package 'apt-transport-https'
+
   apt_repository 'influxdb' do
     uri "https://repos.influxdata.com/#{node['platform']}"
     distribution node['lsb']['codename']
