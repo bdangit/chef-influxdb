@@ -6,3 +6,15 @@ SingleSpaceBeforeFirstArg:
 
 HashSyntax:
   Enabled: false
+
+NumericLiterals:
+  Enabled: false
+
+AbcSize:
+  Enabled: false
+
+MethodLength:
+  Enabled: false
+
+RescueModifier:
+  Enabled: false

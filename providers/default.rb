@@ -48,7 +48,7 @@ private
 
 def install_package(path)
   pkg = Chef::Resource::Package.new(path, @run_context)
-  if node['platform_family'].include?('rhel')
+  if node[:platform_family].include?('rhel')
     pkg.provider(Chef::Provider::Package::Rpm)
   else
     pkg.provider(Chef::Provider::Package::Dpkg)
@@ -57,7 +57,7 @@ def install_package(path)
 end
 
 def install_influxdb
-  extension = node['platform_family'].include?('rhel') ? 'rpm' : 'deb'
+  extension = node[:platform_family].include?('rhel') ? 'rpm' : 'deb'
   path = ::File.join(Chef::Config[:file_cache_path], "influxdb.#{extension}")
   remote = Chef::Resource::RemoteFile.new(path, @run_context)
   remote.source(@source) if @source

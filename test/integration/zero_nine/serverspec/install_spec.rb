@@ -5,11 +5,11 @@ set :backend, :exec
 
 # include Serverspec::Helper::Exec
 # include Serverspec::Helper::DetectOS
-Serverspec.describe "influxdb" do
+Serverspec.describe 'influxdb' do
   before(:all) do
     status = `service influxdb status`
     unless status =~ /OK/
-      puts "STARTING INFLUXDB: "
+      puts 'STARTING INFLUXDB: '
       puts `service influxdb start`
       sleep 1
     end

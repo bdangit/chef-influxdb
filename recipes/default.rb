@@ -25,22 +25,22 @@ ver  = node[:influxdb][:version]
 arch = /x86_64/.match(node[:kernel][:machine]) ? 'amd64' : 'i686'
 node.default[:influxdb][:source] = "http://s3.amazonaws.com/influxdb/influxdb_#{ver}_#{arch}.deb"
 
-if (ver =~ /^0\.9\./)
-  influxdb_config =  node[:influxdb][:zero_nine][:config]
-  dirs = [node[:influxdb][:data_root_dir], influxdb_config[:data][:dir], influxdb_config[:broker][:dir]]
+if ver =~ /^0\.9\./
+  influxdb_config = node[:influxdb][:zero_nine][:config]
+  # dirs = [node[:influxdb][:data_root_dir], influxdb_config[:data][:dir], influxdb_config[:broker][:dir]]
 else
   node.set[:influxdb][:config_file_path] = "#{node[:influxdb][:install_root_dir]}/shared/config.toml"
   influxdb_config = node[:influxdb][:config]
-  dirs = [node[:influxdb][:data_root_dir]]
+  # dirs = [node[:influxdb][:data_root_dir]]
 end
 
 pp_influxdb = PP.pp(node[:influxdb], '')
 Chef::Log.info "++++ influxdb:\n#{pp_influxdb}"
 
 directory node[:influxdb][:data_root_dir] do
-  mode "0755"
-  owner "influxdb"
-  group "influxdb"
+  mode '0755'
+  owner 'influxdb'
+  group 'influxdb'
   recursive true
 end
 
