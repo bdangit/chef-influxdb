@@ -6,7 +6,6 @@ require 'foodcritic'
 task default: 'test:quick'
 
 namespace :test do
-
   RuboCop::RakeTask.new
 
   Rake::TestTask.new do |t|

@@ -29,4 +29,3 @@ attribute(:default,     kind_of: [TrueClass, FalseClass], default: false)
 
 attribute(:auth_username, kind_of: String, default: 'root')
 attribute(:auth_password, kind_of: String, default: 'root')
-
