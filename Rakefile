@@ -6,7 +6,6 @@ require 'foodcritic'
 task default: 'test:quick'
 
 namespace :test do
-
   RuboCop::RakeTask.new
 
   Rake::TestTask.new do |t|
@@ -17,8 +16,8 @@ namespace :test do
   FoodCritic::Rake::LintTask.new do |t|
     t.name = :foodcritic
     t.options = {
-      fail_tags: ['any'],
-      tags: ['~FC001', '~FC007', '~FC017']
+      tags: ['~FC016'],
+      fail_tags: ['any']
     }
   end
 

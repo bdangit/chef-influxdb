@@ -1,6 +1,9 @@
 # resources/database.rb
 #
+# Author: Simple Finance <ops@simple.com>
 # License: Apache License, Version 2.0
+#
+# Copyright 2013 Simple Finance Technology Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,19 +17,54 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# LWRP for InfluxDB database
+# Resource for InfluxDB database
 
-actions(:create, :delete)
-default_action(:create)
+property :name, String, name_property: true
+property :policy_name, String
+property :database, String
+property :duration, String, default: 'INF'
+property :replication, Fixnum, default: 1
+property :default, [TrueClass, FalseClass], default: false
+property :auth_username, String, default: 'root'
+property :auth_password, String, default: 'root'
 
-attribute(:name, kind_of: String, name_attribute: true)
+action :create do
+  if current_policy
+    if current_policy['duration'] != duration || current_policy['replicaN'] != replication || current_policy['default'] != default
+      client.alter_retention_policy(policy_name, database, duration, replication, default)
+      updated_by_last_action true
+    end
+  else
+    client.create_retention_policy(policy_name, database, duration, replication, default)
+    updated_by_last_action true
+  end
+end
 
-attribute(:policy_name, kind_of: String)
-attribute(:database,    kind_of: String)
-attribute(:duration,    kind_of: String, default: 'INF')
-attribute(:replication, kind_of: Fixnum, default: 1)
-attribute(:default,     kind_of: [TrueClass, FalseClass], default: false)
+action :delete do
+  if current_policy
+    client.delete_retention_policy(policy_name, database)
+    updated_by_last_action true
+  end
+end
 
-attribute(:auth_username, kind_of: String, default: 'root')
-attribute(:auth_password, kind_of: String, default: 'root')
+def current_policy
+  @current_policy ||= (
+    current_policy_arr = client.list_retention_policies(database).select do |p|
+      p['name'] == policy_name
+    end
+    if current_policy_arr.length > 1
+      Chef::Log.fatal("Unexpected number of matches for retention policy #{policy_name} on database #{database}: #{current_policy_arr}")
+    end
+    current_policy_arr[0] if current_policy_arr.length
+  )
+end
 
+def client
+  require 'influxdb'
+  @client ||=
+    InfluxDB::Client.new(
+      username: auth_username,
+      password: auth_password,
+      retry: 10
+    )
+end

@@ -2,26 +2,29 @@
 driver:
   name: vagrant
 
+provisioner:
+  name: chef_zero
+
 platforms:
-<% %w(11.8.2).each do |chef_version| %>
   - name: ubuntu-14.04
-    driver_config:
-      box: opscode_ubuntu-14.04
-      require_chef_omnibus: <%= chef_version %>
-<% end %>
+    driver:
+      box: bento/ubuntu-14.04
+  - name: ubuntu-15.04
+    driver:
+      box: bento/ubuntu-15.04
+  - name: debian-8.2
+    driver:
+      box: bento/debian-8.2
+  - name: centos-6.7
+    driver:
+      box: bento/centos-6.7
+  - name: centos-7.1
+    driver:
+      box: bento/centos-7.1
 
 suites:
   - name: default
     run_list:
-      - recipe[apt::default]
       - recipe[influxdb::default]
+      - recipe[influxdb-test::default]
     attributes:
-      influxdb:
-        version: "0.8.8"
-  - name: zero_nine
-    run_list:
-      - recipe[apt::default]
-      - recipe[influxdb::default]
-    attributes:
-      influxdb:
-        version: "0.9.0-rc27"

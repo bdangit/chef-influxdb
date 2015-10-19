@@ -1,5 +1,5 @@
-source "https://supermarket.getchef.com"
+source 'https://supermarket.chef.io'
 
 metadata
 
-cookbook 'apt'
+cookbook 'influxdb-test', path: 'test/fixtures/cookbooks/influxdb-test'

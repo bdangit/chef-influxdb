@@ -19,8 +19,8 @@
 #
 # Installs the InfluxDB CLI client
 
-include_recipe 'npm::default'
+include_recipe 'nodejs::default'
 
-npm_package 'influxdb-cli' do
+nodejs_npm 'influxdb-cli' do
   action :install
 end

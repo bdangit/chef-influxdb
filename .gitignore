@@ -13,6 +13,5 @@ Berksfile.lock
 *.un~
 /cookbooks
 tmp
-cookbooks
 .kitchen/
 .kitchen.local.yml

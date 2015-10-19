@@ -20,12 +20,16 @@ maintainer       'Simple Finance Technology Corp'
 maintainer_email 'ops@simple.com'
 license          'Apache 2.0'
 description      'InfluxDB, a timeseries database'
-version          '3.2.0'
+version          '4.0.0'
 
 # For CLI client
-# https://github.com/balbeko/chef-npm
-suggests 'npm'
+# https://github.com/redguide/nodejs
+depends 'nodejs', '~> 2.4'
 
 # For ChefInfluxDB Chef handler
 # https://github.com/jakedavis/chef-handler-influxdb
 depends 'chef_handler'
+
+# For apt and yum repositories
+depends 'apt', '~> 2.8'
+depends 'yum', '~> 3.8'

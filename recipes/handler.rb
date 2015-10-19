@@ -21,7 +21,7 @@
 include_recipe 'chef_handler::default'
 
 chef_gem 'chef-handler-influxdb' do
-  version node[:influxdb][:handler][:version]
+  version node['influxdb']['handler']['version']
   action :nothing
 end.run_action(:install)
 

@@ -19,8 +19,12 @@
 #
 # Installs InfluxDB client libraries
 
-[:cli, :ruby].each do |flavor|
-  next unless (node[:influxdb][:client][flavor][:enable] rescue nil)
+%w(cli ruby).each do |flavor|
+  next unless begin
+                 node['influxdb']['client']['flavor']['enable']
+               rescue
+                 nil
+               end
 
   include_recipe "influxdb::#{flavor}_client"
 end
