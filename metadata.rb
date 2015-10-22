@@ -33,3 +33,6 @@ depends 'chef_handler'
 # For apt and yum repositories
 depends 'apt', '~> 2.8'
 depends 'yum', '~> 3.8'
+
+# For compatibility with 12.X versions of Chef
+depends 'compat_resource'
