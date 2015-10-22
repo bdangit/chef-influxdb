@@ -21,7 +21,7 @@
 
 %w(cli ruby).each do |flavor|
   next unless begin
-                 node['influxdb']['client']['flavor']['enable']
+                 node['influxdb']['client'][flavor]['enable']
                rescue
                  nil
                end
