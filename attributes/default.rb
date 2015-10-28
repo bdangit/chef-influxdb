@@ -218,6 +218,8 @@ else
     data: {
       'dir' => "#{node[:influxdb][:data_root_dir]}/data",
       'max-wal-size' => 104857600,
+      'wal-dir' => "#{node[:influxdb][:data_root_dir]}/wal",
+      'wal-enable-logging' => false,
       'wal-flush-interval' => "10m",
       'wal-partition-flush-delay' => "2s"
     },
@@ -272,13 +274,11 @@ else
       'database' => "opentsdb_database",
       'retention-policy' => ""
     },
-    udp: {
-      'enabled' => false,
-      'bind-address' => ":4444",
-      'database' => "",
-      'batch-size' => 1000,
-      'batch-timeout' => "1s"
-    },
+    udp: [
+      {
+        'enabled' => false,
+      }
+    ],
     monitoring: {
       'enabled' => true,
       'write-interval' => "1h"
