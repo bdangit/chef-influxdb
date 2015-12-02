@@ -42,14 +42,14 @@ end
 if platform_family? 'rhel'
   yum_repository 'influxdb' do
     description 'InfluxDB Repository - RHEL \$releasever'
-    baseurl 'https://repos.influxdata.com/centos/\$releasever/\$basearch/stable'
+    baseurl node['influxdb']['upstream_repository']
     gpgkey 'https://repos.influxdata.com/influxdb.key'
   end
 else
   package 'apt-transport-https'
 
   apt_repository 'influxdb' do
-    uri "https://repos.influxdata.com/#{node['platform']}"
+    uri node['influxdb']['upstream_repository']
     distribution node['lsb']['codename']
     components ['stable']
     arch 'amd64'

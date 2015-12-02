@@ -121,3 +121,15 @@ default['influxdb']['config'] = {
 #  Add alter_retention_policy(): 14595de93f1433f342ef4d03a09597df48f11feb - https://github.com/influxdb/influxdb-ruby/pull/114
 # Built off https://github.com/CVTJNII/influxdb-ruby
 default['influxdb']['gem']['http_source'] = 'https://github.com/CVTJNII/gemshare/raw/master/influxdb-0.2.3.gem'
+
+case node['platform_family']
+when 'rhel', 'fedora'
+  case node['platform']
+  when 'centos'
+    default['influxdb']['upstream_repository'] = "https://repos.influxdata.com/centos/#{node['platform_version'].to_i}/$basearch/stable"
+  else
+    default['influxdb']['upstream_repository'] = "https://repos.influxdata.com/rhel/#{node['platform_version'].to_i}/$basearch/stable"
+  end
+else
+  default['influxdb']['upstream_repository'] = "https://repos.influxdata.com/#{node['platform']}"
+end
