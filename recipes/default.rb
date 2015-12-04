@@ -24,14 +24,13 @@ chef_gem 'toml' do
 end
 
 # This block is a workaround to allow loading a custom gem while patches await merging into the official gem.
-if node['influxdb']['gem'] && node['influxdb']['gem']['http_source']
-  # Install the gem from a HTTP source repo
-  # This assumes node['influxdb']['gem']['http_source'] points to a gem to avoid needing build dependencies.
-  # http://stackoverflow.com/questions/19367458/installing-a-ruby-gem-from-a-github-repository-using-chef
-  influxdb_gem = remote_file "#{Chef::Config[:file_cache_path]}/influxdb.gem" do
-    source node['influxdb']['gem']['http_source']
-    action :create_if_missing
-  end
+# Install the gem from a HTTP source repo
+# This assumes node['influxdb']['gem']['http_source'] points to a gem to avoid needing build dependencies.
+# http://stackoverflow.com/questions/19367458/installing-a-ruby-gem-from-a-github-repository-using-chef
+influxdb_gem = remote_file "#{Chef::Config[:file_cache_path]}/influxdb.gem" do
+  source node['influxdb']['gem']['http_source']
+  action :create_if_missing
+  only_if { node['influxdb']['gem'] && node['influxdb']['gem']['http_source'] }
 end
 
 chef_gem 'influxdb' do
