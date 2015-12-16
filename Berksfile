@@ -2,4 +2,7 @@ source 'https://supermarket.chef.io'
 
 metadata
 
-cookbook 'influxdb-test', path: 'test/fixtures/cookbooks/influxdb-test'
+group :test do
+  cookbook 'influxdb-test', path: 'test/fixtures/cookbooks/influxdb-test'
+  cookbook 'netstat'
+end
