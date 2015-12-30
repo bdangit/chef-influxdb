@@ -28,37 +28,55 @@ default['influxdb']['client']['ruby']['enable'] = false
 default['influxdb']['client']['ruby']['version'] = nil
 default['influxdb']['handler']['version'] = '0.1.4'
 
-# For influxdb versions >= 0.9.x
-default['influxdb']['config_file_path'] = '/etc/opt/influxdb/influxdb.conf'
+# For influxdb versions >= 0.9.6
+default['influxdb']['config_file_path'] = '/etc/influxdb/influxdb.conf'
 
-# For influxdb versions >= 0.9.x
+# For influxdb versions >= 0.9.6
 default['influxdb']['config'] = {
   'reporting-disabled' => false,
+  'registration' => {},
   'meta' => {
-    'dir' => '/var/opt/influxdb/meta',
+    'dir' => '/var/lib/influxdb/meta',
     'hostname' => 'localhost',
     'bind-address' => ':8088',
     'retention-autocreate' => true,
     'election-timeout' => '1s',
     'heartbeat-timeout' => '1s',
     'leader-lease-timeout' => '500ms',
-    'commit-timeout' => '50ms'
+    'commit-timeout' => '50ms',
+    'cluster-tracing' => false,
+    'raft-promotion-enabled' => true
   },
   'data' => {
-    'dir' => '/var/opt/influxdb/data',
+    'dir' => '/var/lib/influxdb/data',
     'max-wal-size' => 104_857_600,
     'wal-flush-interval' => '10m',
     'wal-partition-flush-delay' => '2s',
-    'wal-dir' => '/var/opt/influxdb/wal',
-    'wal-enable-logging' => true
+    'wal-dir' => '/var/lib/influxdb/wal',
+    'wal-logging-enabled' => true
+  },
+  'hinted-handoff' => {
+    'enabled' => true,
+    'dir' => '/var/lib/influxdb/hh',
+    'max-size' => 1_073_741_824,
+    'max-age' => '168h',
+    'retry-rate-limit' => 0,
+    'retry-interval' => '1s',
+    'retry-max-interval' => '1m',
+    'purge-interval' => '1h'
   },
   'cluster' => {
     'shard-writer-timeout' => '5s',
-    'write-timeout' => '5s'
+    'write-timeout' => '10s'
   },
   'retention' => {
     'enabled' => true,
     'check-interval' => '30m'
+  },
+  'shard-precreation' => {
+    'enabled' => true,
+    'check-interval' => '10m',
+    'advance-period' => '30m'
   },
   'monitor' => {
     'store-enabled' => true,
@@ -81,22 +99,10 @@ default['influxdb']['config'] = {
     'https-enabled' => false,
     'https-certificate' => '/etc/ssl/influxdb.pem'
   },
-  'graphite' => [
-    {
-      'enabled' => false
-    }
-  ],
-  'collectd' => {
-    'enabled' => false
-  },
-  'opentsdb' => {
-    'enabled' => false
-  },
-  'udp' => [
-    {
-      'enabled' => false
-    }
-  ],
+  'graphite' => [{ 'enabled' => false }],
+  'collectd' => { 'enabled' => false },
+  'opentsdb' => { 'enabled' => false },
+  'udp' => [{ 'enabled' => false }],
   'continuous_queries' => {
     'log-enabled' => true,
     'enabled' => true,
@@ -104,14 +110,6 @@ default['influxdb']['config'] = {
     'recompute-no-older-than' => '10m',
     'compute-runs-per-interval' => 10,
     'compute-no-more-than' => '2m'
-  },
-  'hinted-handoff' => {
-    'enabled' => true,
-    'dir' => '/var/opt/influxdb/hh',
-    'max-size' => 1_073_741_824,
-    'max-age' => '168h',
-    'retry-rate-limit' => 0,
-    'retry-interval' => '1s'
   }
 }
 
