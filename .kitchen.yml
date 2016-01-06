@@ -10,27 +10,27 @@ platforms:
   - name: ubuntu-14.04-chef<%= chef_version %>
     driver:
       box: bento/ubuntu-14.04
-    provisioner:
+      box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box
       require_chef_omnibus: <%= chef_version %>
   - name: ubuntu-15.04-chef<%= chef_version %>
     driver:
       box: bento/ubuntu-15.04
-    provisioner:
+      box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-15.04_chef-provisionerless.box
       require_chef_omnibus: <%= chef_version %>
   - name: debian-8.2-chef<%= chef_version %>
     driver:
       box: bento/debian-8.2
-    provisioner:
+      box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.2_chef-provisionerless.box
       require_chef_omnibus: <%= chef_version %>
   - name: centos-6.7-chef<%= chef_version %>
     driver:
       box: bento/centos-6.7
-    provisioner:
+      box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.7_chef-provisionerless.box
       require_chef_omnibus: <%= chef_version %>
   - name: centos-7.1-chef<%= chef_version %>
     driver:
       box: bento/centos-7.1
-    provisioner:
+      box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.1_chef-provisionerless.box
       require_chef_omnibus: <%= chef_version %>
 <% end %>
 

@@ -18,16 +18,16 @@ describe 'influxdb' do
   end
 
   let(:influxdb_databases) do
-    command('/opt/influxdb/influx -execute "show databases"').stdout
+    command('eval "$(which influx) -execute \"show databases\""').stdout
   end
 
   let(:influxdb_users) do
-    command('/opt/influxdb/influx -execute "show users"').stdout
+    command('eval "$(which influx) -execute \"show users\""').stdout
   end
 
   describe 'test_database' do
     let(:retention_policies) do
-      command('/opt/influxdb/influx -execute "show retention policies on test_database"').stdout
+      command('eval "$(which influx) -execute \"show retention policies on test_database\""').stdout
     end
 
     it 'exists' do
