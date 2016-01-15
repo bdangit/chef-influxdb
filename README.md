@@ -17,7 +17,7 @@ The following gems are used by the custom resources and are installed by the
 `default` recipe:
 
  - [InfluxDB gem](https://github.com/influxdb/influxdb-ruby)
- - [TOML](https://github.com/mojombo/toml)
+ - [toml-rb](https://github.com/emancu/toml-rb)
 
 This cookbook ships with five custom resources for managing the configuration
 file, users, databases, cluster admins, and retention policies:

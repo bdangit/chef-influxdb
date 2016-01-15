@@ -23,10 +23,10 @@ property :path, String, name_property: true
 property :config, Hash, required: true
 
 action :create do
-  require 'toml'
+  require 'toml-rb'
 
   file path do
-    content TOML::Generator.new(config).body
+    content TOML.dump(config)
   end
 end
 
