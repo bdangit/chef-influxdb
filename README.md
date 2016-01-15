@@ -1,4 +1,7 @@
 # InfluxDB
+
+[![wercker status](https://app.wercker.com/status/d0f175cb46e417cde7974f179e63084d/m "wercker status")](https://app.wercker.com/project/bykey/d0f175cb46e417cde7974f179e63084d)
+
 Chef cookbook to install and configure InfluxDB.
 
 ## Usage

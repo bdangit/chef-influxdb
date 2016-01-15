@@ -51,3 +51,9 @@ namespace :test do
     Rake::Task['test:integration:vagrant'].invoke
   end
 end
+
+desc 'Print version of cookbook'
+task :version do
+  version = File.read('metadata.rb')[/^version\s*'(\d.\d.\d)'/, 1]
+  print version
+end
