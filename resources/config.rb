@@ -23,7 +23,7 @@ property :path, String, name_property: true
 property :config, Hash, required: true
 
 action :create do
-  require 'toml-rb'
+  require 'toml'
 
   file path do
     content TOML.dump(config)
