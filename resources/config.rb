@@ -26,7 +26,7 @@ action :create do
   require 'toml'
 
   file path do
-    content TOML::Generator.new(config).body
+    content TOML.dump(config)
   end
 end
 
