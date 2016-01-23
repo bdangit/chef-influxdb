@@ -105,7 +105,10 @@ Then to run tests:
     rake # Quick tests only (rubocop + minitest)
     rake test:complete # All tests (rubocop + minitest + kitchen)
 
-## Author and License
-Simple Finance <ops@simple.com>
+## License
+This project is licensed under the MIT license
 
-Apache License, Version 2.0
+## Maintainers
+Ben Dang <me@bdang.it>
+
+E Camden Fisher

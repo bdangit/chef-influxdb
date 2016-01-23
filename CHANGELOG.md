@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## [unreleased]
+
+## 4.0.1
+* License update from Apache 2.0 to MIT
+  - transfer of ownership
+
+## 4.0.0
+* Support for RHEL
+* Support for Chef-Client 12.1+
+* Support 0.9.5+
+* Added ChefSpec Matchers
+* Use toml-rb instead of toml
+
 ## 3.0.0
 * Update to influxdb gem 0.2.x, which is not backwards compatible (contributed
   by @cmjosh)
