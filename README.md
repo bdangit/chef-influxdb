@@ -111,4 +111,4 @@ This project is licensed under the MIT license
 ## Maintainers
 Ben Dang <me@bdang.it>
 
-E Camden Fisher
+E Camden Fisher <fish@fishnix.net>
