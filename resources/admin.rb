@@ -7,6 +7,8 @@ property :password, String
 property :auth_username, String, default: 'root'
 property :auth_password, String, default: 'root'
 
+default_action :create
+
 action :create do
   unless password
     Chef::Log.fatal('You must provide a password for the :create action on this resource!')

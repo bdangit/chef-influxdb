@@ -2,6 +2,13 @@
 
 ## [unreleased]
 
+## 4.1.0
+* Updated attributes to support Influxdb 0.10.0
+* Set default resource actions (:create is default)
+* Fixed support for Chef-Client 12.6
+* Fixed rubocop styling
+* Added functional test to check restarts service restarts on config change
+
 ## 4.0.1
 * License update from Apache 2.0 to MIT
   - transfer of ownership
