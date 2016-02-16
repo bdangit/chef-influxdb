@@ -9,7 +9,7 @@ provisioner:
   name: chef_zero
 
 platforms:
-<% %w(12.5 12.4.3 12.3 12.2 12.1).each do |chef_version| %>
+<% %w(12.7 12.6 12.5 12.4.3 12.3 12.2 12.1).each do |chef_version| %>
   - name: ubuntu-14.04-chef<%= chef_version %>
     driver_config:
       image: ubuntu:14.04
@@ -50,7 +50,10 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[influxdb::default]
       - recipe[influxdb-test::default]
       - recipe[netstat]
     attributes:
+  - name: config_change
+    run_list:
+      - recipe[influxdb-test::default]
+      - recipe[influxdb-test::config_change]

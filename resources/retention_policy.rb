@@ -11,6 +11,8 @@ property :default, [TrueClass, FalseClass], default: false
 property :auth_username, String, default: 'root'
 property :auth_password, String, default: 'root'
 
+default_action :create
+
 action :create do
   if current_policy
     if current_policy['duration'] != duration || current_policy['replicaN'] != replication || current_policy['default'] != default

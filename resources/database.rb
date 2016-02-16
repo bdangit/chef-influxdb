@@ -6,6 +6,8 @@ property :name, String, name_property: true
 property :auth_username, String, default: 'root'
 property :auth_password, String, default: 'root'
 
+default_action :create
+
 action :create do
   next if client.list_databases.map { |x| x['name'] }.member?(name)
 
