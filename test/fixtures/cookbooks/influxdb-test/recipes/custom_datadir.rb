@@ -4,12 +4,14 @@
 # Mock mount disk0
 directory '/mnt/disk0'
 
+include_recipe 'influxdb::default'
+
 # override default `lib_file_path`
-node.override['influxdb']['lib_file_path'] = '/data/influxdb'
-node.override['influxdb']['meta_file_path'] = "#{node['influxdb']['lib_file_path']}/meta"
-node.override['influxdb']['data_file_path'] = "#{node['influxdb']['lib_file_path']}/data"
-node.override['influxdb']['wal_file_path'] = "#{node['influxdb']['lib_file_path']}/wal"
-node.override['influxdb']['hinted-handoff_file_path'] = "#{node['influxdb']['lib_file_path']}/hh"
+node.default['influxdb']['lib_file_path'] = '/mnt/disk0/influxdb'
+node.default['influxdb']['meta_file_path'] = "#{node['influxdb']['lib_file_path']}/meta"
+node.default['influxdb']['data_file_path'] = "#{node['influxdb']['lib_file_path']}/data"
+node.default['influxdb']['wal_file_path'] = "#{node['influxdb']['lib_file_path']}/wal"
+node.default['influxdb']['hinted-handoff_file_path'] = "#{node['influxdb']['lib_file_path']}/hh"
 
 directory node['influxdb']['lib_file_path'] do
   owner 'influxdb'
@@ -17,28 +19,28 @@ directory node['influxdb']['lib_file_path'] do
   mode 0755
 end
 
-# Restat to override node['influxdb']['config']
-node.override['influxdb']['config']['meta']['dir'] = node['influxdb']['meta_file_path']
-node.override['influxdb']['config']['data']['dir'] = node['influxdb']['data_file_path']
-node.override['influxdb']['config']['data']['wal-dir'] = node['influxdb']['wal_file_path']
-node.override['influxdb']['config']['hinted-handoff']['dir'] = node['influxdb']['hinted-handoff_file_path']
 # We need UDP for metrics database
 # Making sure this override the attributes
-node.override['influxdb']['config']['udp'] = [
+node.default['influxdb']['config']['udp'] = [
   {
-      'enabled' => true,
-      'bind-address' => ":#{node['monitor']['influxdb']['udp_port']}",
-      'database' => node['monitor']['influxdb']['database'],
-      'batch-size' => 100,
-      'batch-timeout' => "1s"
+    'enabled' => true,
+    'bind-address' => ":#{node['monitor']['influxdb']['udp_port']}",
+    'database' => node['monitor']['influxdb']['database'],
+    'batch-size' => 100,
+    'batch-timeout' => '1s'
   }
 ]
 
-node.override['influxdb']['config']['http']['auth-enabled'] = true
+node.default['influxdb']['config']['http']['auth-enabled'] = true
 
 #  Rewrite influxdb.conf
 influxdb_config node['influxdb']['config_file_path'] do
   config node['influxdb']['config']
+  notifies :restart, 'service[influxdb]'
+end
+
+service 'influxdb' do
+  action :nothing
 end
 
 # Because we enforce authentican, so admin must be created first,
