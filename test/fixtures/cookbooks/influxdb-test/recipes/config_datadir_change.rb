@@ -6,15 +6,16 @@
 # Mock mount disk0
 directory '/mnt/disk0'
 
+# override default `lib_file_path` by restate nested attributes
+node.default['influxdb']['lib_file_path'] = '/mnt/disk0/influxdb'
+node.default['influxdb']['config']['meta']['dir'] = "#{node['influxdb']['lib_file_path']}/meta"
+node.default['influxdb']['config']['data']['dir'] = "#{node['influxdb']['lib_file_path']}/data"
+node.default['influxdb']['config']['data']['wal-dir'] = "#{node['influxdb']['lib_file_path']}/wal"
+node.default['influxdb']['config']['hinted-handoff']['dir'] = "#{node['influxdb']['lib_file_path']}/hh"
+
 include_recipe 'influxdb::default'
 
-# override default `lib_file_path`
-node.default['influxdb']['lib_file_path'] = '/mnt/disk0/influxdb'
-node.default['influxdb']['meta_file_path'] = "#{node['influxdb']['lib_file_path']}/meta"
-node.default['influxdb']['data_file_path'] = "#{node['influxdb']['lib_file_path']}/data"
-node.default['influxdb']['wal_file_path'] = "#{node['influxdb']['lib_file_path']}/wal"
-node.default['influxdb']['hinted-handoff_file_path'] = "#{node['influxdb']['lib_file_path']}/hh"
-
+# Create custom datadir
 directory node['influxdb']['lib_file_path'] do
   owner 'influxdb'
   group 'influxdb'
