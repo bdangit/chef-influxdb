@@ -24,8 +24,8 @@ end
 node.default['influxdb']['config']['udp'] = [
   {
     'enabled' => true,
-    'bind-address' => ":#{node['monitor']['influxdb']['udp_port']}",
-    'database' => node['monitor']['influxdb']['database'],
+    'bind-address' => '8089',
+    'database' => 'test_database',
     'batch-size' => 100,
     'batch-timeout' => '1s'
   }
