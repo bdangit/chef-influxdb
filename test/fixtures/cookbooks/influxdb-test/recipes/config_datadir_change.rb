@@ -33,8 +33,6 @@ node.default['influxdb']['config']['udp'] = [
   }
 ]
 
-node.default['influxdb']['config']['http']['auth-enabled'] = true
-
 #  Rewrite influxdb.conf
 influxdb_config node['influxdb']['config_file_path'] do
   config node['influxdb']['config']
@@ -70,4 +68,12 @@ influxdb_retention_policy 'test_policy' do
   duration '1w'
   replication 1
   action :create
+end
+
+# Finally, enable authorization
+node.set['influxdb']['config']['http']['auth-enabled'] = true
+
+influxdb_config node['influxdb']['config_file_path'] do
+  config node['influxdb']['config']
+  notifies :restart, 'service[influxdb]'
 end
