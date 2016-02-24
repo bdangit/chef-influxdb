@@ -1,0 +1,59 @@
+---
+settings:
+  parallel: true
+
+driver:
+  name: docker
+
+provisioner:
+  name: chef_zero
+
+platforms:
+<% %w(12.7 12.6 12.5 12.4.3 12.3 12.2 12.1).each do |chef_version| %>
+  - name: ubuntu-14.04-chef<%= chef_version %>
+    driver_config:
+      image: ubuntu:14.04
+      platform: ubuntu
+      require_chef_omnibus: <%= chef_version %>
+  - name: ubuntu-15.04-chef<%= chef_version %>
+    driver_config:
+      box: ubuntu:15.04
+      platform: ubuntu
+      run_command: /sbin/init
+      privileged: true
+    provisioner:
+      require_chef_omnibus: <%= chef_version %>
+  - name: debian-8.2-chef<%= chef_version %>
+    driver_config:
+      box: debian:8.2
+      platform: debian
+      run_command: /sbin/init
+      privileged: true
+    provisioner:
+      require_chef_omnibus: <%= chef_version %>
+  - name: centos-6.7-chef<%= chef_version %>
+    driver_config:
+      box: centos:6.7
+      platform: centos
+    provisioner:
+      require_chef_omnibus: <%= chef_version %>
+  - name: centos-7.1-chef<%= chef_version %>
+    driver_config:
+      box: centos:7.1
+      platform: centos
+      run_command: /usr/sbin/init
+      privileged: true
+    provisioner:
+      require_chef_omnibus: <%= chef_version %>
+<% end %>
+
+suites:
+  - name: default
+    run_list:
+      - recipe[influxdb-test::default]
+      - recipe[netstat]
+    attributes:
+  - name: config_change
+    run_list:
+      - recipe[influxdb-test::default]
+      - recipe[influxdb-test::config_change]

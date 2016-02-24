@@ -1,4 +1,7 @@
 # InfluxDB
+
+[![wercker status](https://app.wercker.com/status/d0f175cb46e417cde7974f179e63084d/m "wercker status")](https://app.wercker.com/project/bykey/d0f175cb46e417cde7974f179e63084d)
+
 Chef cookbook to install and configure InfluxDB.
 
 ## Usage
@@ -17,7 +20,7 @@ The following gems are used by the custom resources and are installed by the
 `default` recipe:
 
  - [InfluxDB gem](https://github.com/influxdb/influxdb-ruby)
- - [TOML](https://github.com/mojombo/toml)
+ - [toml-rb](https://github.com/emancu/toml-rb)
 
 This cookbook ships with five custom resources for managing the configuration
 file, users, databases, cluster admins, and retention policies:
@@ -102,7 +105,10 @@ Then to run tests:
     rake # Quick tests only (rubocop + minitest)
     rake test:complete # All tests (rubocop + minitest + kitchen)
 
-## Author and License
-Simple Finance <ops@simple.com>
+## License
+This project is licensed under the MIT license
 
-Apache License, Version 2.0
+## Maintainers
+Ben Dang <me@bdang.it>
+
+E Camden Fisher <fish@fishnix.net>

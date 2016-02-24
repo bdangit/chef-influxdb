@@ -1,0 +1,28 @@
+box: ubuntu:15.04
+build:
+  steps:
+    - install-packages:
+        packages: wget
+    - poppen/chefdk:
+        version: 0.10.0
+    - script:
+        name: lint style spec
+        code: |
+          chef gem install rubocop --version 0.37.0
+          chef exec "rake test:quick"
+deploy:
+  steps:
+    - install-packages:
+        packages: wget curl
+    - poppen/chefdk:
+        version: 0.10.0
+    - script:
+        name: get version from rake
+        code: |
+          export APP_VERSION=$(chef exec rake version)
+          echo $APP_VERSION
+    - github-create-release:
+        token: $GITHUB_TOKEN
+        tag: $APP_VERSION
+        title: $APP_VERSION
+    # TODO: setup stove to push to supermarket

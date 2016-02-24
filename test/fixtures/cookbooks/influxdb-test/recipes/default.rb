@@ -1,3 +1,5 @@
+include_recipe 'influxdb::default'
+
 # Create a test database
 influxdb_database 'test_database' do
   action :create
