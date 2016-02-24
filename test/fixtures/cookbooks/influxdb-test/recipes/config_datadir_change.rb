@@ -1,5 +1,7 @@
-# recipe: custom_data_path.rb
-# NOTE: supposed that Influxdb was installed
+#
+# recipe: config_datadir_change.rb
+# NOTE: also tested for InfluxDB UDP port
+#
 
 # Mock mount disk0
 directory '/mnt/disk0'
@@ -24,7 +26,7 @@ end
 node.default['influxdb']['config']['udp'] = [
   {
     'enabled' => true,
-    'bind-address' => '8089',
+    'bind-address' => ':8089',
     'database' => 'test_database',
     'batch-size' => 100,
     'batch-timeout' => '1s'
