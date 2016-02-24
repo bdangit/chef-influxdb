@@ -43,37 +43,29 @@ service 'influxdb' do
   action :nothing
 end
 
-# Because we enforce authentican, so admin must be created first,
-# then create database
-influxdb_admin node['influxdb']['admin_user'] do
-  password node['influxdb']['admin_password']
-  auth_username node['influxdb']['admin_user']
-  auth_password node['influxdb']['admin_password']
+# Create a test database
+influxdb_database 'test_database' do
   action :create
 end
 
-# Create  database for storing metrics
-influxdb_database node['monitor']['influxdb']['database'] do
+# Create a test user and give it access to the test database
+influxdb_user 'test_user' do
+  password 'test_password'
+  databases ['test_database']
   action :create
-  auth_username node['influxdb']['admin_user']
-  auth_password node['influxdb']['admin_password']
 end
 
-influxdb_user node['monitor']['influxdb']['username'] do
-  password node['monitor']['influxdb']['password']
-  databases [node['monitor']['influxdb']['database']]
-  permissions ['ALL']
-  auth_username node['influxdb']['admin_user']
-  auth_password node['influxdb']['admin_password']
+# Create a test cluster admin
+influxdb_admin 'test_admin' do
+  password 'test_admin_password'
+  action :create
 end
 
-# `policy_name` should be `name_attribute` but it is NOT
-influxdb_retention_policy "#{node['monitor']['influxdb']['database']}_policy" do
-  policy_name "#{node['monitor']['influxdb']['database']}_policy"
-  database node['monitor']['influxdb']['database']
-  duration node['monitor']['influxdb']['retention']['duration']
-  replication node['monitor']['influxdb']['retention']['replication']
-  auth_username node['influxdb']['admin_user']
-  auth_password node['influxdb']['admin_password']
+# Create a test retention policy on the test database
+influxdb_retention_policy 'test_policy' do
+  policy_name 'default'
+  database 'test_database'
+  duration '1w'
+  replication 1
   action :create
 end
