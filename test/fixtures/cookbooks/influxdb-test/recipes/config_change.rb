@@ -8,6 +8,7 @@ influxdb_config node['influxdb']['config_file_path'] do
   notifies :restart, 'service[influxdb]'
 end
 
-service 'influxdb' do
-  action :nothing
-end
+# This is not needed.
+# service 'influxdb' do
+#   action :nothing
+# end
