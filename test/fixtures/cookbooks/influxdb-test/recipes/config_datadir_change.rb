@@ -40,7 +40,7 @@ influxdb_config node['influxdb']['config_file_path'] do
   notifies :restart, 'service[influxdb]'
 end
 
-# Make sure influxdb don't restart when not needed
+# Make sure influxdb don't start when not needed
 service 'influxdb' do
   action :nothing
 end
