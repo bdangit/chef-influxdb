@@ -1,3 +1,7 @@
+# NOTE: This is not idempotent since it make InfluxDB restart on every Chef run.
+
+# This code would rewrite the default attributes in the `default recipe`,
+# and execute a InfluxDB restart
 node.default['influxdb']['config']['graphite'] = [
   {
     'enabled' => true
