@@ -35,7 +35,7 @@ node.default['influxdb']['config']['udp'] = [
 
 include_recipe 'influxdb::default'
 
-# Create custom datadir, after influxdb user create
+# Create custom datadir, after influxdb user created
 directory node['influxdb']['lib_file_path'] do
   owner 'influxdb'
   group 'influxdb'
@@ -46,11 +46,6 @@ end
 influxdb_config node['influxdb']['config_file_path'] do
   config node['influxdb']['config']
   notifies :restart, 'service[influxdb]'
-end
-
-# Make sure influxdb don't start when not needed
-service 'influxdb' do
-  action :nothing
 end
 
 # Create a test database
