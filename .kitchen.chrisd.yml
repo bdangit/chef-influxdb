@@ -1,0 +1,21 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+platforms:
+- name: chef-v125-ubuntu-1404
+  driver:
+    box: chef-v125-ubuntu-1404
+- name: ubuntu-14.04
+
+suites:
+  - name: config_datadir_change
+    provisioner:
+      require_chef_omnibus: false
+    run_list:
+      - recipe[influxdb-test::config_datadir_change]
+    excludes: ['ubuntu-14.04']
+    attributes:
