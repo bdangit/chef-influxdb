@@ -4,6 +4,7 @@ settings:
 
 driver:
   name: docker
+  use_sudo: false
 
 provisioner:
   name: chef_zero
