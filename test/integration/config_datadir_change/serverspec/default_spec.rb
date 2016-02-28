@@ -17,9 +17,7 @@ describe 'influxdb' do
     it { is_expected.to be_listening }
   end
 
-  describe 'graphite' do
-    describe port(2003) do
-      it { is_expected.to be_listening }
-    end
-  end
+  # TODO:
+  # = Regex config file for custom datadir
+  # = check UDP port
 end
