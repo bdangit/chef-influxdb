@@ -2,6 +2,9 @@
 
 ## [unreleased]
 
+## 4.2.0
+* Added influxdb\_install resource (contributed by @majormoses)
+
 ## 4.1.0
 * Updated attributes to support Influxdb 0.10.0
 * Set default resource actions (:create is default)

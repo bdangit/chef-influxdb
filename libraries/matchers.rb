@@ -48,4 +48,12 @@ if defined?(ChefSpec)
   def delete_influxdb_config(config)
     ChefSpec::Matchers::ResourceMatcher.new(:influxdb_config, :delete, config)
   end
+
+  def install_influxdb_install(package)
+    ChefSpec::Matchers::ResourceMatcher.new(:influxdb_install, :install, package)
+  end
+
+  def remove_influxdb_install(package)
+    ChefSpec::Matchers::ResourceMatcher.new(:influxdb_install, :remove, package)
+  end
 end
