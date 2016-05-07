@@ -48,6 +48,24 @@ influxdb_database 'my_db' do
 end
 ```
 
+### influxdb\_install
+This resource sets up or removes the appropriate repositories and installs/removes the appropriate packages
+
+```ruby
+influxdb_install 'influxdb' do
+  arch_type 'amd64' # if undefined will auto detect
+  include_repository true # default
+  influxdb_key 'https://repos.influxdata.com/influxdb.key' # default
+  action :install # default
+end
+```
+
+```ruby
+influxdb_install 'influxdb' do
+  action :remove
+end
+```
+
 ### influxdb\_user
 This resources configures a user to interact with InfluxDB databases.
 
