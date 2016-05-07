@@ -15,12 +15,16 @@ platforms:
       image: ubuntu:14.04
       platform: ubuntu
       require_chef_omnibus: <%= chef_version %>
+      provision_command:
+          - apt-get install net-tools -y
   - name: ubuntu-15.04-chef<%= chef_version %>
     driver_config:
       box: ubuntu:15.04
       platform: ubuntu
       run_command: /sbin/init
       privileged: true
+      provision_command:
+        - apt-get install net-tools -y
     provisioner:
       require_chef_omnibus: <%= chef_version %>
   - name: debian-8.2-chef<%= chef_version %>
@@ -29,12 +33,18 @@ platforms:
       platform: debian
       run_command: /sbin/init
       privileged: true
+      provision_command:
+        - apt-get install wget -y
+        - apt-get install net-tools -y
     provisioner:
       require_chef_omnibus: <%= chef_version %>
   - name: centos-6.7-chef<%= chef_version %>
     driver_config:
       box: centos:6.7
       platform: centos
+      provision_command:
+       - yum install net-tools -y
+       - yum install iproute -y
     provisioner:
       require_chef_omnibus: <%= chef_version %>
   - name: centos-7.1-chef<%= chef_version %>
@@ -43,6 +53,9 @@ platforms:
       platform: centos
       run_command: /usr/sbin/init
       privileged: true
+      provision_command:
+        - yum install net-tools -y
+        - yum install iproute -y
     provisioner:
       require_chef_omnibus: <%= chef_version %>
 <% end %>
