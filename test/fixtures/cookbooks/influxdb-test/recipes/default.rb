@@ -26,3 +26,10 @@ influxdb_retention_policy 'test_policy' do
   replication 1
   action :create
 end
+
+# Create a test continuous query on the test database
+influxdb_continuous_query 'test_cq' do
+  database 'test_database'
+  query 'SELECT min(mouse) INTO min_mouse FROM zoo GROUP BY time(30m)'
+  action :create
+end

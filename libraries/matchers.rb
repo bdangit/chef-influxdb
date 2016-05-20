@@ -56,4 +56,12 @@ if defined?(ChefSpec)
   def remove_influxdb_install(package)
     ChefSpec::Matchers::ResourceMatcher.new(:influxdb_install, :remove, package)
   end
+
+  def create_influxdb_continuous_query(continuous_query)
+    ChefSpec::Matchers::ResourceMatcher.new(:influxdb_continuous_query, :create, continuous_query)
+  end
+
+  def delete_influxdb_continuous_query(continuous_query)
+    ChefSpec::Matchers::ResourceMatcher.new(:influxdb_continuous_query, :delete, continuous_query)
+  end
 end
