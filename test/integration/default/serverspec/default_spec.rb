@@ -51,6 +51,16 @@ describe 'influxdb' do
         expect(retention_policies).to match(/default.*true/)
       end
     end
+
+    let(:continuous_queries) do
+      command('eval "$(which influx) -execute \"show continuous queries\""').stdout
+    end
+
+    describe 'test continuous queries' do
+      it 'is exists' do
+        expect(continuous_queries).to match(/test_cq/)
+      end
+    end
   end
 
   describe 'test_user' do
