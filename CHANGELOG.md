@@ -2,6 +2,9 @@
 
 ## [unreleased]
 
+## 4.3.0
+* Added influxdb\_continuous\_query (contributed by @cyberflow)
+
 ## 4.2.0
 * Added influxdb\_install resource (contributed by @majormoses)
 
