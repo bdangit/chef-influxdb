@@ -48,6 +48,24 @@ influxdb_database 'my_db' do
 end
 ```
 
+### influxdb\_install
+This resource sets up or removes the appropriate repositories and installs/removes the appropriate packages
+
+```ruby
+influxdb_install 'influxdb' do
+  arch_type 'amd64' # if undefined will auto detect
+  include_repository true # default
+  influxdb_key 'https://repos.influxdata.com/influxdb.key' # default
+  action :install # default
+end
+```
+
+```ruby
+influxdb_install 'influxdb' do
+  action :remove
+end
+```
+
 ### influxdb\_user
 This resources configures a user to interact with InfluxDB databases.
 
@@ -80,6 +98,17 @@ influxdb_retention_policy "foodb default retention policy" do
   database 'foodb'
   duration '1w'
   replication 1
+  action :create
+end
+```
+
+### influxdb\_continuous\_query
+This resources configures a continuous query on a given database.
+
+```ruby
+influxdb_continuous_query "test_continuous_query" do
+  database 'foodb'
+  query 'SELECT min(mouse) INTO min_mouse FROM zoo GROUP BY time(30m)'
   action :create
 end
 ```
