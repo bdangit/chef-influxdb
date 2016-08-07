@@ -1,0 +1,43 @@
+---
+driver:
+  name: dokken
+  http_proxy: <%= ENV['my_http_proxy'] %>
+  https_proxy: <%= ENV['my_https_proxy'] %>
+  privileged: true
+  # chef_version: 12.5.1
+
+transport:
+  name: dokken
+
+provisioner:
+  name: dokken
+
+platforms:
+- name: centos-7
+  driver:
+    image: centos:7
+    pid_one_command: /usr/sbin/init
+    intermediate_instructions:
+      - ENV container docker
+      - VOLUME [ "/sys/fs/cgroup" ]
+      - RUN yum clean all
+
+- name: ubuntu-14.04
+  driver:
+    image: ubuntu-upstart:14.04
+    pid_one_command: /sbin/init
+    intermediate_instructions:
+      - RUN /usr/bin/apt-get update
+
+verifier:
+  root_path: '/opt/verifier'
+  sudo: false
+
+suites:
+  # NOTE: cannot, it always install the latest version
+  - name: file
+    run_list:
+      - recipe[influxdb-test::default]
+    attributes:
+      influxdb:
+        install_type: file
