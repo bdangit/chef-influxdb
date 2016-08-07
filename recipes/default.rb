@@ -11,6 +11,9 @@ chef_gem 'influxdb' do
 end
 
 influxdb_install 'influxdb' do
+  include_repository node['influxdb']['include_repository']
+  install_version node['influxdb']['version']
+  install_type node['influxdb']['install_type']
   action [:install]
 end
 
