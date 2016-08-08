@@ -15,3 +15,7 @@ Berksfile.lock
 tmp
 .kitchen/
 .kitchen.local.yml
+
+# My own
+.remote-sync.json
+.sync-config*

@@ -3,7 +3,20 @@
 # Attributes for InfluxDB
 
 # By default, always installs the latest by specifying nil
-default['influxdb']['version'] = nil
+# NOTE: whether it is a safe choice to use nil for version because we cannot be sure if the latest version is supported fully by this cookbook. See `elasticsearch` cookbook for more information
+default['influxdb']['version'] = '0.13.0'
+default['influxdb']['install_type'] = 'package'
+
+default['influxdb']['download_urls'] = {
+  'debian' => 'https://dl.influxdata.com/influxdb/releases',
+  'rhel' => 'https://dl.influxdata.com/influxdb/releases'
+}
+
+# platform_family keyed download sha256 checksums
+default['influxdb']['checksums']['0.10.3-1']['debian'] = '106e4884d8c654f1e43b803b21acc86e6494cafc50a46bcdb4330d0a51bd7aea'
+default['influxdb']['checksums']['0.10.3-1']['rhel'] = '8ba0bdb1abd9f6d16cd69a9b11062897061e0775e0691a986bb8dfd1bff58e5a'
+default['influxdb']['checksums']['0.13.0']['debian'] = '18b9be8173b770f2c80d8a8c415535c2d2f66cec5e6a5d522415a18875422680'
+default['influxdb']['checksums']['0.13.0']['rhel'] = 'ae85a7a6938f17d649b60ba035e970f1231ea5539af885e59c275be9d2257f8a'
 
 # Grab clients -- right now only supports Ruby and CLI
 default['influxdb']['client']['cli']['enable'] = false
