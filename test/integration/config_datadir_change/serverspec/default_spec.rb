@@ -16,8 +16,4 @@ describe 'influxdb' do
   describe port(8086) do
     it { is_expected.to be_listening }
   end
-
-  # TODO:
-  # = Regex config file for custom datadir
-  # = check UDP port
 end
