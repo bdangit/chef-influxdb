@@ -38,7 +38,8 @@ action :install do
       only_if { include_repository }
     end
   else
-    Chef::Log.warn "I do not support your platform: #{node.platform_family}"
+    # NOTE: should raise to exit, instead of warn, since we failed to install InfluxDB
+    raise "I do not support your platform: #{node.platform_family}"
   end
 
   package 'influxdb' do
