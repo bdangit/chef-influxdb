@@ -47,6 +47,37 @@ action :install do
     package 'influxdb' do
       version node['influxdb']['version']
     end
+  when 'file'
+    if node.platform_family? 'rhel'
+      file_name = "influxdb-#{install_version}.x86_64.rpm"
+      remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
+        source "#{node['influxdb']['download_urls']['rhel']}/#{file_name}"
+        checksum node['influxdb']['checksums'][install_version]['rhel']
+        action :create
+      end
+
+      rpm_package 'influxdb' do
+        source "#{Chef::Config[:file_cache_path]}/#{file_name}"
+        action :install
+      end
+    elsif node.platform_family? 'debian'
+      # NOTE: file_name would be influxdb_<version> instead.
+      file_name = "influxdb_#{install_version}_amd64.deb"
+      remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
+        source "#{node['influxdb']['download_urls']['debian']}/#{file_name}"
+        checksum node['influxdb']['checksums'][install_version]['debian']
+        action :create
+      end
+
+      dpkg_package 'influxdb' do
+        source "#{Chef::Config[:file_cache_path]}/#{file_name}"
+        action :install
+      end
+    else
+      raise "I do not support your platform: #{node.platform_family}"
+    end
+  else
+    raise "#{install_type} is not a valid install type."
   end
 end
 
