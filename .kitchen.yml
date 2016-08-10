@@ -39,6 +39,13 @@ suites:
     run_list:
       - recipe[influxdb-test::default]
     attributes:
+  - name: file
+    run_list:
+      - recipe[influxdb-test::default]
+    attributes:
+      influxdb:
+        install_type: file
+        version: 0.10.3-1
   - name: config_change
     run_list:
       - recipe[influxdb-test::default]
