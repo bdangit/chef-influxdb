@@ -3,7 +3,7 @@
 # Attributes for InfluxDB
 
 # By default, always installs the latest by specifying nil
-default['influxdb']['version'] = nil
+default['influxdb']['version'] = '0.13.0'
 default['influxdb']['install_type'] = 'package'
 
 default['influxdb']['download_urls'] = {
