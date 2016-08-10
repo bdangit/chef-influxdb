@@ -12,38 +12,41 @@ default_action :install
 include InfluxdbCookbook::Helpers
 
 action :install do
-  if node.platform_family? 'rhel'
-    yum_repository 'influxdb' do
-      description 'InfluxDB Repository - RHEL \$releasever'
-      baseurl node['influxdb']['upstream_repository']
-      gpgkey influxdb_key
-      only_if { include_repository }
-    end
-  elsif node.platform_family? 'debian'
-    # see if we should auto detect
-    unless new_resource.arch_type
-      new_resource.arch_type determine_arch_type(new_resource, node)
+  case install_type
+  when 'package'
+    if node.platform_family? 'rhel'
+      yum_repository 'influxdb' do
+        description 'InfluxDB Repository - RHEL \$releasever'
+        baseurl node['influxdb']['upstream_repository']
+        gpgkey influxdb_key
+        only_if { include_repository }
+      end
+    elsif node.platform_family? 'debian'
+      # see if we should auto detect
+      unless new_resource.arch_type
+        new_resource.arch_type determine_arch_type(new_resource, node)
+      end
+
+      package 'apt-transport-https' do
+        action :install
+      end
+
+      apt_repository 'influxdb' do
+        uri node['influxdb']['upstream_repository']
+        distribution node['lsb']['codename']
+        components ['stable']
+        arch_type new_resource.arch_type
+        key influxdb_key
+        only_if { include_repository }
+      end
+    else
+      # NOTE: should raise to exit, instead of warn, since we failed to install InfluxDB
+      raise "I do not support your platform: #{node.platform_family}"
     end
 
-    package 'apt-transport-https' do
-      action :install
+    package 'influxdb' do
+      version node['influxdb']['version']
     end
-
-    apt_repository 'influxdb' do
-      uri node['influxdb']['upstream_repository']
-      distribution node['lsb']['codename']
-      components ['stable']
-      arch_type new_resource.arch_type
-      key influxdb_key
-      only_if { include_repository }
-    end
-  else
-    # NOTE: should raise to exit, instead of warn, since we failed to install InfluxDB
-    raise "I do not support your platform: #{node.platform_family}"
-  end
-
-  package 'influxdb' do
-    version node['influxdb']['version']
   end
 end
 
