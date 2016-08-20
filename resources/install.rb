@@ -52,7 +52,7 @@ action :install do
       file_name = "influxdb-#{install_version}.x86_64.rpm"
       remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
         source "#{node['influxdb']['download_urls']['rhel']}/#{file_name}"
-        checksum node['influxdb']['checksums'][install_version]['rhel']
+        checksum node['influxdb']['shasums']['rhel']
         action :create
       end
 
@@ -65,7 +65,7 @@ action :install do
       file_name = "influxdb_#{install_version}_amd64.deb"
       remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
         source "#{node['influxdb']['download_urls']['debian']}/#{file_name}"
-        checksum node['influxdb']['checksums'][install_version]['debian']
+        checksum node['influxdb']['shasums']['debian']
         action :create
       end
 
