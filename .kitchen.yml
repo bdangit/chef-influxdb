@@ -39,6 +39,17 @@ suites:
     run_list:
       - recipe[influxdb-test::default]
     attributes:
+  - name: file
+    run_list:
+      - recipe[influxdb-test::default]
+    attributes:
+      influxdb:
+        install_type: file
+        version: 0.10.3-1
+        shasums:
+          debian: 106e4884d8c654f1e43b803b21acc86e6494cafc50a46bcdb4330d0a51bd7aea
+          rhel: 8ba0bdb1abd9f6d16cd69a9b11062897061e0775e0691a986bb8dfd1bff58e5a
+
   - name: config_change
     run_list:
       - recipe[influxdb-test::default]
