@@ -5,13 +5,15 @@
 property :name, String, name_property: true
 property :database, String
 property :query, String
+property :resample_every, String, default: nil
+property :resample_for, String, default: nil
 property :auth_username, String, default: 'root'
 property :auth_password, String, default: 'root'
 
 default_action :create
 
 action :create do
-  client.create_continuous_query(name, database, query)
+  client.create_continuous_query(name, database, query, resample_every: resample_every, resample_for: resample_for)
   updated_by_last_action true
 end
 
