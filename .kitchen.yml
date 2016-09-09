@@ -1,36 +1,60 @@
 ---
 driver:
-  name: vagrant
+  name: docker
+  use_sudo: false
 
 provisioner:
   name: chef_zero
 
 platforms:
-<% %w(12.7 12.6 12.5 12.4 12.3 12.2 12.1).each do |chef_version| %>
+<% %w(12.7 12.6 12.5 12.4.3 12.3 12.2 12.1).each do |chef_version| %>
   - name: ubuntu-14.04-chef<%= chef_version %>
-    driver:
-      box: bento/ubuntu-14.04
-      box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box
+    driver_config:
+      image: ubuntu:14.04
+      platform: ubuntu
       require_chef_omnibus: <%= chef_version %>
+      provision_command:
+          - apt-get install net-tools -y
   - name: ubuntu-15.04-chef<%= chef_version %>
-    driver:
-      box: bento/ubuntu-15.04
-      box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-15.04_chef-provisionerless.box
+    driver_config:
+      box: ubuntu:15.04
+      platform: ubuntu
+      run_command: /sbin/init
+      privileged: true
+      provision_command:
+        - apt-get install net-tools -y
+    provisioner:
       require_chef_omnibus: <%= chef_version %>
   - name: debian-8.2-chef<%= chef_version %>
-    driver:
-      box: bento/debian-8.2
-      box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_debian-8.2_chef-provisionerless.box
+    driver_config:
+      box: debian:8.2
+      platform: debian
+      run_command: /sbin/init
+      privileged: true
+      provision_command:
+        - apt-get install wget -y
+        - apt-get install net-tools -y
+    provisioner:
       require_chef_omnibus: <%= chef_version %>
   - name: centos-6.7-chef<%= chef_version %>
-    driver:
-      box: bento/centos-6.7
-      box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.7_chef-provisionerless.box
+    driver_config:
+      box: centos:6.7
+      platform: centos
+      provision_command:
+       - yum install net-tools -y
+       - yum install iproute -y
+    provisioner:
       require_chef_omnibus: <%= chef_version %>
   - name: centos-7.1-chef<%= chef_version %>
-    driver:
-      box: bento/centos-7.1
-      box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-7.1_chef-provisionerless.box
+    driver_config:
+      box: centos:7.1
+      platform: centos
+      run_command: /usr/sbin/init
+      privileged: true
+      provision_command:
+        - yum install net-tools -y
+        - yum install iproute -y
+    provisioner:
       require_chef_omnibus: <%= chef_version %>
 <% end %>
 
@@ -38,6 +62,7 @@ suites:
   - name: default
     run_list:
       - recipe[influxdb-test::default]
+      - recipe[netstat]
     attributes:
   - name: file
     run_list:
@@ -54,3 +79,13 @@ suites:
     run_list:
       - recipe[influxdb-test::default]
       - recipe[influxdb-test::config_change]
+  - name: file
+    run_list:
+      - recipe[influxdb-test::default]
+    attributes:
+      influxdb:
+        install_type: file
+        version: 0.10.3-1
+        shasums:
+          debian: 106e4884d8c654f1e43b803b21acc86e6494cafc50a46bcdb4330d0a51bd7aea
+          rhel: 8ba0bdb1abd9f6d16cd69a9b11062897061e0775e0691a986bb8dfd1bff58e5a

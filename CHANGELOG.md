@@ -2,6 +2,11 @@
 
 ## [unreleased]
 
+## 4.4.0
+* Added support for file install type (contributed by @chrisduong)
+* Added extra continuous query options (contributed by @cyberflow)
+* Make docker default driver for Test Kitchen
+
 ## 4.3.0
 * Added influxdb\_continuous\_query (contributed by @cyberflow)
 
