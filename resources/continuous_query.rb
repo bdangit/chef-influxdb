@@ -5,8 +5,8 @@
 property :name, String, name_property: true
 property :database, String
 property :query, String
-property :resample_every, String, default: nil
-property :resample_for, String, default: nil
+property :resample_every, [String, NilClass], default: nil
+property :resample_for, [String, NilClass], default: nil
 property :auth_username, String, default: 'root'
 property :auth_password, String, default: 'root'
 
