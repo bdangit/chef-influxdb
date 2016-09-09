@@ -2,6 +2,10 @@
 
 ## [unreleased]
 
+## 4.4.1
+* Add steps to cut release
+* Fix invalid property type 'nil' in continuous query options (contributed by @kentarosasaki)
+
 ## 4.4.0
 * Added support for file install type (contributed by @chrisduong)
 * Added extra continuous query options (contributed by @cyberflow)
