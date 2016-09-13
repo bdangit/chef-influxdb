@@ -134,6 +134,11 @@ Then to run tests:
     rake # Quick tests only (rubocop + minitest)
     rake test:complete # All tests (rubocop + minitest + kitchen)
 
+## Release Steps
+
+1. Run through Deploy step in Wercker
+2. `cd ..;  knife supermarket share influxdb "Monitoring & Trending" -o .`
+
 ## License
 This project is licensed under the MIT license
 
