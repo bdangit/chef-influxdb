@@ -1,8 +1,15 @@
 # InfluxDB
 
-[![wercker status](https://app.wercker.com/status/d0f175cb46e417cde7974f179e63084d/m "wercker status")](https://app.wercker.com/project/bykey/d0f175cb46e417cde7974f179e63084d)
+[![wercker status](https://app.wercker.com/status/d0f175cb46e417cde7974f179e63084d/s/master "wercker status")](https://app.wercker.com/project/byKey/d0f175cb46e417cde7974f179e63084d)
 
 Chef cookbook to install and configure InfluxDB.
+
+## Support
+
+|*Cookbook Version*|*InfluxDB Version*|
+|------------------|------------------|
+| v5.x.x           | >= v1.0.0        |
+| v4.4.1           | < v1.0.0         |
 
 ## Usage
 To install InfluxDB and place its configuration file, include the
@@ -49,7 +56,8 @@ end
 ```
 
 ### influxdb\_install
-This resource sets up or removes the appropriate repositories and installs/removes the appropriate packages
+This resource sets up or removes the appropriate repositories and
+installs/removes the appropriate packages
 
 ```ruby
 influxdb_install 'influxdb' do
@@ -91,6 +99,10 @@ end
 This resources configures a retention policy on a given database. The name
 attribute is not used, the database and policy name provide the unique names
 used by InfluxDB.
+
+> Note: in v1.0.0+ there is an auto-generated default profile called autogen.
+> To make your policy the default, you will want to set `default` parameter
+> `true`.
 
 ```ruby
 influxdb_retention_policy "foodb default retention policy" do

@@ -9,7 +9,7 @@ describe 'influxdb' do
     command('eval "$(which influx) -version"').stdout
   end
 
-  it 'should have influxdb version 0.10.3' do
-    expect(influxdb_verion).to match(/0.10.3/)
+  it 'should have influxdb version 1.0.0' do
+    expect(influxdb_verion).to match(/1.0.0/)
   end
 end
