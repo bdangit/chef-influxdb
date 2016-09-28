@@ -2,7 +2,7 @@
 
 # Attributes for InfluxDB
 
-default['influxdb']['version'] = '0.13.0'
+default['influxdb']['version'] = '1.0.0-1'
 default['influxdb']['install_type'] = 'package'
 
 default['influxdb']['download_urls'] = {
@@ -12,8 +12,8 @@ default['influxdb']['download_urls'] = {
 
 # platform_family keyed download sha256 checksums
 default['influxdb']['shasums'] = {
-  'debian' => '18b9be8173b770f2c80d8a8c415535c2d2f66cec5e6a5d522415a18875422680',
-  'rhel' => 'ae85a7a6938f17d649b60ba035e970f1231ea5539af885e59c275be9d2257f8a'
+  'debian' => '567005b50ab71ff7445f220093f008c9f42b9bce52a5e5568734e5fb5765b515',
+  'rhel' => '5cb2b3699ef28cdb1ff7888aafcb1012d5c51b212ab216eea7a2436de658f8c7'
 }
 
 # Grab clients -- right now only supports Ruby and CLI
@@ -22,56 +22,46 @@ default['influxdb']['client']['ruby']['enable'] = false
 default['influxdb']['client']['ruby']['version'] = nil
 default['influxdb']['handler']['version'] = '0.1.4'
 
-# For influxdb versions >= 0.9.x
+# For influxdb versions >= 1.0.x
 default['influxdb']['lib_file_path'] = '/var/lib/influxdb'
 default['influxdb']['meta_file_path'] = "#{node['influxdb']['lib_file_path']}/meta"
 default['influxdb']['data_file_path'] = "#{node['influxdb']['lib_file_path']}/data"
 default['influxdb']['wal_file_path'] = "#{node['influxdb']['lib_file_path']}/wal"
-default['influxdb']['hinted-handoff_file_path'] = "#{node['influxdb']['lib_file_path']}/hh"
+# default['influxdb']['hinted-handoff_file_path'] = "#{node['influxdb']['lib_file_path']}/hh"
 default['influxdb']['ssl_cert_file_path'] = '/etc/ssl/influxdb.pem'
 default['influxdb']['config_file_path'] = '/etc/influxdb/influxdb.conf'
 
-# For influxdb versions >= 0.9.x
-# ref: https://docs.influxdata.com/influxdb/v0.10/administration/config/
+# For influxdb versions >= 1.0.x
+# ref: https://docs.influxdata.com/influxdb/v1.0/administration/config/
 default['influxdb']['config'] = {
   'reporting-disabled' => false,
+  'bind-address' => ':8088',
   'meta' => {
-    'enabled' => true,
     'dir' => node['influxdb']['meta_file_path'],
-    'bind-address' => ':8088',
     'retention-autocreate' => true,
-    'election-timeout' => '1s',
-    'heartbeat-timeout' => '1s',
-    'leader-lease-timeout' => '500ms',
-    'commit-timeout' => '50ms',
-    'cluster-tracing' => false
+    'logging-enabled' => true
   },
   'data' => {
-    'enabled' => true,
     'dir' => node['influxdb']['data_file_path'],
     'engine' => 'tsm1',
-    # applies only to 0.9.2
-    'max-wal-size' => 104_857_600,
-    'wal-flush-interval' => '10m0s',
-    'wal-partition-flush-delay' => '2s',
-    # applies only to >= 0.9.3
     'wal-dir' => node['influxdb']['wal_file_path'],
-    'wal-enable-logging' => true,
-    'data-logging-enabled' => true
+    'wal-logging-enabled' => true,
+    'query-log-enabled' => true,
+    'cache-max-memory-size' => 524_288_000,
+    'cache-snapshot-memory-size' => 26_214_400,
+    'cache-snapshot-write-cold-duration' => '1h0m0s',
+    'compact-full-write-cold-duration' => '24h0m0s',
+    'max-points-per-block' => 0,
+    'trace-logging-enabled' => false
   },
-  'hinted-handoff' => {
-    'enabled' => true,
-    'dir' => node['influxdb']['hinted-handoff_file_path'],
-    'max-size' => 1_073_741_824,
-    'max-age' => '168h0m0s',
-    'retry-rate-limit' => 0,
-    'retry-interval' => '1s',
-    'retry-max-interval' => '1m0s',
-    'purge-interval' => '1h0m0s'
-  },
-  'cluster' => {
+  'coordinator' => {
     'write-timeout' => '10s',
-    'shard-writer-timeout' => '5s'
+    'max-concurrent-queries' => 0,
+    'query-timeout' => '0',
+    'log-queries-after' => '0',
+    'max-select-point' => 0,
+    'max-select-series' => 0,
+    'max-select-buckets' => 0
   },
   'retention' => {
     'enabled' => true,
@@ -82,16 +72,20 @@ default['influxdb']['config'] = {
     'check-interval' => '10m0s',
     'advance-period' => '30m0s'
   },
-  'monitor' => {
-    'store-enabled' => true,
-    'store-database' => '_internal',
-    'store-interval' => '10s'
-  },
   'admin' => {
     'enabled' => true,
     'bind-address' => ':8083',
     'https-enabled' => false,
     'https-certificate' => node['influxdb']['ssl_cert_file_path']
+  },
+  'monitor' => {
+    'store-enabled' => true,
+    'store-database' => '_internal',
+    'store-interval' => '10s'
+  },
+  'subscriber' => {
+    'enabled' => true,
+    'http-timeout' => '30s'
   },
   'http' => {
     'enabled' => true,
@@ -101,19 +95,28 @@ default['influxdb']['config'] = {
     'write-tracing' => false,
     'pprof-enabled' => false,
     'https-enabled' => false,
-    'https-certificate' => node['influxdb']['ssl_cert_file_path']
+    'https-certificate' => node['influxdb']['ssl_cert_file_path'],
+    'https-private-key' => '',
+    'max-row-limt' => 10_000,
+    'max-connection-limit' => 0,
+    'shared-secret' => '',
+    'realm' => 'InfluDB'
   },
   'graphite' => [
     {
       'enabled' => false
     }
   ],
-  'collectd' => {
-    'enabled' => false
-  },
-  'opentsdb' => {
-    'enabled' => false
-  },
+  'collectd' => [
+    {
+      'enabled' => false
+    }
+  ],
+  'opentsdb' => [
+    {
+      'enabled' => false
+    }
+  ],
   'udp' => [
     {
       'enabled' => false
@@ -123,9 +126,6 @@ default['influxdb']['config'] = {
     'log-enabled' => true,
     'enabled' => true,
     'run-interval' => '1s'
-  },
-  'subscriber' => {
-    'enabled' => true
   }
 }
 
@@ -134,6 +134,9 @@ when 'rhel', 'fedora'
   default['influxdb']['upstream_repository'] = case node['platform']
                                                when 'centos'
                                                  "https://repos.influxdata.com/centos/#{node['platform_version'].to_i}/$basearch/stable"
+                                               when 'amazon'
+                                                 # ref: https://aws.amazon.com/amazon-linux-ami/faqs/
+                                                 'https://repos.influxdata.com/centos/6/$basearch/stable'
                                                else
                                                  "https://repos.influxdata.com/rhel/#{node['platform_version'].to_i}/$basearch/stable"
                                                end

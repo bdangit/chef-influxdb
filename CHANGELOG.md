@@ -2,9 +2,17 @@
 
 ## [unreleased]
 
+## 5.0.0
+* [major] Support for 1.0.x which is **not backward compatible**
+* [major] Updated apt cookbook pin to ~> 4.0
+* [major] Updated yum cookbook pin to ~> 4.0
+* [minor] Reduce number of TK Cases to 12.1, 12.7 and 12.14.
+* [patch] removed specific branch used for `compat_resource`
+
 ## 4.4.1
 * Add steps to cut release
-* Fix invalid property type 'nil' in continuous query options (contributed by @kentarosasaki)
+* Fix invalid property type 'nil' in continuous query options (contributed by
+  @kentarosasaki)
 
 ## 4.4.0
 * Added support for file install type (contributed by @chrisduong)

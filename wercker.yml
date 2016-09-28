@@ -3,19 +3,18 @@ build:
   steps:
     - install-packages:
         packages: wget
-    - poppen/chefdk:
-        version: 0.10.0
+    - bdangit/chefdk:
+        version: 0.18.26
     - script:
         name: lint style spec
         code: |
-          chef gem install rubocop --version 0.37.0
           chef exec "rake test:quick"
 deploy:
   steps:
     - install-packages:
         packages: wget curl
-    - poppen/chefdk:
-        version: 0.10.0
+    - bdangit/chefdk:
+        version: 0.18.26
     - script:
         name: get version from rake
         code: |

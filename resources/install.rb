@@ -35,13 +35,13 @@ action :install do
         uri node['influxdb']['upstream_repository']
         distribution node['lsb']['codename']
         components ['stable']
-        arch_type new_resource.arch_type
+        arch new_resource.arch_type
         key influxdb_key
         only_if { include_repository }
       end
     else
       # NOTE: should raise to exit, instead of warn, since we failed to install InfluxDB
-      raise "I do not support your platform: #{node.platform_family}"
+      raise "I do not support your platform: #{node['platform_family']}"
     end
 
     package 'influxdb' do
@@ -74,7 +74,7 @@ action :install do
         action :install
       end
     else
-      raise "I do not support your platform: #{node.platform_family}"
+      raise "I do not support your platform: #{node['platform_family']}"
     end
   else
     raise "#{install_type} is not a valid install type."
@@ -89,11 +89,11 @@ action :remove do
     end
   elsif node.platform_family? 'debian'
     apt_repository 'influxdb' do
-      action :delete
+      action :remove
       only_if { include_repository }
     end
   else
-    Chef.Log.warn "I do not support your platform: #{node.platform_family}"
+    raise "I do not support your platform: #{node['platform_family']}"
   end
 
   package 'influxdb' do
