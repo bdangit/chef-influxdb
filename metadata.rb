@@ -5,7 +5,7 @@ maintainer       'Ben Dang'
 maintainer_email 'me@bdang.it'
 license          'MIT'
 description      'InfluxDB, a timeseries database'
-version          '5.0.0'
+version          '5.0.1'
 
 # For CLI client
 # https://github.com/redguide/nodejs
@@ -16,8 +16,8 @@ depends 'nodejs', '~> 2.4'
 depends 'chef_handler'
 
 # For apt and yum repositories
-depends 'apt', '~> 4.0'
-depends 'yum', '~> 4.0'
+depends 'apt', '>= 3.0'
+depends 'yum', '>= 3.0'
 
 # For compatibility with 12.X versions of Chef
 depends 'compat_resource'
