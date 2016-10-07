@@ -1,6 +1,11 @@
 # CHANGELOG
 
-## [unreleased]
+## 5.0.2
+* [patch] handle InfluxDB::Error when auth enabled without admin user
+  (contributed by @jschnare)
+
+## 5.0.1
+* [patch] relax apt and yum dependencies (contributed by @dpattmann)
 
 ## 5.0.0
 * [major] Support for 1.0.x which is **not backward compatible**
