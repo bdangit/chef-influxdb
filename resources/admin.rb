@@ -19,14 +19,14 @@ action :create do
       client.create_cluster_admin(username, password)
       updated_by_last_action true
     end
-  rescue InfluxDB::AuthenticationError => e
+  rescue InfluxDB::Error => e
     # Exception due to missing admin user
     # https://influxdb.com/docs/v0.9/administration/authentication.html
     # https://github.com/chrisduong/chef-influxdb/commit/fe730374b4164e872cbf208c06d2462c8a056a6a
-    if e.to_s.include? 'create admin user'
-      client.create_cluster_admin(username, password)
-      updated_by_last_action true
-    end
+    raise e unless e.to_s.include? 'create admin user'
+
+    client.create_cluster_admin(username, password)
+    updated_by_last_action true
   end
 end
 
