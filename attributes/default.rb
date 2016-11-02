@@ -2,7 +2,7 @@
 
 # Attributes for InfluxDB
 
-default['influxdb']['version'] = '1.0.0-1'
+default['influxdb']['version'] = '1.0.2-1'
 default['influxdb']['install_type'] = 'package'
 
 default['influxdb']['download_urls'] = {
@@ -12,8 +12,8 @@ default['influxdb']['download_urls'] = {
 
 # platform_family keyed download sha256 checksums
 default['influxdb']['shasums'] = {
-  'debian' => '567005b50ab71ff7445f220093f008c9f42b9bce52a5e5568734e5fb5765b515',
-  'rhel' => '5cb2b3699ef28cdb1ff7888aafcb1012d5c51b212ab216eea7a2436de658f8c7'
+  'debian' => '88f6c30fec2c6e612e802e23b9161fdfc7c5c29f6be036f0376326445aff0037',
+  'rhel' => '5efa2e4060e75a07ad1a3abd094322c708131c73be575e0ffe41817b788ff44a'
 }
 
 # Grab clients -- right now only supports Ruby and CLI
