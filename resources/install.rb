@@ -46,6 +46,7 @@ action :install do
 
     package 'influxdb' do
       version node['influxdb']['version']
+      options '--force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"' if node.platform_family? 'debian'
     end
   when 'file'
     if node.platform_family? 'rhel'
@@ -71,6 +72,7 @@ action :install do
 
       dpkg_package 'influxdb' do
         source "#{Chef::Config[:file_cache_path]}/#{file_name}"
+        options '--force-confdef --force-confold'
         action :install
       end
     else
