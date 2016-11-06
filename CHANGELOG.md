@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 5.0.3
+* [patch] Pass force options to package install to enable upgrades 
+  (contributed by @eheydrick)
+* [patch] install InfluxDB 1.0.2 (contributed by @eheydrick)
+
 ## 5.0.2
 * [patch] handle InfluxDB::Error when auth enabled without admin user
   (contributed by @jschnare)
