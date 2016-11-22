@@ -18,7 +18,7 @@ influxdb_install 'influxdb' do
 end
 
 influxdb_config node['influxdb']['config_file_path'] do
-  config node['influxdb']['config']
+  config lazy { node['influxdb']['config'] }
 end
 
 service 'influxdb' do
