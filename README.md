@@ -117,9 +117,12 @@ end
 ### influxdb\_continuous\_query
 This resources configures a continuous query on a given database.
 
+> If you need rewrite continuous query if it already exist set `rewrite` parametr to `true`. 
+
 ```ruby
 influxdb_continuous_query "test_continuous_query" do
   database 'foodb'
+  rewrite false
   query 'SELECT min(mouse) INTO min_mouse FROM zoo GROUP BY time(30m)'
   action :create
 end
