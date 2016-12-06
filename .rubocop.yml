@@ -1,6 +1,12 @@
 Metrics/LineLength:
   Enabled: false
 
+Metrics/MethodLength:
+  Max: 12
+
+Metrics/AbcSize:
+  Max: 16
+
 Style/SpaceBeforeFirstArg:
   Exclude:
     - '**/metadata.rb'

@@ -11,6 +11,10 @@ end
 influxdb_user 'test_user' do
   password 'test_password'
   databases [dbname]
+  api_hostname 'localhost'
+  api_port 8086
+  use_ssl false
+  verify_ssl false
   action :create
 end
 

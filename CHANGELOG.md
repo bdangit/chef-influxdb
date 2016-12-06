@@ -1,7 +1,11 @@
 # CHANGELOG
 
+## 5.x
+* [patch] Add SSL support for API-based resources
+  (contributed by @kjschnei001)
+
 ## 5.0.3
-* [patch] Pass force options to package install to enable upgrades 
+* [patch] Pass force options to package install to enable upgrades
   (contributed by @eheydrick)
 * [patch] install InfluxDB 1.0.2 (contributed by @eheydrick)
 
