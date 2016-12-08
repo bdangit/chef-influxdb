@@ -2,7 +2,7 @@
 
 # Attributes for InfluxDB
 
-default['influxdb']['version'] = '1.0.2-1'
+default['influxdb']['version'] = nil
 default['influxdb']['install_type'] = 'package'
 
 default['influxdb']['download_urls'] = {
