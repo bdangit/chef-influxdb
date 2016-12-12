@@ -33,6 +33,7 @@ action :delete do
   updated_by_last_action true
 end
 
+# rubocop:disable Metrics/AbcSize
 def current_cq
   @current_cq ||= (
     current_cq_arr = client.list_continuous_queries(database).select do |c|
@@ -44,6 +45,7 @@ def current_cq
     current_cq_arr[0] if current_cq_arr.length
   )
 end
+# rubocop:enable Metrics/AbcSize
 
 def client
   require 'influxdb'
