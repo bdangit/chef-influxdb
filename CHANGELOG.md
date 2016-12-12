@@ -1,7 +1,14 @@
 # CHANGELOG
 
+## 5.1.0
+* [minor] add ability to renew continuous query record if it exist by option
+  rewrite in lwrp (contributed by @cyberflow)
+* [patch] fix #133 that prevented latest versions of influxdb to be installed
+  installs of influxdb (contributed by @cyberflow)
+* [patch] clean up rubocop #136
+
 ## 5.0.3
-* [patch] Pass force options to package install to enable upgrades 
+* [patch] Pass force options to package install to enable upgrades
   (contributed by @eheydrick)
 * [patch] install InfluxDB 1.0.2 (contributed by @eheydrick)
 
