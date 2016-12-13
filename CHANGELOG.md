@@ -1,7 +1,7 @@
 # CHANGELOG
 
-## 5.1.1
-* [patch] Add SSL support for API-based resources
+## 5.2.0
+* [minor] Add SSL support for API-based resources
   (contributed by @kjschnei001)
 
 ## 5.1.0
