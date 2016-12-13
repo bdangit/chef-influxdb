@@ -1,8 +1,15 @@
 # CHANGELOG
 
-## 5.x
+## 5.1.1
 * [patch] Add SSL support for API-based resources
   (contributed by @kjschnei001)
+
+## 5.1.0
+* [minor] add ability to renew continuous query record if it exist by option
+  rewrite in lwrp (contributed by @cyberflow)
+* [patch] fix #133 that prevented latest versions of influxdb to be installed
+  installs of influxdb (contributed by @cyberflow)
+* [patch] clean up rubocop #136
 
 ## 5.0.3
 * [patch] Pass force options to package install to enable upgrades

@@ -45,7 +45,7 @@ action :install do
     end
 
     package 'influxdb' do
-      version node['influxdb']['version']
+      version node['influxdb']['version'] if node['influxdb']['version']
       options '--force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"' if node.platform_family? 'debian'
     end
   when 'file'

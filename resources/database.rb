@@ -8,7 +8,7 @@ property :auth_password, String, default: 'root'
 property :api_hostname, String, default: 'localhost'
 property :api_port, Integer, default: 8086
 property :use_ssl, [TrueClass, FalseClass], default: false
-property :verify_ssl, [TrueClass, FalseClass], default: false
+property :verify_ssl, [TrueClass, FalseClass], default: true
 
 default_action :create
 
