@@ -10,6 +10,10 @@ property :replication, Fixnum, default: 1
 property :default, [TrueClass, FalseClass], default: false
 property :auth_username, String, default: 'root'
 property :auth_password, String, default: 'root'
+property :api_hostname, String, default: 'localhost'
+property :api_port, Integer, default: 8086
+property :use_ssl, [TrueClass, FalseClass], default: false
+property :verify_ssl, [TrueClass, FalseClass], default: true
 
 default_action :create
 
@@ -44,12 +48,18 @@ def current_policy
   )
 end
 
+# rubocop:disable Metrics/MethodLength
 def client
   require 'influxdb'
   @client ||=
     InfluxDB::Client.new(
       username: auth_username,
       password: auth_password,
-      retry: 10
+      retry: 10,
+      host: api_hostname,
+      port: api_port,
+      use_ssl: use_ssl,
+      verify_ssl: verify_ssl
     )
 end
+# rubocop:enable Metrics/MethodLength

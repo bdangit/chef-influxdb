@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 5.2.0
+* [minor] Add SSL support for API-based resources
+  (contributed by @kjschnei001)
+
 ## 5.1.0
 * [minor] add ability to renew continuous query record if it exist by option
   rewrite in lwrp (contributed by @cyberflow)
