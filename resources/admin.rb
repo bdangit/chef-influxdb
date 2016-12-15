@@ -50,6 +50,7 @@ action :delete do
   end
 end
 
+# rubocop:disable Metrics/MethodLength
 def client
   require 'influxdb'
   @client ||=
@@ -63,3 +64,4 @@ def client
       verify_ssl: verify_ssl
     )
 end
+# rubocop:enable Metrics/MethodLength
