@@ -32,7 +32,7 @@ The following gems are used by the custom resources and are installed by the
 This cookbook ships with five custom resources for managing the configuration
 file, users, databases, cluster admins, and retention policies:
 
-### influxdb_config
+### influxdb\_config
 This resource writes a configuration file for InfluxDB based on the passed
 configuration hash:
 
@@ -151,8 +151,7 @@ Then to run tests:
 
 ## Release Steps
 
-1. Run through Deploy step in Wercker
-2. `cd ..;  knife supermarket share influxdb "Monitoring & Trending" -o .`
+    rake publish
 
 ## License
 This project is licensed under the MIT license

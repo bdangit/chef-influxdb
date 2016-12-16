@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## 5.2.1
+* [patch] Add a `rake publish` target
+
 ## 5.2.0
 * [minor] Add SSL support for API-based resources
   (contributed by @kjschnei001)
