@@ -57,3 +57,8 @@ task :version do
   version = File.read('metadata.rb')[/^version\s*'(\d.\d.\d)'/, 1]
   print version
 end
+
+desc 'Publish cookbook into Supermarket'
+task :publish do
+  sh "cd ..; knife supermarket share influxdb 'Monitoring & Trending' -o ."
+end
