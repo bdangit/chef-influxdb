@@ -19,8 +19,10 @@ end
 
 influxdb_config node['influxdb']['config_file_path'] do
   config node['influxdb']['config']
+  notifies :restart, 'service[influxdb]', :delayed
 end
 
 service 'influxdb' do
-  action [:enable, :start]
+  supports :restart => true
+  action :enable
 end
