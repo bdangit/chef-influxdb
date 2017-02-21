@@ -23,6 +23,6 @@ influxdb_config node['influxdb']['config_file_path'] do
 end
 
 service 'influxdb' do
-  supports :restart => true
+  supports {:restart => true }
   action :enable
 end
