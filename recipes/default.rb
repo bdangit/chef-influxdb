@@ -24,5 +24,5 @@ end
 
 service 'influxdb' do
   supports(restart: true)
-  action :enable
+  action [:enable, :start]
 end
