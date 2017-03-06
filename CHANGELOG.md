@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 5.2.2
+* [patch] notifying influxes service after config change [#140](../../pull/140) 
+  (contributed by @nilroy)
+
 ## 5.2.1
 * [patch] Add a `rake publish` target
 

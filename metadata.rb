@@ -5,7 +5,7 @@ maintainer       'Ben Dang'
 maintainer_email 'me@bdang.it'
 license          'MIT'
 description      'InfluxDB, a timeseries database'
-version          '5.2.1'
+version          '5.2.2'
 
 # For CLI client
 # https://github.com/redguide/nodejs
