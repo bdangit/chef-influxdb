@@ -7,17 +7,15 @@ provisioner:
   name: chef_zero
 
 platforms:
-<% %w(12.14 12.7 12.1).each do |chef_version| %>
+<% %w(13.0 12.19).each do |chef_version| %>
   - name: ubuntu-14.04-chef<%= chef_version %>
     driver_config:
       image: ubuntu:14.04
       platform: ubuntu
       require_chef_omnibus: <%= chef_version %>
-      provision_command:
-          - apt-get install net-tools -y
-  - name: ubuntu-15.10-chef<%= chef_version %>
+  - name: ubuntu-16.10-chef<%= chef_version %>
     driver_config:
-      box: ubuntu:15.10
+      box: ubuntu:16.10
       platform: ubuntu
       run_command: /sbin/init
       privileged: true
@@ -25,29 +23,23 @@ platforms:
         - apt-get install net-tools -y
     provisioner:
       require_chef_omnibus: <%= chef_version %>
-  - name: debian-8.5-chef<%= chef_version %>
+  - name: debian-8.7-chef<%= chef_version %>
     driver_config:
-      box: debian:8.5
+      box: debian:8.7
       platform: debian
       run_command: /sbin/init
       privileged: true
-      provision_command:
-        - apt-get install wget -y
-        - apt-get install net-tools -y
     provisioner:
       require_chef_omnibus: <%= chef_version %>
   - name: centos-6.8-chef<%= chef_version %>
     driver_config:
       box: centos:6.8
       platform: centos
-      provision_command:
-       - yum install net-tools -y
-       - yum install iproute -y
     provisioner:
       require_chef_omnibus: <%= chef_version %>
-  - name: centos-7.2-chef<%= chef_version %>
+  - name: centos-7.3-chef<%= chef_version %>
     driver_config:
-      box: centos:7.2
+      box: centos:7.3
       platform: centos
       run_command: /usr/sbin/init
       privileged: true
@@ -62,7 +54,6 @@ suites:
   - name: default
     run_list:
       - recipe[influxdb-test::default]
-      - recipe[netstat]
     attributes:
   - name: file
     run_list:

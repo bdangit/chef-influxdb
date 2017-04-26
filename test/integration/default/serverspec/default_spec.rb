@@ -1,5 +1,6 @@
 require 'spec_helper'
 
+# rubocop:disable Metrics/BlockLength
 describe 'influxdb' do
   describe user('influxdb') do
     it { is_expected.to exist }
@@ -83,3 +84,4 @@ describe 'influxdb' do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength

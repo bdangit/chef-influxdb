@@ -11,6 +11,7 @@ default_action :install
 
 include InfluxdbCookbook::Helpers
 
+# rubocop:disable Metrics/BlockLength
 action :install do
   case install_type
   when 'package'
@@ -82,6 +83,7 @@ action :install do
     raise "#{install_type} is not a valid install type."
   end
 end
+# rubocop:enable Metrics/BlockLength
 
 action :remove do
   if node.platform_family? 'rhel'
