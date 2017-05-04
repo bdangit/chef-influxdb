@@ -5,6 +5,7 @@ require 'foodcritic'
 
 task default: 'test:quick'
 
+# rubocop:disable Metrics/BlockLength
 namespace :test do
   RuboCop::RakeTask.new
 
@@ -51,6 +52,7 @@ namespace :test do
     Rake::Task['test:integration:vagrant'].invoke
   end
 end
+# rubocop:enable Metrics/BlockLength
 
 desc 'Print version of cookbook'
 task :version do

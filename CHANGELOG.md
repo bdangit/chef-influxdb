@@ -1,7 +1,21 @@
 # CHANGELOG
 
+## 6.0.0
+* [major] Removed support for 12.1 thru 12.4.
+* [minor] Fix install of influxdb
+    - `node['influxdb']['include_repository']` was getting set to `nil` even
+    though custom resource `influxdb_install` set `include_repository`
+    default to false.  To fix needed to set the node attribute to be set
+    properly
+    - fixed rubocop styling
+    - fixed foodcritic lints
+    - updated kitchen to test for Chef 13
+    - updated wercker profile to use latest and greatest chefdk
+* [patch] Use `Generator` class instead of `dump` method for config generation [#143](../../pull/143) (contributed by @ton31337)
+    - *We are no longer using `toml-rb` and instead use `toml`*
+
 ## 5.2.2
-* [patch] notifying influxes service after config change [#140](../../pull/140) 
+* [patch] notifying influxes service after config change [#140](../../pull/140)
   (contributed by @nilroy)
 
 ## 5.2.1

@@ -6,7 +6,7 @@ property :name, String, name_property: true
 property :policy_name, String
 property :database, String
 property :duration, String, default: 'INF'
-property :replication, Fixnum, default: 1
+property :replication, Integer, default: 1
 property :default, [TrueClass, FalseClass], default: false
 property :auth_username, String, default: 'root'
 property :auth_password, String, default: 'root'
@@ -37,7 +37,7 @@ action :delete do
 end
 
 def current_policy
-  @current_policy ||= (
+  @current_policy ||= begin
     current_policy_arr = client.list_retention_policies(database).select do |p|
       p['name'] == policy_name
     end
@@ -45,7 +45,7 @@ def current_policy
       Chef::Log.fatal("Unexpected number of matches for retention policy #{policy_name} on database #{database}: #{current_policy_arr}")
     end
     current_policy_arr[0] if current_policy_arr.length
-  )
+  end
 end
 
 # rubocop:disable Metrics/MethodLength

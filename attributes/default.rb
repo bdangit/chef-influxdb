@@ -4,6 +4,7 @@
 
 default['influxdb']['version'] = nil
 default['influxdb']['install_type'] = 'package'
+default['influxdb']['include_repository'] = true
 
 default['influxdb']['download_urls'] = {
   'debian' => 'https://dl.influxdata.com/influxdb/releases',

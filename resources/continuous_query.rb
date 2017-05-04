@@ -39,7 +39,7 @@ end
 
 # rubocop:disable Metrics/AbcSize
 def current_cq
-  @current_cq ||= (
+  @current_cq ||= begin
     current_cq_arr = client.list_continuous_queries(database).select do |c|
       c['name'] == name
     end
@@ -47,7 +47,7 @@ def current_cq
       Chef::Log.fatal("Unexpected number of matches for continuous query #{name} on database #{database}: #{current_policy_arr}")
     end
     current_cq_arr[0] if current_cq_arr.length
-  )
+  end
 end
 # rubocop:enable Metrics/AbcSize
 

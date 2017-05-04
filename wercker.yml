@@ -4,7 +4,7 @@ build:
     - install-packages:
         packages: wget
     - bdangit/chefdk:
-        version: 0.18.26
+        version: 1.3.43
     - script:
         name: lint style spec
         code: |
@@ -14,7 +14,7 @@ deploy:
     - install-packages:
         packages: wget curl
     - bdangit/chefdk:
-        version: 0.18.26
+        version: 1.3.43
     - script:
         name: get version from rake
         code: |

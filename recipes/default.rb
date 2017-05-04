@@ -2,7 +2,7 @@
 
 # Installs InfluxDB
 
-chef_gem 'toml-rb' do
+chef_gem 'toml' do
   compile_time false if respond_to?(:compile_time)
 end
 
