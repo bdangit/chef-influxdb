@@ -2,6 +2,9 @@
 
 ## [unreleased]
 
+## 4.4.2
+* Updated for compliance with toml-rb 1.0.0 gem
+
 ## 4.4.1
 * Add steps to cut release
 * Fix invalid property type 'nil' in continuous query options (contributed by @kentarosasaki)

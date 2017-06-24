@@ -8,10 +8,10 @@ property :config, Hash, required: true
 default_action :create
 
 action :create do
-  require 'toml'
+  require 'toml-rb'
 
   file path do
-    content TOML.dump(config)
+    content TomlRB.dump(config)
   end
 end
 
