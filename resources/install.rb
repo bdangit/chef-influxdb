@@ -8,7 +8,7 @@ property :influxdb_key, kind_of: String, default: 'https://repos.influxdata.com/
 property :install_version, [String, nil], default: nil
 property :install_type, String, default: 'package'
 property :package_name, String, name_property: true
-property :checksum, String, default: node['influxdb']['shasums'][node[:platform_family]]
+property :checksum, String, default: node['influxdb']['shasums'][node['platform_family']]
 default_action :install
 
 include InfluxdbCookbook::Helpers
