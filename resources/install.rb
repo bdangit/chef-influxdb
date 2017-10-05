@@ -7,6 +7,8 @@ property :include_repository, kind_of: [TrueClass, FalseClass], default: true
 property :influxdb_key, kind_of: String, default: 'https://repos.influxdata.com/influxdb.key'
 property :install_version, [String, nil], default: nil
 property :install_type, String, default: 'package'
+property :package_name, String, name_property: true
+property :checksum, String, default: node['influxdb']['shasums'][node['platform_family']]
 default_action :install
 
 include InfluxdbCookbook::Helpers
@@ -51,27 +53,27 @@ action :install do
     end
   when 'file'
     if node.platform_family? 'rhel'
-      file_name = "influxdb-#{install_version}.x86_64.rpm"
+      file_name = "#{package_name}-#{install_version}.x86_64.rpm"
       remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
         source "#{node['influxdb']['download_urls']['rhel']}/#{file_name}"
-        checksum node['influxdb']['shasums']['rhel']
+        checksum checksum
         action :create
       end
 
-      rpm_package 'influxdb' do
+      rpm_package package_name do
         source "#{Chef::Config[:file_cache_path]}/#{file_name}"
         action :install
       end
     elsif node.platform_family? 'debian'
       # NOTE: file_name would be influxdb_<version> instead.
-      file_name = "influxdb_#{install_version}_amd64.deb"
+      file_name = "#{package_name}_#{install_version}_amd64.deb"
       remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
         source "#{node['influxdb']['download_urls']['debian']}/#{file_name}"
-        checksum node['influxdb']['shasums']['debian']
+        checksum checksum
         action :create
       end
 
-      dpkg_package 'influxdb' do
+      dpkg_package package_name do
         source "#{Chef::Config[:file_cache_path]}/#{file_name}"
         options '--force-confdef --force-confold'
         action :install
@@ -100,7 +102,7 @@ action :remove do
     raise "I do not support your platform: #{node['platform_family']}"
   end
 
-  package 'influxdb' do
+  package package_name do
     action :remove
   end
 end

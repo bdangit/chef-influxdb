@@ -74,6 +74,32 @@ influxdb_install 'influxdb' do
 end
 ```
 
+> Note : InfluxDB Enterprise uses different version naming schema and is 
+> distributed in two packages: `influxdb-data` and `influxdb-meta`.
+> Install it this way:
+
+```ruby
+node.default['influxdb']['version'] = "1.3.5-c1.3.5"
+node.default['influxdb']['download_urls'] = {
+  'debian' => 'https://dl.influxdata.com/enterprise/releases',
+  'rhel' => 'https://dl.influxdata.com/enterprise/releases'
+}
+
+influxdb_install 'influxdb-meta' do
+  install_version node['influxdb']['version']
+  install_type 'file'
+  checksum '87d99ba4a90487ee1a9'
+  action [:install]
+end
+
+influxdb_install 'influxdb-data' do
+  install_version node['influxdb']['version']
+  install_type 'file'
+  checksum '4c17e7d3bac8f565c140'
+  action [:install]
+end
+```
+
 ### influxdb\_user
 This resources configures a user to interact with InfluxDB databases.
 
