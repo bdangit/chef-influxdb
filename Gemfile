@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+group :development do
+  gem 'github_changelog_generator', require: false
+end
+
 group :integration do
   gem 'berkshelf'
   gem 'kitchen-docker'
