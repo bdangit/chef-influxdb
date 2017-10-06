@@ -1,5 +1,20 @@
 # Change Log
 
+## [6.1.0](https://github.com/bdangit/chef-influxdb/tree/6.1.0) (2017-10-06)
+[Full Changelog](https://github.com/bdangit/chef-influxdb/compare/6.0.0...6.1.0)
+
+**Closed issues:**
+
+- No candidate version available for influxdb [\#144](https://github.com/bdangit/chef-influxdb/issues/144)
+
+**Merged pull requests:**
+
+- need to add this gem [\#154](https://github.com/bdangit/chef-influxdb/pull/154) ([bdangit](https://github.com/bdangit))
+- Bump 6.1.0 [\#153](https://github.com/bdangit/chef-influxdb/pull/153) ([bdangit](https://github.com/bdangit))
+- Use `github-changelog-generator` to help with this mundane task [\#152](https://github.com/bdangit/chef-influxdb/pull/152) ([bdangit](https://github.com/bdangit))
+- ability to install InfluxDB Enterprise packages [\#151](https://github.com/bdangit/chef-influxdb/pull/151) ([anatolijd](https://github.com/anatolijd))
+- Update to support latest toml-rb 1.0.0 gem [\#148](https://github.com/bdangit/chef-influxdb/pull/148) ([igorfraa](https://github.com/igorfraa))
+
 # HISTORY
 
 ## 6.0.0
