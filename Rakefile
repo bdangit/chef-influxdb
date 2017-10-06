@@ -2,8 +2,24 @@ require 'rake'
 require 'rake/testtask'
 require 'rubocop/rake_task'
 require 'foodcritic'
+require 'github_changelog_generator/task'
 
 task default: 'test:quick'
+
+GitHubChangelogGenerator::RakeTask.new :changelog do |config|
+  config.unreleased = false
+end
+
+desc 'Print version of cookbook'
+task :version do
+  version = File.read('metadata.rb')[/^version\s*'(\d.\d.\d)'/, 1]
+  print version
+end
+
+desc 'Publish cookbook into Supermarket'
+task :publish do
+  sh "cd ..; knife supermarket share influxdb 'Monitoring & Trending' -o ."
+end
 
 # rubocop:disable Metrics/BlockLength
 namespace :test do
@@ -53,14 +69,3 @@ namespace :test do
   end
 end
 # rubocop:enable Metrics/BlockLength
-
-desc 'Print version of cookbook'
-task :version do
-  version = File.read('metadata.rb')[/^version\s*'(\d.\d.\d)'/, 1]
-  print version
-end
-
-desc 'Publish cookbook into Supermarket'
-task :publish do
-  sh "cd ..; knife supermarket share influxdb 'Monitoring & Trending' -o ."
-end
