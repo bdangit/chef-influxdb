@@ -19,6 +19,7 @@ deploy:
     - script:
         name: get version from rake
         code: |
+          chef gem install github_changelog_generator
           export APP_VERSION=$(chef exec rake version)
           echo $APP_VERSION
     - github-create-release:
