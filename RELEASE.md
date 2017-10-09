@@ -47,7 +47,7 @@
   $ rake changelog
   ```
 
-6. Commit the `CHANGELOG.md` and `VERSION` changes and push your branch.
+6. Commit the `CHANGELOG.md` and `metadata.rb` changes and push your branch.
 
 7. Issue a new PR await approval.
 
