@@ -10,6 +10,12 @@ GitHubChangelogGenerator::RakeTask.new :changelog do |config|
   config.unreleased = false
 end
 
+desc 'Bump and Tag Cookbook'
+task :bump do
+  sh 'git checkout -b "bump"'
+  sh 'bump patch --no-bundle --no-commit'
+end
+
 desc 'Print version of cookbook'
 task :version do
   version = File.read('metadata.rb')[/^version\s*'(\d.\d.\d)'/, 1]
