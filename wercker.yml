@@ -9,21 +9,5 @@ build:
         name: lint style spec
         code: |
           chef gem install github_changelog_generator
+          chef gem install bump
           chef exec "rake test:quick"
-deploy:
-  steps:
-    - install-packages:
-        packages: wget curl
-    - bdangit/chefdk:
-        version: 1.3.43
-    - script:
-        name: get version from rake
-        code: |
-          chef gem install github_changelog_generator
-          export APP_VERSION=$(chef exec rake version)
-          echo $APP_VERSION
-    - github-create-release:
-        token: $GITHUB_TOKEN
-        tag: $APP_VERSION
-        title: $APP_VERSION
-    # TODO: setup stove to push to supermarket

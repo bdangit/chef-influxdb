@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 group :development do
+  gem 'bump'
   gem 'github_changelog_generator', require: false
 end
 
