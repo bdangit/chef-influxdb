@@ -38,11 +38,8 @@
   ```
   $ rake bump
   ```
-  > note: It always does a `patch` bump. To do a minor/major bump, set environment variable `BUMPLEVEL` to minor/major.
-
-  > ```
-  $ BUMPLEVEL=minor rake bump
-  ```
+  > note: It always does a `patch` bump. To do a minor/major bump, set environment variable
+  > `BUMPLEVEL` to minor/major (ex. `BUMPLEVEL=minor rake bump`
 
 5. Generate a new `CHANGELOG.md`:
 
