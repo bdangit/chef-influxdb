@@ -2,24 +2,32 @@ require 'rake'
 require 'rake/testtask'
 require 'rubocop/rake_task'
 require 'foodcritic'
-require 'github_changelog_generator/task'
 
 task default: 'test:quick'
 
-GitHubChangelogGenerator::RakeTask.new :changelog do |config|
-  config.unreleased = false
+def version
+  File.read('metadata.rb')[/^version\s*'(\d.\d.\d)'/, 1]
 end
 
-desc 'Bump and Tag Cookbook'
+desc 'Bump the version'
 task :bump do
-  sh 'git checkout -b "bump"'
-  sh 'bump patch --no-bundle --no-commit'
+  bump_level = ENV['BUMPLEVEL'] || 'patch'
+  sh "bump #{bump_level} --no-bundle --no-commit"
+end
+
+desc 'Update Changelog'
+task :changelog do
+  sh "github_changelog_generator --future-release #{version}"
+end
+
+desc 'Tag the release'
+task :tag do
+  sh "github-release release -u bdangit -r chef-influxdb --tag #{version}"
 end
 
 desc 'Print version of cookbook'
 task :version do
-  version = File.read('metadata.rb')[/^version\s*'(\d.\d.\d)'/, 1]
-  print version
+  puts version
 end
 
 desc 'Publish cookbook into Supermarket'

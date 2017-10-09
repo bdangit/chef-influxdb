@@ -8,6 +8,4 @@ build:
     - script:
         name: lint style spec
         code: |
-          chef gem install github_changelog_generator
-          chef gem install bump
           chef exec "rake test:quick"
