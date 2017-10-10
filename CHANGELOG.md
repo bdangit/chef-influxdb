@@ -1,5 +1,21 @@
 # Change Log
 
+## [6.1.2](https://github.com/bdangit/chef-influxdb/tree/6.1.2) (2017-10-09)
+[Full Changelog](https://github.com/bdangit/chef-influxdb/compare/6.1.1...6.1.2)
+
+**Merged pull requests:**
+
+- update release notes [\#158](https://github.com/bdangit/chef-influxdb/pull/158) ([bdangit](https://github.com/bdangit))
+- adding steps to release [\#157](https://github.com/bdangit/chef-influxdb/pull/157) ([bdangit](https://github.com/bdangit))
+
+## [6.1.1](https://github.com/bdangit/chef-influxdb/tree/6.1.1) (2017-10-09)
+[Full Changelog](https://github.com/bdangit/chef-influxdb/compare/6.1.0...6.1.1)
+
+**Merged pull requests:**
+
+- make it easy to bump versions [\#156](https://github.com/bdangit/chef-influxdb/pull/156) ([bdangit](https://github.com/bdangit))
+- update changelog [\#155](https://github.com/bdangit/chef-influxdb/pull/155) ([bdangit](https://github.com/bdangit))
+
 ## [6.1.0](https://github.com/bdangit/chef-influxdb/tree/6.1.0) (2017-10-06)
 [Full Changelog](https://github.com/bdangit/chef-influxdb/compare/6.0.0...6.1.0)
 
