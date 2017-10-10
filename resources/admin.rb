@@ -9,6 +9,7 @@ property :auth_password, String, default: 'root'
 property :api_hostname, String, default: 'localhost'
 property :api_port, Integer, default: 8086
 property :use_ssl, [TrueClass, FalseClass], default: false
+property :retry_limit, Integer, default: 10
 property :verify_ssl, [TrueClass, FalseClass], default: true
 
 default_action :create
@@ -57,7 +58,7 @@ def client
     InfluxDB::Client.new(
       username: auth_username,
       password: auth_password,
-      retry: 10,
+      retry: retry_limit,
       host: api_hostname,
       port: api_port,
       use_ssl: use_ssl,
