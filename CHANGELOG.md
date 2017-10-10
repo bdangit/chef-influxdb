@@ -1,10 +1,23 @@
 # Change Log
 
-## [6.1.2](https://github.com/bdangit/chef-influxdb/tree/6.1.2) (2017-10-09)
+## [6.1.3](https://github.com/bdangit/chef-influxdb/tree/6.1.3) (2017-10-10)
+[Full Changelog](https://github.com/bdangit/chef-influxdb/compare/6.1.2...6.1.3)
+
+**Fixed bugs:**
+
+- Make 'retry' argument of InfluxDB::Client configurable [\#150](https://github.com/bdangit/chef-influxdb/issues/150)
+
+**Merged pull requests:**
+
+- Make retry configurable [\#161](https://github.com/bdangit/chef-influxdb/pull/161) ([bdangit](https://github.com/bdangit))
+- update release notes with publish step [\#160](https://github.com/bdangit/chef-influxdb/pull/160) ([bdangit](https://github.com/bdangit))
+
+## [6.1.2](https://github.com/bdangit/chef-influxdb/tree/6.1.2) (2017-10-10)
 [Full Changelog](https://github.com/bdangit/chef-influxdb/compare/6.1.1...6.1.2)
 
 **Merged pull requests:**
 
+- bump version and update typos [\#159](https://github.com/bdangit/chef-influxdb/pull/159) ([bdangit](https://github.com/bdangit))
 - update release notes [\#158](https://github.com/bdangit/chef-influxdb/pull/158) ([bdangit](https://github.com/bdangit))
 - adding steps to release [\#157](https://github.com/bdangit/chef-influxdb/pull/157) ([bdangit](https://github.com/bdangit))
 
