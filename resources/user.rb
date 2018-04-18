@@ -17,35 +17,35 @@ property :verify_ssl, [TrueClass, FalseClass], default: true
 default_action :create
 
 action :create do
-  unless password
+  unless new_resource.password
     Chef::Log.fatal('You must provide a password for the :create action on this resource')
   end
-  databases.each do |db|
-    unless client.list_users.map { |x| x['username'] || x['name'] }.member?(username)
-      client.create_database_user(db, username, password)
-      updated_by_last_action true
+  new_resource.databases.each do |db|
+    unless client.list_users.map { |x| x['username'] || x['name'] }.member?(new_resource.username)
+      client.create_database_user(db, new_resource.username, new_resource.password)
+      new_resource.updated_by_last_action true
     end
-    permissions.each do |permission|
-      client.grant_user_privileges(username, db, permission)
-      updated_by_last_action true
+    new_resource.permissions.each do |permission|
+      client.grant_user_privileges(new_resource.username, new_resource.db, new_resource.permission)
+      new_resource.updated_by_last_action true
     end
   end
 end
 
 action :update do
-  client.update_user_password(username, password) if password
-  databases.each do |db|
-    permissions.each do |permission|
-      client.grant_user_privileges(username, db, permission)
+  client.update_user_password(new_resource.username, new_resource.password) if new_resource.password
+  new_resource.databases.each do |db|
+    new_resource.permissions.each do |permission|
+      client.grant_user_privileges(new_resource.username, new_resource.db, new_resource.permission)
     end
   end
   updated_by_last_action true
 end
 
 action :delete do
-  if client.list_users.map { |x| x['username'] || x['name'] }.member?(username)
-    client.delete_user(username)
-    updated_by_last_action true
+  if client.list_users.map { |x| x['username'] || x['name'] }.member?(new_resource.username)
+    client.delete_user(new_resource.username)
+    new_resource.updated_by_last_action true
   end
 end
 
