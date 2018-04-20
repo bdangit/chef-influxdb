@@ -2,7 +2,6 @@
 
 # Resource for InfluxDB database
 
-property :name, String, name_property: true
 property :policy_name, String
 property :database, String
 property :duration, String, default: 'INF'
