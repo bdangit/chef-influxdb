@@ -24,5 +24,5 @@ end
 
 service 'influxdb' do
   supports(restart: true)
-  action [:enable, :start]
+  action [:enable, :start] # rubocop:disable Style/SymbolArray
 end

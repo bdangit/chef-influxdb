@@ -2,7 +2,6 @@
 
 # Resource for InfluxDB database
 
-property :name, String, name_property: true
 property :database, String
 property :query, String
 property :rewrite, [TrueClass, FalseClass], default: false

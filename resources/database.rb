@@ -2,7 +2,6 @@
 
 # Resource for InfluxDB database
 
-property :name, String, name_property: true
 property :auth_username, String, default: 'root'
 property :auth_password, String, default: 'root'
 property :api_hostname, String, default: 'localhost'

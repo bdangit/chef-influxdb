@@ -17,14 +17,14 @@ include InfluxdbCookbook::Helpers
 action :install do
   case new_resource.install_type
   when 'package'
-    if node.platform_family? 'rhel'
+    if platform_family? 'rhel'
       yum_repository 'influxdb' do
         description 'InfluxDB Repository - RHEL \$releasever'
         baseurl node['influxdb']['upstream_repository']
         gpgkey new_resource.influxdb_key
         only_if { new_resource.include_repository }
       end
-    elsif node.platform_family? 'debian'
+    elsif platform_family? 'debian'
       # see if we should auto detect
       unless new_resource.arch_type
         new_resource.arch_type determine_arch_type(new_resource, node)
@@ -49,10 +49,10 @@ action :install do
 
     package 'influxdb' do
       version node['influxdb']['version'] if node['influxdb']['version']
-      options '--force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"' if node.platform_family? 'debian'
+      options '--force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"' if platform_family? 'debian'
     end
   when 'file'
-    if node.platform_family? 'rhel'
+    if platform_family? 'rhel'
       file_name = "#{new_resource.package_name}-#{new_resource.install_version}.x86_64.rpm"
       remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
         source "#{node['influxdb']['download_urls']['rhel']}/#{file_name}"
@@ -64,7 +64,7 @@ action :install do
         source "#{Chef::Config[:file_cache_path]}/#{file_name}"
         action :install
       end
-    elsif node.platform_family? 'debian'
+    elsif platform_family? 'debian'
       # NOTE: file_name would be influxdb_<version> instead.
       file_name = "#{new_resource.package_name}_#{new_resource.install_version}_amd64.deb"
       remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
@@ -79,7 +79,7 @@ action :install do
         action :install
       end
     else
-      raise "I do not support your platform: #{node['platform_family']}"
+      raise "I do not support your platform: #{platform_family?}"
     end
   else
     raise "#{new_resource.install_type} is not a valid install type."
@@ -88,18 +88,18 @@ end
 # rubocop:enable Metrics/BlockLength
 
 action :remove do
-  if node.platform_family? 'rhel'
+  if platform_family? 'rhel'
     yum_repository 'influxdb' do
       action :delete
       only_if { new_resource.include_repository }
     end
-  elsif node.platform_family? 'debian'
+  elsif platform_family? 'debian'
     apt_repository 'influxdb' do
       action :remove
       only_if { new_resource.include_repository }
     end
   else
-    raise "I do not support your platform: #{node['platform_family']}"
+    raise "I do not support your platform: #{platform_family?}"
   end
 
   package new_resource.package_name do
