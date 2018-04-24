@@ -14,15 +14,20 @@ property :verify_ssl, [TrueClass, FalseClass], default: true
 
 default_action :create
 
+include InfluxdbCookbook::Helpers
+
 action :create do
-  unless password
+  require 'influxdb'
+
+  client = client(new_resource)
+
+  unless new_resource.password
     Chef::Log.fatal('You must provide a password for the :create action on this resource!')
   end
 
   begin
-    unless client.list_cluster_admins.member?(username)
-      client.create_cluster_admin(username, password)
-      updated_by_last_action true
+    unless client.list_cluster_admins.member?(new_resource.username)
+      client.create_cluster_admin(new_resource.username, new_resource.password)
     end
   rescue InfluxDB::Error => e
     # Exception due to missing admin user
@@ -30,39 +35,25 @@ action :create do
     # https://github.com/chrisduong/chef-influxdb/commit/fe730374b4164e872cbf208c06d2462c8a056a6a
     raise e unless e.to_s.include? 'create admin user'
 
-    client.create_cluster_admin(username, password)
-    updated_by_last_action true
+    client.create_cluster_admin(new_resource.username, new_resource.password)
   end
 end
 
 action :update do
-  unless password
+  client = client(new_resource)
+
+  unless new_resource.password
     Chef::Log.fatal('You must provide a password for the :update action on this resource!')
   end
 
-  client.update_user_password(username, password)
-  updated_by_last_action true
+  client.update_user_password(new_resource.username, new_resource.password)
 end
 
 action :delete do
-  if client.list_cluster_admins.member?(username)
-    client.delete_user(username)
-    updated_by_last_action true
+  client = InfluxdbCookbook::Helpers.client(new_resource)
+
+  if client.list_cluster_admins.member?(new_resource.username)
+    client.delete_user(new_resource.username)
   end
 end
 
-# rubocop:disable Metrics/MethodLength
-def client
-  require 'influxdb'
-  @client ||=
-    InfluxDB::Client.new(
-      username: auth_username,
-      password: auth_password,
-      retry: retry_limit,
-      host: api_hostname,
-      port: api_port,
-      use_ssl: use_ssl,
-      verify_ssl: verify_ssl
-    )
-end
-# rubocop:enable Metrics/MethodLength

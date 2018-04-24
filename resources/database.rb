@@ -12,30 +12,19 @@ property :verify_ssl, [TrueClass, FalseClass], default: true
 
 default_action :create
 
-action :create do
-  next if client.list_databases.map { |x| x['name'] }.member?(name)
+include InfluxdbCookbook::Helpers
 
-  client.create_database(name)
-  updated_by_last_action true
+action :create do
+  client = client(new_resource)
+
+  next if client.list_databases.map { |x| x['name'] }.member?(new_resource.name)
+
+  client.create_database(new_resource.name)
 end
 
 action :delete do
-  client.delete_database(name)
-  updated_by_last_action true
+  client = client(new_resource)
+
+  client.delete_database(new_resource.name)
 end
 
-# rubocop:disable Metrics/MethodLength
-def client
-  require 'influxdb'
-  @client ||=
-    InfluxDB::Client.new(
-      username: auth_username,
-      password: auth_password,
-      retry: retry_limit,
-      host: api_hostname,
-      port: api_port,
-      use_ssl: use_ssl,
-      verify_ssl: verify_ssl
-    )
-end
-# rubocop:enable Metrics/MethodLength

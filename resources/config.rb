@@ -7,16 +7,18 @@ property :config, Hash, required: true
 
 default_action :create
 
+include InfluxdbCookbook::Helpers
+
 action :create do
   require 'toml'
 
-  file path do
-    content TOML::Generator.new(config).body
+  file new_resource.path do
+    content TOML::Generator.new(new_resource.config).body
   end
 end
 
 action :delete do
-  file path do
+  file new_resource.path do
     action :delete
   end
 end

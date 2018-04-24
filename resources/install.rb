@@ -15,14 +15,14 @@ include InfluxdbCookbook::Helpers
 
 # rubocop:disable Metrics/BlockLength
 action :install do
-  case install_type
+  case new_resource.install_type
   when 'package'
     if platform_family? 'rhel'
       yum_repository 'influxdb' do
         description 'InfluxDB Repository - RHEL \$releasever'
         baseurl node['influxdb']['upstream_repository']
-        gpgkey influxdb_key
-        only_if { include_repository }
+        gpgkey new_resource.influxdb_key
+        only_if { new_resource.include_repository }
       end
     elsif platform_family? 'debian'
       # see if we should auto detect
@@ -39,8 +39,8 @@ action :install do
         distribution node['lsb']['codename']
         components ['stable']
         arch new_resource.arch_type
-        key influxdb_key
-        only_if { include_repository }
+        key new_resource.influxdb_key
+        only_if { new_resource.include_repository }
       end
     else
       # NOTE: should raise to exit, instead of warn, since we failed to install InfluxDB
@@ -53,27 +53,27 @@ action :install do
     end
   when 'file'
     if platform_family? 'rhel'
-      file_name = "#{package_name}-#{install_version}.x86_64.rpm"
+      file_name = "#{new_resource.package_name}-#{new_resource.install_version}.x86_64.rpm"
       remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
         source "#{node['influxdb']['download_urls']['rhel']}/#{file_name}"
-        checksum checksum
+        checksum new_resource.checksum
         action :create
       end
 
-      rpm_package package_name do
+      rpm_package new_resource.package_name do
         source "#{Chef::Config[:file_cache_path]}/#{file_name}"
         action :install
       end
     elsif platform_family? 'debian'
       # NOTE: file_name would be influxdb_<version> instead.
-      file_name = "#{package_name}_#{install_version}_amd64.deb"
+      file_name = "#{new_resource.package_name}_#{new_resource.install_version}_amd64.deb"
       remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
         source "#{node['influxdb']['download_urls']['debian']}/#{file_name}"
-        checksum checksum
+        checksum new_resource.checksum
         action :create
       end
 
-      dpkg_package package_name do
+      dpkg_package new_resource.package_name do
         source "#{Chef::Config[:file_cache_path]}/#{file_name}"
         options '--force-confdef --force-confold'
         action :install
@@ -82,7 +82,7 @@ action :install do
       raise "I do not support your platform: #{platform_family?}"
     end
   else
-    raise "#{install_type} is not a valid install type."
+    raise "#{new_resource.install_type} is not a valid install type."
   end
 end
 # rubocop:enable Metrics/BlockLength
@@ -91,18 +91,18 @@ action :remove do
   if platform_family? 'rhel'
     yum_repository 'influxdb' do
       action :delete
-      only_if { include_repository }
+      only_if { new_resource.include_repository }
     end
   elsif platform_family? 'debian'
     apt_repository 'influxdb' do
       action :remove
-      only_if { include_repository }
+      only_if { new_resource.include_repository }
     end
   else
     raise "I do not support your platform: #{platform_family?}"
   end
 
-  package package_name do
+  package new_resource.package_name do
     action :remove
   end
 end
