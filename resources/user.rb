@@ -26,7 +26,7 @@ action :create do
       new_resource.updated_by_last_action true
     end
     new_resource.permissions.each do |permission|
-      client.grant_user_privileges(new_resource.username, new_resource.db, new_resource.permission)
+      client.grant_user_privileges(new_resource.username, db, permission)
       new_resource.updated_by_last_action true
     end
   end
@@ -36,7 +36,7 @@ action :update do
   client.update_user_password(new_resource.username, new_resource.password) if new_resource.password
   new_resource.databases.each do |db|
     new_resource.permissions.each do |permission|
-      client.grant_user_privileges(new_resource.username, new_resource.db, new_resource.permission)
+      client.grant_user_privileges(new_resource.username, db, permission)
     end
   end
   updated_by_last_action true
