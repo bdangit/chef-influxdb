@@ -22,7 +22,6 @@ action :create do
   begin
     unless client.list_cluster_admins.member?(new_resource.username)
       client.create_cluster_admin(new_resource.username, new_resource.password)
-      new_resource.updated_by_last_action true
     end
   rescue InfluxDB::Error => e
     # Exception due to missing admin user
@@ -31,7 +30,6 @@ action :create do
     raise e unless e.to_s.include? 'create admin user'
 
     client.create_cluster_admin(new_resource.username, new_resource.password)
-    new_resource.updated_by_last_action true
   end
 end
 
@@ -47,7 +45,6 @@ end
 action :delete do
   if client.list_cluster_admins.member?(new_resource.username)
     client.delete_user(new_resource.username)
-    new_resource.updated_by_last_action true
   end
 end
 
