@@ -16,12 +16,10 @@ action :create do
   next if client.list_databases.map { |x| x['name'] }.member?(new_resource.name)
 
   client.create_database(new_resource.name)
-  new_resource.updated_by_last_action true
 end
 
 action :delete do
   client.delete_database(new_resource.name)
-  new_resource.updated_by_last_action true
 end
 
 # rubocop:disable Metrics/MethodLength

@@ -7,7 +7,7 @@ provisioner:
   name: chef_zero
 
 platforms:
-<% %w(13.0 12.19).each do |chef_version| %>
+<% %w(14.2 13.9 12.19).each do |chef_version| %>
   - name: ubuntu-14.04-chef<%= chef_version %>
     driver_config:
       image: ubuntu:14.04

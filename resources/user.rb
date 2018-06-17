@@ -23,11 +23,9 @@ action :create do
   new_resource.databases.each do |db|
     unless client.list_users.map { |x| x['username'] || x['name'] }.member?(new_resource.username)
       client.create_database_user(db, new_resource.username, new_resource.password)
-      new_resource.updated_by_last_action true
     end
     new_resource.permissions.each do |permission|
       client.grant_user_privileges(new_resource.username, db, permission)
-      new_resource.updated_by_last_action true
     end
   end
 end
@@ -45,7 +43,6 @@ end
 action :delete do
   if client.list_users.map { |x| x['username'] || x['name'] }.member?(new_resource.username)
     client.delete_user(new_resource.username)
-    new_resource.updated_by_last_action true
   end
 end
 
