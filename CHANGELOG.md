@@ -1,5 +1,19 @@
 # Change Log
 
+## [6.2.0](https://github.com/bdangit/chef-influxdb/tree/6.2.0) (2018-06-17)
+[Full Changelog](https://github.com/bdangit/chef-influxdb/compare/6.1.3...6.2.0)
+
+**Closed issues:**
+
+- constant Custom resource influxdb\_admin from cookbook influxdb::InfluxDB [\#164](https://github.com/bdangit/chef-influxdb/issues/164)
+- Activate http-auth security [\#163](https://github.com/bdangit/chef-influxdb/issues/163)
+
+**Merged pull requests:**
+
+- Fix foodcritic lints [\#168](https://github.com/bdangit/chef-influxdb/pull/168) ([bdangit](https://github.com/bdangit))
+- update to latest chefdk and ubuntu 16.04 [\#166](https://github.com/bdangit/chef-influxdb/pull/166) ([bdangit](https://github.com/bdangit))
+- fix cookbook for Chef 14 - prefix new\_resource [\#165](https://github.com/bdangit/chef-influxdb/pull/165) ([jtimberman](https://github.com/jtimberman))
+
 ## [6.1.3](https://github.com/bdangit/chef-influxdb/tree/6.1.3) (2017-10-10)
 [Full Changelog](https://github.com/bdangit/chef-influxdb/compare/6.1.2...6.1.3)
 
@@ -9,6 +23,7 @@
 
 **Merged pull requests:**
 
+- bump version [\#162](https://github.com/bdangit/chef-influxdb/pull/162) ([bdangit](https://github.com/bdangit))
 - Make retry configurable [\#161](https://github.com/bdangit/chef-influxdb/pull/161) ([bdangit](https://github.com/bdangit))
 - update release notes with publish step [\#160](https://github.com/bdangit/chef-influxdb/pull/160) ([bdangit](https://github.com/bdangit))
 
