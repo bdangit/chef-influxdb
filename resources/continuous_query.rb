@@ -19,7 +19,7 @@ default_action :create
 
 action :create do
   if current_cq
-    if rewrite
+    if new_resource.rewrite
       client.delete_continuous_query(name, database)
       client.create_continuous_query(name, database, query, resample_every: resample_every, resample_for: resample_for)
       updated_by_last_action true
@@ -27,14 +27,14 @@ action :create do
       Chef::Log.info("The continuous query #{name} on #{database} already exists. Skip this step.")
     end
   else
-    client.create_continuous_query(name, database, query, resample_every: resample_every, resample_for: resample_for)
-    updated_by_last_action true
+    client.create_continuous_query(new_resource.name, new_resource.database, new_resource.query, resample_every: new_resource.resample_every, resample_for: new_resource.resample_for)
+    new_resource.updated_by_last_action true
   end
 end
 
 action :delete do
-  client.delete_continuous_query(name, database)
-  updated_by_last_action true
+  client.delete_continuous_query(new_resource.name, new_resource.database)
+  new_resource.updated_by_last_action true
 end
 
 # rubocop:disable Metrics/AbcSize

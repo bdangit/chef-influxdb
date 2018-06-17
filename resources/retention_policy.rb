@@ -19,20 +19,20 @@ default_action :create
 
 action :create do
   if current_policy
-    if current_policy['duration'] != duration || current_policy['replicaN'] != replication || current_policy['default'] != default
-      client.alter_retention_policy(policy_name, database, duration, replication, default)
-      updated_by_last_action true
+    if current_policy['duration'] != new_resource.duration || current_policy['replicaN'] != new_resource.replication || current_policy['default'] != new_resource.default
+      client.alter_retention_policy(new_resource.policy_name, new_resource.database, new_resource.duration, new_resource.replication, new_resource.default)
+      new_resource.updated_by_last_action true
     end
   else
-    client.create_retention_policy(policy_name, database, duration, replication, default)
-    updated_by_last_action true
+    client.create_retention_policy(new_resource.policy_name, new_resource.database, new_resource.duration, new_resource.replication, new_resource.default)
+    new_resource.updated_by_last_action true
   end
 end
 
 action :delete do
   if current_policy
-    client.delete_retention_policy(policy_name, database)
-    updated_by_last_action true
+    client.delete_retention_policy(new_resource.policy_name, new_resource.database)
+    new_resource.updated_by_last_action true
   end
 end
 

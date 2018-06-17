@@ -13,15 +13,15 @@ property :verify_ssl, [TrueClass, FalseClass], default: true
 default_action :create
 
 action :create do
-  next if client.list_databases.map { |x| x['name'] }.member?(name)
+  next if client.list_databases.map { |x| x['name'] }.member?(new_resource.name)
 
-  client.create_database(name)
-  updated_by_last_action true
+  client.create_database(new_resource.name)
+  new_resource.updated_by_last_action true
 end
 
 action :delete do
-  client.delete_database(name)
-  updated_by_last_action true
+  client.delete_database(new_resource.name)
+  new_resource.updated_by_last_action true
 end
 
 # rubocop:disable Metrics/MethodLength
