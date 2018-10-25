@@ -36,8 +36,12 @@ describe 'influxdb' do
         expect(retention_policies).to match(/default/)
       end
 
-      it 'is set for 1 week' do
-        expect(retention_policies).to match(/default.*168h0m0s/)
+      it 'its retention is set for 1 week' do
+        expect(retention_policies).to match(/default\s+168h0m0s/)
+      end
+
+      it 'its shard duration is set for 24 hours' do
+        expect(retention_policies).to match(/default\s+.*\s+24h0m0s/)
       end
 
       it 'is set for 1 replica' do
