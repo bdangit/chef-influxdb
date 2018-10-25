@@ -5,6 +5,7 @@
 property :policy_name, String
 property :database, String
 property :duration, String, default: 'INF'
+property :shard_duration, String, default: '7d'
 property :replication, Integer, default: 1
 property :default, [TrueClass, FalseClass], default: false
 property :auth_username, String, default: 'root'
@@ -19,11 +20,15 @@ default_action :create
 
 action :create do
   if current_policy
-    if current_policy['duration'] != new_resource.duration || current_policy['replicaN'] != new_resource.replication || current_policy['default'] != new_resource.default
-      client.alter_retention_policy(new_resource.policy_name, new_resource.database, new_resource.duration, new_resource.replication, new_resource.default)
+    if current_policy['duration'] != new_resource.duration || current_policy['replicaN'] != new_resource.replication || current_policy['default'] != new_resource.default || current_policy['shard_duration'] != new_resource.shard_duration
+      converge_by 'updated retention policy' do
+        client.alter_retention_policy(new_resource.policy_name, new_resource.database, new_resource.duration, new_resource.replication, new_resource.default, shard_duration: new_resource.shard_duration)
+      end
     end
   else
-    client.create_retention_policy(new_resource.policy_name, new_resource.database, new_resource.duration, new_resource.replication, new_resource.default)
+    converge_by 'created retention policy' do
+      client.create_retention_policy(new_resource.policy_name, new_resource.database, new_resource.duration, new_resource.replication, new_resource.default, shard_duration: new_resource.shard_duration)
+    end
   end
 end
 

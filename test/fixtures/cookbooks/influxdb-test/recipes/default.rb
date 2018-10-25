@@ -29,6 +29,7 @@ influxdb_retention_policy 'test_policy' do
   policy_name 'default'
   database dbname
   duration '1w'
+  shard_duration '24h'
   replication 1
   # by default in v1.0 there's a policy named autogen that is created for any
   # db, when `meta.retention-autocreate`=true. We will make this test_policy

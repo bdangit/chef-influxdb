@@ -2,16 +2,18 @@
 
 # Resource for InfluxDB install
 
-property :arch_type, kind_of: String
-property :include_repository, kind_of: [TrueClass, FalseClass], default: true
-property :influxdb_key, kind_of: String, default: 'https://repos.influxdata.com/influxdb.key'
+property :arch_type, String
+property :include_repository, [TrueClass, FalseClass], default: true
+property :influxdb_key, String, default: 'https://repos.influxdata.com/influxdb.key'
 property :install_version, [String, nil], default: nil
 property :install_type, String, default: 'package'
 property :package_name, String, name_property: true
 property :checksum, String, default: node['influxdb']['shasums'][node['platform_family']]
 default_action :install
 
+# rubocop:disable Style/MixinUsage
 include InfluxdbCookbook::Helpers
+# rubocop:enable Style/MixinUsage
 
 # rubocop:disable Metrics/BlockLength
 action :install do
