@@ -1,5 +1,12 @@
 # Change Log
 
+## [6.3.0](https://github.com/bdangit/chef-influxdb/tree/6.3.0) (2018-10-26)
+[Full Changelog](https://github.com/bdangit/chef-influxdb/compare/6.2.0...6.3.0)
+
+**Merged pull requests:**
+
+- add support to configure shard\_duration to retention\_policy resource [\#170](https://github.com/bdangit/chef-influxdb/pull/170) ([kjschnei001](https://github.com/kjschnei001))
+
 ## [6.2.0](https://github.com/bdangit/chef-influxdb/tree/6.2.0) (2018-06-17)
 [Full Changelog](https://github.com/bdangit/chef-influxdb/compare/6.1.3...6.2.0)
 
@@ -10,6 +17,7 @@
 
 **Merged pull requests:**
 
+- bump version [\#169](https://github.com/bdangit/chef-influxdb/pull/169) ([bdangit](https://github.com/bdangit))
 - Fix foodcritic lints [\#168](https://github.com/bdangit/chef-influxdb/pull/168) ([bdangit](https://github.com/bdangit))
 - update to latest chefdk and ubuntu 16.04 [\#166](https://github.com/bdangit/chef-influxdb/pull/166) ([bdangit](https://github.com/bdangit))
 - fix cookbook for Chef 14 - prefix new\_resource [\#165](https://github.com/bdangit/chef-influxdb/pull/165) ([jtimberman](https://github.com/jtimberman))
