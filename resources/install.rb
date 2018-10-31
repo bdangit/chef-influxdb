@@ -55,7 +55,7 @@ action :install do
     end
   when 'file'
     if platform_family? 'rhel'
-      file_name = "#{package_name}-#{install_version}.x86_64.rpm"
+      file_name = "#{new_resource.package_name}-#{new_resource.install_version}.x86_64.rpm"
       remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
         source "#{node['influxdb']['download_urls']['rhel']}/#{file_name}"
         checksum new_resource.checksum
@@ -68,7 +68,7 @@ action :install do
       end
     elsif platform_family? 'debian'
       # NOTE: file_name would be influxdb_<version> instead.
-      file_name = "#{package_name}_#{install_version}_amd64.deb"
+      file_name = "#{new_resource.package_name}_#{new_resource.install_version}_amd64.deb"
       remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
         source "#{node['influxdb']['download_urls']['debian']}/#{file_name}"
         checksum new_resource.checksum
@@ -84,7 +84,7 @@ action :install do
       raise "I do not support your platform: #{platform_family?}"
     end
   else
-    raise "#{install_type} is not a valid install type."
+    raise "#{new_resource.install_type} is not a valid install type."
   end
 end
 # rubocop:enable Metrics/BlockLength
