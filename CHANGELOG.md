@@ -1,10 +1,19 @@
 # Change Log
 
+## [6.3.1](https://github.com/bdangit/chef-influxdb/tree/6.3.1) (2018-11-16)
+[Full Changelog](https://github.com/bdangit/chef-influxdb/compare/6.3.0...6.3.1)
+
+**Merged pull requests:**
+
+- fix typo: influxdb retention\_policies attr name [\#174](https://github.com/bdangit/chef-influxdb/pull/174) ([Wing924](https://github.com/Wing924))
+- Add missing new\_resource prefixes [\#173](https://github.com/bdangit/chef-influxdb/pull/173) ([maoe](https://github.com/maoe))
+
 ## [6.3.0](https://github.com/bdangit/chef-influxdb/tree/6.3.0) (2018-10-26)
 [Full Changelog](https://github.com/bdangit/chef-influxdb/compare/6.2.0...6.3.0)
 
 **Merged pull requests:**
 
+- Update changelog for 6.3.0 [\#172](https://github.com/bdangit/chef-influxdb/pull/172) ([bdangit](https://github.com/bdangit))
 - add support to configure shard\_duration to retention\_policy resource [\#170](https://github.com/bdangit/chef-influxdb/pull/170) ([kjschnei001](https://github.com/kjschnei001))
 
 ## [6.2.0](https://github.com/bdangit/chef-influxdb/tree/6.2.0) (2018-06-17)
