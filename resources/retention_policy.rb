@@ -20,7 +20,7 @@ default_action :create
 
 action :create do
   if current_policy
-    if current_policy['duration'] != new_resource.duration || current_policy['replicaN'] != new_resource.replication || current_policy['default'] != new_resource.default || current_policy['shard_duration'] != new_resource.shard_duration
+    if current_policy['duration'] != new_resource.duration || current_policy['replicaN'] != new_resource.replication || current_policy['default'] != new_resource.default || current_policy['shardGroupDuration'] != new_resource.shard_duration
       converge_by 'updated retention policy' do
         client.alter_retention_policy(new_resource.policy_name, new_resource.database, new_resource.duration, new_resource.replication, new_resource.default, shard_duration: new_resource.shard_duration)
       end
