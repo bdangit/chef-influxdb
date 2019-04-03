@@ -14,7 +14,8 @@ default['influxdb']['download_urls'] = {
 # platform_family keyed download sha256 checksums
 default['influxdb']['shasums'] = {
   'debian' => '88f6c30fec2c6e612e802e23b9161fdfc7c5c29f6be036f0376326445aff0037',
-  'rhel' => '5efa2e4060e75a07ad1a3abd094322c708131c73be575e0ffe41817b788ff44a'
+  'rhel' => '5efa2e4060e75a07ad1a3abd094322c708131c73be575e0ffe41817b788ff44a',
+  'amazon' => '5efa2e4060e75a07ad1a3abd094322c708131c73be575e0ffe41817b788ff44a'
 }
 
 # Grab clients -- right now only supports Ruby and CLI
@@ -131,7 +132,7 @@ default['influxdb']['config'] = {
 }
 
 case node['platform_family']
-when 'rhel', 'fedora'
+when 'rhel', 'fedora', 'amazon'
   default['influxdb']['upstream_repository'] = case node['platform']
                                                when 'centos'
                                                  "https://repos.influxdata.com/centos/#{node['platform_version'].to_i}/$basearch/stable"
