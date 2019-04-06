@@ -13,7 +13,6 @@ supports 'redhat'
 supports 'ubuntu'
 supports 'amazon'
 
-
 # For CLI client
 # https://github.com/redguide/nodejs
 depends 'nodejs', '>= 2.4.4'
