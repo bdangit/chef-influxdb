@@ -19,14 +19,16 @@ include InfluxdbCookbook::Helpers
 action :install do
   case new_resource.install_type
   when 'package'
-    if platform_family? 'rhel'
+
+    case node['platform_family']
+    when 'rhel', 'amazon'
       yum_repository 'influxdb' do
-        description 'InfluxDB Repository - RHEL \$releasever'
+        description 'InfluxDB Repository -  \$releasever'
         baseurl node['influxdb']['upstream_repository']
         gpgkey new_resource.influxdb_key
         only_if { new_resource.include_repository }
       end
-    elsif platform_family? 'debian'
+    when 'debian'
       # see if we should auto detect
       unless new_resource.arch_type
         new_resource.arch_type determine_arch_type(new_resource, node)
@@ -54,8 +56,10 @@ action :install do
       options '--force-yes -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"' if platform_family? 'debian'
     end
   when 'file'
-    if platform_family? 'rhel'
+    case node['platform_family']
+    when 'rhel', 'amazon'
       file_name = "#{new_resource.package_name}-#{new_resource.install_version}.x86_64.rpm"
+
       remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
         source "#{node['influxdb']['download_urls']['rhel']}/#{file_name}"
         checksum new_resource.checksum
@@ -66,9 +70,11 @@ action :install do
         source "#{Chef::Config[:file_cache_path]}/#{file_name}"
         action :install
       end
-    elsif platform_family? 'debian'
+
+    when 'debian'
       # NOTE: file_name would be influxdb_<version> instead.
       file_name = "#{new_resource.package_name}_#{new_resource.install_version}_amd64.deb"
+
       remote_file "#{Chef::Config[:file_cache_path]}/#{file_name}" do
         source "#{node['influxdb']['download_urls']['debian']}/#{file_name}"
         checksum new_resource.checksum
@@ -90,12 +96,13 @@ end
 # rubocop:enable Metrics/BlockLength
 
 action :remove do
-  if platform_family? 'rhel'
+  case node['platform_family']
+  when 'rhel', 'amazon'
     yum_repository 'influxdb' do
       action :delete
       only_if { new_resource.include_repository }
     end
-  elsif platform_family? 'debian'
+  when 'debian'
     apt_repository 'influxdb' do
       action :remove
       only_if { new_resource.include_repository }
