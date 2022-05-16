@@ -7,7 +7,7 @@ chef_gem 'toml' do
 end
 
 chef_gem 'influxdb' do
-  version '0.6.1'
+  version '0.8.1'
   compile_time false if respond_to?(:compile_time)
 end
 
